@@ -29,73 +29,119 @@
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://penthiasolutions.com/#organization",
-        "name": "Penthia Solutions",
-        "url": "https://penthiasolutions.com/",
-        "logo": { "@type": "ImageObject", "url": "https://penthiasolutions.com/penthialogo.jpg" },
-        "brand": { "@type": "Brand", "name": "Penthia" },
-        "areaServed": { "@type": "Country", "name": "United States" },
-        "description": "Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, businesses, and collaboration environments. Vertex Pro models run Android 14, Vertex Elite models run Android 15, and Google apps are supported on Vertex Pro and Vertex Elite models.",
-        "knowsAbout": ["Interactive smartboards","Classroom displays","Education technology","4K touch displays","Android 14 smartboards","Android 15 smartboards","Google apps for classroom displays","Google Play smartboards","Windows OPS modules","Classroom annotation","Digital whiteboard tools","Screen sharing","Interactive classroom technology","Camera and microphone classroom display options"],
-        "sameAs": ["https://penthiasolutions.com/","https://www.youtube.com/@PenthiaSolutions","https://www.linkedin.com/company/penthia-solutions/"]
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://penthiasolutions.com/#organization",
+      "name": "Penthia Solutions",
+      "url": "https://penthiasolutions.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://penthiasolutions.com/penthialogo.jpg"
       },
-      {
-        "@type": "WebSite",
-        "@id": "https://penthiasolutions.com/#website",
-        "url": "https://penthiasolutions.com/",
-        "name": "Penthia Solutions",
-        "publisher": { "@id": "https://penthiasolutions.com/#organization" },
-        "description": "Official website of Penthia Solutions, featuring purpose-built interactive smartboards, Google-supported Vertex Pro and Vertex Elite classroom displays, optional Windows OPS configurations, and professional display systems."
+      "brand": {
+        "@type": "Brand",
+        "name": "Penthia"
       },
-      {
-        "@type": "WebPage",
-        "@id": "https://penthiasolutions.com/#webpage",
-        "url": "https://penthiasolutions.com/",
-        "name": "Penthia Solutions | Interactive Smartboards for Schools and Businesses",
-        "isPartOf": { "@id": "https://penthiasolutions.com/#website" },
-        "about": { "@id": "https://penthiasolutions.com/#organization" },
-        "description": "Explore the official Penthia Solutions lineup, including Vertex Elite, Vertex Pro, Vertex Standard, and QS3 Series displays."
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
       },
-      {
-        "@type": "ProductGroup",
-        "@id": "https://penthiasolutions.com/#vertex-product-group",
-        "name": "Penthia Vertex Interactive Smartboards",
-        "brand": { "@type": "Brand", "name": "Penthia" },
-        "description": "The Penthia Vertex series includes interactive smartboards for classrooms. Vertex Pro models run Android 14, Vertex Elite models run Android 15. Google apps are supported on both Vertex Pro and Vertex Elite. Penthia boards are not televisions with touch overlays; they are interactive classroom displays with Android-based operation, 4K touch, anti-glare glass, annotation tools, whiteboard features, screen sharing, optional Windows OPS support, and camera or microphone options.",
-        "category": "Interactive classroom display",
-        "variesBy": ["screen size","Android version","processor","memory and storage","camera and microphone configuration","Windows OPS configuration","Google app support","classroom software configuration"],
-        "hasVariant": [
-          { "@type": "Product", "name": "Penthia Vertex Elite", "brand": { "@type": "Brand", "name": "Penthia" }, "description": "High-end interactive classroom display based on the RK3588 platform with Android 15, Google app support, 4K touch, annotation, whiteboard tools, screen sharing, anti-glare glass, camera or microphone options, and optional Windows OPS support.", "category": "Interactive Smartboard", "image": "https://penthiasolutions.com/iBoardWebsite,windowsbackgroundiboardpro.png" },
-          { "@type": "Product", "name": "Penthia Vertex Pro", "brand": { "@type": "Brand", "name": "Penthia" }, "description": "Interactive classroom display based on the 311D2 Android 14 platform with Google app support, 4K touch, annotation, whiteboard tools, screen sharing, anti-glare glass, camera or microphone options, and optional Windows OPS expansion.", "category": "Interactive Smartboard", "image": "https://penthiasolutions.com/iBoardWebsite,androidbackground,withstandtoholdup.png" },
-          { "@type": "Product", "name": "Penthia Vertex Standard", "brand": { "@type": "Brand", "name": "Penthia" }, "description": "Classroom-focused interactive display with 4K touch, annotation, whiteboard tools, screen sharing, and Android-based operation.", "category": "Interactive Smartboard", "image": "https://penthiasolutions.com/iBoardWebsite,androidbackgroundiboardpro.png" }
-        ]
+      "description": "Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, businesses, and collaboration environments. Vertex Pro models run Android 14, Vertex Elite models run Android 15, and Google apps are supported on Vertex Pro and Vertex Elite models.",
+      "knowsAbout": [
+        "Interactive smartboards",
+        "Classroom displays",
+        "Education technology",
+        "4K touch displays",
+        "Android 14 smartboards",
+        "Android 15 smartboards",
+        "Google apps for classroom displays",
+        "Google Play smartboards",
+        "Windows OPS modules",
+        "Classroom annotation",
+        "Digital whiteboard tools",
+        "Screen sharing",
+        "Interactive classroom technology",
+        "Camera and microphone classroom display options"
+      ],
+      "sameAs": [
+        "https://penthiasolutions.com/",
+        "https://www.youtube.com/@PenthiaSolutions",
+        "https://www.linkedin.com/company/penthia-solutions/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://penthiasolutions.com/#website",
+      "url": "https://penthiasolutions.com/",
+      "name": "Penthia Solutions",
+      "publisher": {
+        "@id": "https://penthiasolutions.com/#organization"
       },
-      {
-        "@type": "Product",
-        "@id": "https://penthiasolutions.com/#qs3-series",
-        "name": "Penthia QS3 Series",
-        "brand": { "@type": "Brand", "name": "Penthia" },
-        "description": "Professional 4K non-Android display for customers using external Windows, Mac, Linux, or OPS devices.",
-        "category": "Professional Display",
-        "image": "https://penthiasolutions.com/penthianosoftwareboard.png"
+      "description": "Official website of Penthia Solutions, featuring purpose-built interactive smartboards, Google-supported Vertex Pro and Vertex Elite classroom displays, optional Windows OPS configurations, and professional display systems."
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://penthiasolutions.com/#webpage",
+      "url": "https://penthiasolutions.com/",
+      "name": "Penthia Solutions | Interactive Smartboards for Schools and Businesses",
+      "isPartOf": {
+        "@id": "https://penthiasolutions.com/#website"
       },
-      {
-        "@type": "FAQPage",
-        "@id": "https://penthiasolutions.com/#faq",
-        "mainEntity": [
-          { "@type": "Question", "name": "Are Penthia smartboards just televisions with touch overlays?", "acceptedAnswer": { "@type": "Answer", "text": "No. Penthia Vertex boards are interactive classroom smartboards, not standalone televisions with touch overlays. They include Android-based operation, 4K touch, anti-glare glass, annotation tools, whiteboard features, screen sharing, Google app support on Vertex Pro and Vertex Elite models, optional Windows OPS modules, and camera or microphone options depending on configuration." } },
-          { "@type": "Question", "name": "Do Penthia Pro and Elite models support Google apps?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Google apps are supported on Penthia Vertex Pro and Penthia Vertex Elite models. Vertex Pro runs Android 14 and Vertex Elite runs Android 15. Schools can use supported Google applications on Pro and Elite models depending on the final configuration and deployment setup." } },
-          { "@type": "Question", "name": "Do Penthia boards require Windows OPS to be useful?", "acceptedAnswer": { "@type": "Answer", "text": "No. Windows OPS is optional for schools that need full Windows desktop functionality. Vertex Pro and Vertex Elite include Android-based operation, Google app support, annotation tools, whiteboard features, screen sharing, and 4K touch without requiring Windows OPS." } },
-          { "@type": "Question", "name": "Do Penthia boards include camera or microphone options?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Penthia boards can be configured with camera and microphone options depending on the selected model and purchase configuration. These support classroom communication, hybrid learning, meetings, and recorded presentations." } },
-          { "@type": "Question", "name": "What Android versions do Vertex Pro and Vertex Elite use?", "acceptedAnswer": { "@type": "Answer", "text": "Penthia Vertex Pro boards use Android 14. Penthia Vertex Elite boards use Android 15. Both models support Google apps on supported configurations." } }
-        ]
-      }
-    ]
-  }
+      "about": {
+        "@id": "https://penthiasolutions.com/#organization"
+      },
+      "description": "Explore the official Penthia Solutions lineup, including Vertex Elite, Vertex Pro, Vertex Standard, and QS3 Series displays."
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://penthiasolutions.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are Penthia smartboards just televisions with touch overlays?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Penthia Vertex boards are interactive classroom smartboards, not standalone televisions with touch overlays. They include Android-based operation, 4K touch, anti-glare glass, annotation tools, whiteboard features, screen sharing, Google app support on Vertex Pro and Vertex Elite models, optional Windows OPS modules, and camera or microphone options depending on configuration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do Penthia Pro and Elite models support Google apps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Google apps are supported on Penthia Vertex Pro and Penthia Vertex Elite models. Vertex Pro runs Android 14 and Vertex Elite runs Android 15."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do Penthia boards require Windows OPS to be useful?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Windows OPS is optional for schools that need full Windows desktop functionality. Vertex Pro and Vertex Elite include Android-based operation, Google app support, annotation tools, whiteboard features, screen sharing, and 4K touch without requiring Windows OPS."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do Penthia boards include camera or microphone options?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Penthia boards can be configured with camera and microphone options depending on the selected model and purchase configuration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What Android versions do Vertex Pro and Vertex Elite use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Penthia Vertex Pro boards use Android 14. Penthia Vertex Elite boards use Android 15. Both models support Google apps on supported configurations."
+          }
+        }
+      ]
+    }
+  ]
+}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -400,7 +446,7 @@
   <header class="nav">
     <div class="container nav-inner">
       <div class="brand" onclick="navigate('home')">
-        <img class="brand-logo" src="favicon.png" alt="Penthia" />
+        <img class="brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
         <span class="brand-name">Pen<span>thia</span></span>
       </div>
       <nav class="nav-center">
@@ -439,7 +485,7 @@
       </div>
       <div class="hero-right">
         <div class="hero-display">
-          <div class="hero-display-frame"><img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" /></div>
+          <div class="hero-display-frame"><img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" fetchpriority="high" decoding="async" /></div>
           <div class="hero-badge"><div class="hero-badge-label">Current Flagship</div><div class="hero-badge-value">Penthia Vertex Elite</div></div>
           <div class="hero-tag">New 2026</div>
         </div>
@@ -450,7 +496,7 @@
       <div class="container">
         <div class="home-image-strip-inner">
           <div class="strip-image-block">
-            <img src="IMG-20260408-WA0094.jpg" alt="Penthia interactive display in a modern classroom" />
+            <img src="IMG-20260408-WA0094.jpg" loading="lazy" decoding="async" alt="Penthia interactive display in a modern classroom" />
             <div class="strip-image-overlay"></div>
             <div class="strip-image-caption">
               <div class="strip-image-caption-label">In the Classroom</div>
@@ -458,7 +504,7 @@
             </div>
           </div>
           <div class="strip-image-block">
-            <img src="penthiaboardinsciencelab.png" alt="Penthia interactive board installed in a school science laboratory" />
+            <img src="penthiaboardinsciencelab.png" loading="lazy" decoding="async" alt="Penthia interactive board installed in a school science laboratory" />
             <div class="strip-image-overlay"></div>
             <div class="strip-image-caption">
               <div class="strip-image-caption-label">Science Lab</div>
@@ -473,19 +519,7 @@
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
         <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
-        <div class="footer-social">          <a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-</div>
+        <div class="footer-social" id="fs-master"><a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('about')">About</button>
           <button class="footer-link" onclick="navigate('store')">Store</button>
@@ -517,7 +551,7 @@
     <div class="section">
       <div class="container">
         <div class="about-hero-image-wrap">
-          <img src="penthiaimageboard.png" alt="Penthia interactive display in a classroom environment" />
+          <img src="penthiaimageboard.png" loading="lazy" decoding="async" alt="Penthia interactive display in a classroom environment" />
           <div class="about-hero-image-overlay"></div>
           <div class="about-hero-image-text">
             <div class="section-label"><span class="section-label-line"></span><span class="section-label-text">The Penthia Experience</span></div>
@@ -526,7 +560,7 @@
         </div>
 
         <div class="store-feature-banner" style="margin-top:0; margin-bottom:56px;">
-          <img src="penthiaboard,studentinsciencelabinfrontofpenthiaboard.png" alt="Student engaged with a Penthia interactive board in a science lab" style="height:320px; object-fit:cover; object-position:center;" />
+          <img src="penthiaboard,studentinsciencelabinfrontofpenthiaboard.png" loading="lazy" decoding="async" alt="Student engaged with a Penthia interactive board in a science lab" style="height:320px; object-fit:cover; object-position:center;" />
           <div class="store-feature-banner-overlay"></div>
           <div class="store-feature-banner-content">
             <div class="section-label"><span class="section-label-line"></span><span class="section-label-text">Student-Centered Learning</span></div>
@@ -677,19 +711,7 @@
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
         <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
-        <div class="footer-social">          <a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-</div>
+        <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
           <button class="footer-link" onclick="navigate('store')">Store</button>
@@ -716,7 +738,7 @@
         </div>
         <div class="product-grid" id="productGrid">
           <article class="prod-card" data-search="vertex elite flagship rk3588 android 15 google play store google account google services 16gb 256gb 4k 50 touch anti glare 350 nits 65 75 86 98 110 optional windows ops 48mp camera microphone usb c 65w" onclick="openProduct('pro-max')">
-            <div class="prod-media"><img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" /><span class="prod-tag">Elite</span></div>
+            <div class="prod-media"><img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" loading="lazy" decoding="async" /><span class="prod-tag">Elite</span></div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Elite</div>
               <div class="prod-desc">Flagship Vertex model based on RK3588 with Android 15, 16GB RAM, 256GB storage, 4K UHD, 50-point touch, Google Play Store and Google account support on supported configurations, and optional Windows OPS expansion.</div>
@@ -724,7 +746,7 @@
             </div>
           </article>
           <article class="prod-card" data-search="vertex pro 311d2 android 14 google play store google account google services 8gb 128gb optional 16gb 256gb 4k 50 touch anti glare 350 nits optional windows ops 48mp camera microphone usb c 65w" onclick="openProduct('pro')">
-            <div class="prod-media"><img src="iBoardWebsite,androidbackground,withstandtoholdup.png" alt="Penthia Vertex Pro" /><span class="prod-tag">Pro</span></div>
+            <div class="prod-media"><img src="iBoardWebsite,androidbackground,withstandtoholdup.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" /><span class="prod-tag">Pro</span></div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Pro</div>
               <div class="prod-desc">Recommended for most schools, Vertex Pro uses the 311D2 Android 14 platform with 8GB RAM, 128GB storage, Google Play Store and Google account support on supported configurations, optional 16GB / 256GB upgrade, and optional Windows OPS.</div>
@@ -732,7 +754,7 @@
             </div>
           </article>
           <article class="prod-card" data-search="vertex standard t985 android 14 8gb 128gb google play store configurable 4k 50 touch anti glare 350 nits classroom essential 65 75 86 98 110 usb c" onclick="openProduct('iboard')">
-            <div class="prod-media"><img src="iBoardWebsite,androidbackgroundiboardpro.png" alt="Penthia Vertex Standard" /><span class="prod-tag">Standard</span></div>
+            <div class="prod-media"><img src="iBoardWebsite,androidbackgroundiboardpro.png" alt="Penthia Vertex Standard" loading="lazy" decoding="async" /><span class="prod-tag">Standard</span></div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Standard</div>
               <div class="prod-desc">A cost-effective, streamlined interactive classroom display based on the T985 Android 14 platform with 8GB RAM, 128GB storage, 4K UHD, 50-point touch, anti-glare glass, and USB-C connectivity.</div>
@@ -740,7 +762,7 @@
             </div>
           </article>
           <article class="prod-card" data-search="qs3 series professional display no built in android external windows mac linux ops 4k 20 touch anti glare 15w speakers usb c hdmi touch usb" onclick="openProduct('qs3')">
-            <div class="prod-media"><img src="penthianosoftwareboard.png" alt="Penthia QS3 Series" /><span class="prod-tag">QS3</span></div>
+            <div class="prod-media"><img src="penthianosoftwareboard.png" alt="Penthia QS3 Series" loading="lazy" decoding="async" /><span class="prod-tag">QS3</span></div>
             <div class="prod-body">
               <div class="prod-name">Penthia QS3 Series</div>
               <div class="prod-desc">Professional 4K non-Android display for customers who already use external computers. Connect Windows, Mac, Linux, or OPS devices for touch, annotation, and collaboration workflows.</div>
@@ -749,7 +771,7 @@
           </article>
         </div>
         <div class="store-feature-banner">
-          <img src="penthiaimage2.png" alt="Penthia interactive display in use" />
+          <img src="penthiaimage2.png" loading="lazy" decoding="async" alt="Penthia interactive display in use" />
           <div class="store-feature-banner-overlay"></div>
           <div class="store-feature-banner-content">
             <div class="section-label"><span class="section-label-line"></span><span class="section-label-text">See It In Action</span></div>
@@ -764,19 +786,7 @@
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
         <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
-        <div class="footer-social">          <a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-</div>
+        <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
           <button class="footer-link" onclick="navigate('about')">About</button>
@@ -844,19 +854,7 @@
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
         <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
-        <div class="footer-social">          <a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-</div>
+        <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
           <button class="footer-link" onclick="navigate('about')">About</button>
@@ -933,19 +931,7 @@
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
         <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
-        <div class="footer-social">          <a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-</div>
+        <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
           <button class="footer-link" onclick="navigate('about')">About</button>
@@ -1169,6 +1155,21 @@
       document.getElementById('contactFormWrap').style.display='none';
       document.getElementById('contactThankyou').style.display='flex';
     });
+  </script>
+
+  <script>
+    (function(){
+      var h='<a href="https://www.youtube.com/@PenthiaSolutions" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a><a href="https://www.linkedin.com/company/penthia-solutions/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a><a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>';
+      document.querySelectorAll('[data-social]').forEach(function(el){el.innerHTML=h;});
+    })();
+  </script>
+  <script>
+    (function(){
+      var master=document.getElementById('fs-master');
+      if(!master) return;
+      document.querySelectorAll('#fs-clone').forEach(function(el){el.innerHTML=master.innerHTML;el.className='footer-social';});
+      master.id=''; master.className='footer-social';
+    })();
   </script>
 </body>
 </html>
