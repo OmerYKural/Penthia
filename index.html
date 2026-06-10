@@ -171,6 +171,7 @@
     .brand-logo { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; border: 1px solid var(--gold-border); }
     .brand-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; letter-spacing: 0.08em; color: var(--white); }
     .brand-name span { color: var(--gold); }
+    .brand-name-img { height: 32px; width: auto; display: block; object-fit: contain; }
     .nav-center { display: flex; align-items: center; gap: 4px; }
     .nav-link { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; position: relative; padding: 8px 16px; border-radius: 2px; cursor: pointer; border: none; background: none; font-family: var(--font-body); }
     .nav-link::after { content: ''; position: absolute; bottom: 2px; left: 16px; right: 16px; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; }
@@ -433,6 +434,7 @@
       .mobile-nav { display: block; }
       .page { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
       .nav-cta { display: none; } .store-search-bar { max-width: 100%; }
+      .brand-name-img { height: 28px; }
       .page-hero h1 { font-size: clamp(2rem, 9vw, 3rem); }
     }
     ::-webkit-scrollbar { width: 6px; }
@@ -447,7 +449,7 @@
     <div class="container nav-inner">
       <div class="brand" onclick="navigate('home')">
         <img class="brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <span class="brand-name">Pen<span>thia</span></span>
+        <img class="brand-name-img" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
       </div>
       <nav class="nav-center">
         <button class="nav-link" id="nav-home" onclick="navigate('home')">Home</button>
@@ -710,7 +712,7 @@
     <footer>
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+        <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
         <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
@@ -785,7 +787,7 @@
     <footer>
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+        <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
         <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
@@ -853,7 +855,7 @@
     <footer>
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+        <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
         <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
@@ -930,7 +932,7 @@
     <footer>
       <div class="container footer-inner">
         <span class="footer-brand">Penthia</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+        <span class="footer-copy">© 2026 Penthia Store. All rights reserved.</span>
         <div class="footer-social" id="fs-clone"></div>
         <div class="footer-links">
           <button class="footer-link" onclick="navigate('home')">Home</button>
