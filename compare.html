@@ -8,45 +8,45 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://penthiasolutions.com/compare.html" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body style="background: var(--ink-2);">
+<body>
 
   <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <img class="brand-name-img" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
+    <div class="nav-brand">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+        <img class="nav-brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
+        <img class="nav-brand-wordmark" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
       </a>
-      <nav class="nav-center">
-        <a class="nav-link" id="nav-home" href="index.html">Home</a>
-        <a class="nav-link" id="nav-about" href="about.html">About</a>
-        <a class="nav-link" id="nav-store" href="store.html">Store</a>
-        <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
-        <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
-      </nav>
-      <div class="nav-right">
-        <div class="nav-search">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
-        </div>
-        <a class="nav-cta" href="store.html">Shop Now <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link" id="nav-home" href="index.html">Home</a>
+      <a class="nav-link" id="nav-about" href="about.html">About</a>
+      <a class="nav-link" id="nav-store" href="store.html">Store</a>
+      <a class="nav-link active" id="nav-compare" href="compare.html">Compare</a>
+      <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
       </div>
+      <a class="nav-cta" href="store.html">Shop Now →</a>
     </div>
   </header>
 
   <div class="page-wrap">
-
-    <div class="page-hero">
-      <div class="container">
-        <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="eyebrow-label">Side by Side</span></div>
-        <h1 style="margin-top:16px;">Compare the <em>lineup.</em></h1>
-        <p>A full specification breakdown across all current Penthia models to help you choose the right display for your environment.</p>
-      </div>
-    </div>
-
     <div class="section">
       <div class="container">
+        <div class="reveal" style="margin-bottom:48px;">
+          <div class="section-label">Side by Side</div>
+          <h1 class="section-title">Compare the <span class="accent">lineup.</span></h1>
+          <p class="section-body">A full breakdown of specifications across all current Penthia models to help you choose the right display.</p>
+        </div>
+
         <div class="compare-table-wrap reveal">
           <table class="compare-table">
             <thead>
@@ -59,38 +59,40 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Best For</td><td>Flagship deployments and highest performance</td><td>Most schools — best balance of performance and value</td><td>Budget-conscious interactive classroom deployments</td><td>External-computer setups</td></tr>
+              <tr><td>Best For</td><td>Flagship — highest performance</td><td>Most schools — best balance of value and performance</td><td>Budget-conscious deployments</td><td>External-computer setups</td></tr>
               <tr><td>Android Version</td><td>Android 15</td><td>Android 14</td><td>Android 14</td><td>No built-in Android</td></tr>
-              <tr><td>Platform</td><td>RK3588</td><td>311D2</td><td>T985</td><td>External device dependent</td></tr>
-              <tr><td>RAM / Storage</td><td>16GB / 256GB</td><td>8GB / 128GB standard; optional 16GB / 256GB</td><td>8GB / 128GB</td><td>N/A — external device</td></tr>
-              <tr><td>Google Play Store</td><td>Supported on supported configurations</td><td>Supported on supported configurations</td><td>May be available / configurable</td><td>Not built in; depends on external device</td></tr>
+              <tr><td>Platform</td><td>RK3588</td><td>311D2 (A311D2)</td><td>T985</td><td>External device dependent</td></tr>
+              <tr><td>Google Play Store</td><td>Supported on supported configurations</td><td>Supported on supported configurations</td><td>May be configurable</td><td>Not built-in; depends on external device</td></tr>
               <tr><td>Google Account Login</td><td>Supported on supported configurations</td><td>Supported on supported configurations</td><td>Configuration dependent</td><td>Depends on external device</td></tr>
-              <tr><td>Google Workspace</td><td>Classroom, Drive, Docs, Sheets, Slides, Gmail, Chrome on supported configurations</td><td>Classroom, Drive, Docs, Sheets, Slides, Gmail, Chrome on supported configurations</td><td>Confirm by configuration and school workflow</td><td>Depends on connected device</td></tr>
-              <tr><td>Windows OPS</td><td>Optional</td><td>Optional</td><td>Contact for guidance</td><td>Works with external Windows / OPS devices</td></tr>
+              <tr><td>Google Workspace</td><td>Classroom, Drive, Docs, Sheets, Slides, Gmail, Chrome on supported configs</td><td>Classroom, Drive, Docs, Sheets, Slides, Gmail, Chrome on supported configs</td><td>Confirm by configuration</td><td>Depends on connected device</td></tr>
+              <tr><td>EDLA Certification</td><td>Not currently issued under Penthia brand; hardware platform is EDLA-capable</td><td>Not currently issued under Penthia brand; hardware platform is EDLA-capable</td><td>Not applicable</td><td>Not applicable</td></tr>
+              <tr><td>Windows OPS</td><td>Optional Windows OPS module</td><td>Optional Windows OPS module</td><td>Contact for guidance</td><td>Works with external Windows, Mac, Linux, OPS</td></tr>
+              <tr><td>RAM / Storage</td><td>16GB / 256GB</td><td>8GB / 128GB; optional 16GB / 256GB</td><td>8GB / 128GB</td><td>N/A — external device</td></tr>
               <tr><td>Touch Points</td><td>50-point touch</td><td>50-point touch</td><td>50-point touch</td><td>20-point touch</td></tr>
-              <tr><td>Touch Technology</td><td>Infrared (IR), ~6ms</td><td>Infrared (IR), ~6ms</td><td>Infrared (IR), ~6ms</td><td>Infrared (IR)</td></tr>
-              <tr><td>Audio</td><td>20W × 2 + 20W subwoofer</td><td>20W × 2 + 20W subwoofer</td><td>Contact for speaker details</td><td>15W × 2; optional YL7W upgrade</td></tr>
-              <tr><td>Brightness</td><td>350 nits standard; 65", 75", 86" may upgrade to 400–450 nits</td><td>350 nits standard; 65", 75", 86" may upgrade to 400–450 nits</td><td>350 nits standard; 65", 75", 86" may upgrade to 400–450 nits</td><td>Configuration dependent</td></tr>
-              <tr><td>Glass</td><td>Anti-glare, 7H hardness, tempered</td><td>Anti-glare, 7H hardness, tempered</td><td>Anti-glare, 7H hardness, tempered</td><td>Anti-glare</td></tr>
-              <tr><td>Panel Lifespan</td><td>~50,000 hours</td><td>~50,000 hours</td><td>~50,000 hours</td><td>~50,000 hours</td></tr>
+              <tr><td>Touch Technology</td><td>Infrared (IR), 6ms response</td><td>Infrared (IR), 6ms response</td><td>Infrared (IR)</td><td>Infrared (IR)</td></tr>
+              <tr><td>Glass</td><td>7H tempered anti-glare</td><td>7H tempered anti-glare</td><td>7H tempered anti-glare</td><td>Anti-glare</td></tr>
+              <tr><td>Audio</td><td>20W × 2 + 20W subwoofer</td><td>20W × 2 + 20W subwoofer</td><td>Contact for speaker details</td><td>15W × 2; optional subwoofer upgrade</td></tr>
+              <tr><td>Brightness</td><td>350 nits; 65", 75", 86" may upgrade to 400–450 nits</td><td>350 nits; 65", 75", 86" may upgrade to 400–450 nits</td><td>350 nits; 65", 75", 86" may upgrade</td><td>Contact for details</td></tr>
               <tr><td>Size Options</td><td>65", 75", 86", 98", 110"</td><td>65", 75", 86", 98", 110"</td><td>65", 75", 86", 98", 110"</td><td>Contact for available sizes</td></tr>
-              <tr><td>Camera Options</td><td>Optional 48MP / 48MP AI camera + 8-mic array</td><td>Optional 48MP / 48MP AI camera + 8-mic array</td><td>Contact for camera options</td><td>External camera options depend on setup</td></tr>
-              <tr><td>USB-C</td><td>Full-function, 65W charging, video + touch</td><td>Full-function, 65W charging, video + touch</td><td>USB-C connectivity</td><td>USB-C / HDMI depending on configuration</td></tr>
-              <tr><td>MDM</td><td>iMagic MDM supported</td><td>iMagic MDM supported</td><td>Contact for MDM details</td><td>Depends on connected device</td></tr>
-              <tr><td>Warranty</td><td>1-year panel, 3-year component</td><td>1-year panel, 3-year component</td><td>1-year panel, 3-year component</td><td>Contact for warranty details</td></tr>
-              <tr><td>Performance Tier</td><td>Premium — flagship performance</td><td>Advanced — balanced performance and value</td><td>Reliable everyday classroom performance</td><td>External-device dependent</td></tr>
-              <tr><td>Recommended Use</td><td>Schools wanting the strongest configuration and future-ready features</td><td>The recommended model for most school deployments</td><td>Essential classroom solution, cost-effective deployments</td><td>Classrooms and businesses with existing external computers</td></tr>
+              <tr><td>Camera Options</td><td>Optional 48MP / 48MP AI camera + 8-mic array</td><td>Optional 48MP / 48MP AI camera + 8-mic array</td><td>Contact for camera options</td><td>Depends on setup</td></tr>
+              <tr><td>USB-C</td><td>Full-function, 65W charging, video + touch</td><td>Full-function, 65W charging, video + touch</td><td>USB-C connectivity</td><td>USB-C / HDMI / touch USB</td></tr>
+              <tr><td>MDM</td><td>iMagic MDM supported</td><td>iMagic MDM supported</td><td>iMagic MDM supported</td><td>Depends on connected device</td></tr>
+              <tr><td>Wireless Presentation</td><td>Screen sharing supported</td><td>Screen sharing supported</td><td>Screen sharing supported</td><td>Via connected computer</td></tr>
+              <tr><td>Whiteboard / Annotation</td><td>Built-in whiteboard and annotation software</td><td>Built-in whiteboard and annotation software</td><td>Built-in whiteboard and annotation software</td><td>xBoard on connected computer</td></tr>
+              <tr><td>Panel Lifespan</td><td>~50,000 hours</td><td>~50,000 hours</td><td>~50,000 hours</td><td>Contact for details</td></tr>
+              <tr><td>Warranty</td><td>1 yr panel / 3 yr components</td><td>1 yr panel / 3 yr components</td><td>1 yr panel / 3 yr components</td><td>1 yr panel / 3 yr components</td></tr>
+              <tr><td>Recommended Use</td><td>Schools wanting the strongest config and future-ready features</td><td>The recommended model for most school deployments</td><td>Essential classroom solution, most cost-effective</td><td>Classrooms and businesses already using external computers</td></tr>
             </tbody>
           </table>
         </div>
 
         <div class="compare-cta reveal">
-          <div class="compare-cta-text">
+          <div>
             <h3>Ready to choose a model?</h3>
-            <p>View full product details or contact us to discuss the right configuration for your school or organization.</p>
+            <p>View full product details or contact us to discuss the right configuration.</p>
           </div>
           <div class="compare-cta-actions">
-            <a class="btn-primary" href="store.html">View All Products <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a class="btn-primary" href="store.html">View All Products →</a>
             <a class="btn-ghost" href="contact.html">Contact Sales</a>
           </div>
         </div>
@@ -117,18 +119,12 @@
       <a class="mobile-nav-btn" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
       <a class="mobile-nav-btn" id="mnav-about" href="about.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About</a>
       <a class="mobile-nav-btn" id="mnav-store" href="store.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Store</a>
-      <a class="mobile-nav-btn" id="mnav-compare" href="compare.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Compare</a>
+      <a class="mobile-nav-btn active" id="mnav-compare" href="compare.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Compare</a>
       <a class="mobile-nav-btn" id="mnav-contact" href="contact.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a>
     </div>
   </nav>
 
   <script src="script.js"></script>
   <script src="penthia-assistant.js"></script>
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>

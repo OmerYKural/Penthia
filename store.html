@@ -4,125 +4,167 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Store | Penthia Solutions</title>
-  <meta name="description" content="Browse the complete Penthia Vertex product lineup — Vertex Elite, Vertex Pro, Vertex Standard, and QS3 Series interactive displays." />
+  <meta name="description" content="Browse the complete Penthia Vertex product lineup — Vertex Elite, Vertex Pro, Vertex Standard, and QS3 Series." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://penthiasolutions.com/store.html" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <img class="brand-name-img" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
+    <div class="nav-brand">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+        <img class="nav-brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
+        <img class="nav-brand-wordmark" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
       </a>
-      <nav class="nav-center">
-        <a class="nav-link" id="nav-home" href="index.html">Home</a>
-        <a class="nav-link" id="nav-about" href="about.html">About</a>
-        <a class="nav-link" id="nav-store" href="store.html">Store</a>
-        <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
-        <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
-      </nav>
-      <div class="nav-right">
-        <div class="nav-search">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
-        </div>
-        <a class="nav-cta" href="store.html">Shop Now <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link" id="nav-home" href="index.html">Home</a>
+      <a class="nav-link" id="nav-about" href="about.html">About</a>
+      <a class="nav-link active" id="nav-store" href="store.html">Store</a>
+      <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
+      <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
       </div>
+      <a class="nav-cta" href="contact.html">Request Quote →</a>
     </div>
   </header>
 
   <div class="page-wrap">
 
-    <div class="page-hero">
+    <div class="store-header reveal">
       <div class="container">
-        <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="eyebrow-label">Product Lineup</span></div>
-        <h1 style="margin-top:16px;">The Vertex <em>family.</em></h1>
-        <p>Browse the complete current lineup. Click any model to view full specifications, configurations, and purchasing options.</p>
+        <div class="section-label" style="justify-content:center;">Product Lineup</div>
+        <h1 class="section-title" style="text-align:center;font-size:clamp(2.4rem,5vw,4rem);">The Vertex <span class="accent">family.</span></h1>
+        <p style="text-align:center;color:var(--muted-2);max-width:480px;margin:0 auto;font-size:0.97rem;line-height:1.7;">Click any model to view full specifications, configurations, and purchasing options.</p>
+        <div class="search-bar">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input id="productSearch" type="text" placeholder="Search models…" aria-label="Filter products" />
+        </div>
       </div>
     </div>
 
-    <div class="section">
+    <div class="section" style="padding-top:0;">
       <div class="container">
-        <div class="store-search-bar">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="productSearch" type="text" placeholder="Search models…" aria-label="Filter products" />
-        </div>
+        <div class="product-grid reveal" id="productGrid">
 
-        <div class="product-grid" id="productGrid">
-          <article class="prod-card" data-search="vertex elite flagship rk3588 android 15 google play store google account 16gb 256gb 4k 50 touch anti glare 350 nits optional windows ops 48mp camera microphone usb c" onclick="openProduct('pro-max')">
+          <article class="prod-card" data-search="vertex elite flagship rk3588 android 15 google play 16gb 256gb 4k 50 touch anti glare 350 nits 65 75 86 98 110 windows ops 48mp camera microphone usb c" onclick="openProduct('pro-max')">
             <div class="prod-media">
               <img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" loading="lazy" decoding="async" />
-              <span class="prod-tag">Elite</span>
+              <span class="prod-badge">Elite</span>
             </div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Elite</div>
-              <div class="prod-desc">Flagship model on RK3588 with Android 15, 16GB RAM, 256GB storage, 4K UHD, 50-point touch, Google Play Store support, and optional Windows OPS.</div>
+              <p class="prod-desc">Flagship model on RK3588 with Android 15, 16GB RAM, 256GB storage, 4K UHD, 50-point touch, Google Play on supported configs, and optional Windows OPS.</p>
               <div class="prod-footer">
                 <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </article>
 
-          <article class="prod-card" data-search="vertex pro 311d2 android 14 google play store 8gb 128gb optional 16gb 256gb 4k 50 touch anti glare optional windows ops 48mp camera microphone" onclick="openProduct('pro')">
+          <article class="prod-card" data-search="vertex pro 311d2 a311d2 android 14 google play 8gb 128gb 16gb 256gb 4k 50 touch anti glare windows ops 48mp camera microphone usb c" onclick="openProduct('pro')">
             <div class="prod-media">
               <img src="iBoardWebsite,androidbackground,withstandtoholdup.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" />
-              <span class="prod-tag">Pro</span>
+              <span class="prod-badge">Pro</span>
             </div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Pro</div>
-              <div class="prod-desc">Recommended for most schools. 311D2 platform, Android 14, 8GB/128GB, Google Play Store support, optional 16GB/256GB upgrade, and optional Windows OPS.</div>
+              <p class="prod-desc">Recommended for most schools. 311D2 Android 14 platform, 8GB RAM, Google Play on supported configs, optional 16GB/256GB upgrade and Windows OPS.</p>
               <div class="prod-footer">
                 <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </article>
 
-          <article class="prod-card" data-search="vertex standard t985 android 14 8gb 128gb 4k 50 touch anti glare classroom essential usb c" onclick="openProduct('iboard')">
+          <article class="prod-card" data-search="vertex standard t985 android 14 8gb 128gb 4k 50 touch anti glare usb c classroom budget essential" onclick="openProduct('iboard')">
             <div class="prod-media">
               <img src="iBoardWebsite,androidbackgroundiboardpro.png" alt="Penthia Vertex Standard" loading="lazy" decoding="async" />
-              <span class="prod-tag">Standard</span>
+              <span class="prod-badge">Standard</span>
             </div>
             <div class="prod-body">
               <div class="prod-name">Penthia Vertex Standard</div>
-              <div class="prod-desc">Cost-effective classroom display on T985 Android 14 platform with 8GB/128GB, 4K UHD, 50-point touch, anti-glare glass, and USB-C connectivity.</div>
+              <p class="prod-desc">Cost-effective interactive classroom display. T985 Android 14 platform, 8GB RAM, 128GB storage, 4K UHD, 50-point touch, anti-glare glass, USB-C.</p>
               <div class="prod-footer">
                 <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </article>
 
-          <article class="prod-card" data-search="qs3 series professional display no built in android external windows mac linux ops 4k 20 touch anti glare 15w speakers usb c hdmi" onclick="openProduct('qs3')">
+          <article class="prod-card" data-search="qs3 series professional display no android external windows mac linux ops 4k 20 touch anti glare 15w speakers usb c hdmi" onclick="openProduct('qs3')">
             <div class="prod-media">
               <img src="penthianosoftwareboard.png" alt="Penthia QS3 Series" loading="lazy" decoding="async" />
-              <span class="prod-tag">QS3</span>
+              <span class="prod-badge">QS3</span>
             </div>
             <div class="prod-body">
               <div class="prod-name">Penthia QS3 Series</div>
-              <div class="prod-desc">Professional 4K display for customers with existing computers. Connect Windows, Mac, Linux, or OPS devices for touch, annotation, and collaboration.</div>
+              <p class="prod-desc">Professional 4K non-Android display for customers using external computers. Connect Windows, Mac, Linux, or OPS devices for touch and annotation workflows.</p>
               <div class="prod-footer">
                 <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             </div>
           </article>
+
         </div>
 
-        <div class="feature-banner reveal" style="margin-top: 64px;">
+        <div class="store-banner reveal" style="margin-top:56px;">
           <img src="penthiaimage2.png" loading="lazy" decoding="async" alt="Penthia display in use" />
-          <div class="feature-banner-overlay"></div>
-          <div class="feature-banner-content">
-            <div class="section-eyebrow" style="margin-bottom:12px;"><span class="eyebrow-line"></span><span class="eyebrow-label">See It In Action</span></div>
-            <h3>Designed for<br><em>every classroom.</em></h3>
-            <p>From Google-ready Android to optional Windows OPS and external-computer setups, Penthia supports how your school actually works.</p>
-            <a class="btn-primary" href="contact.html">Get in Touch <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <div class="store-banner-overlay"></div>
+          <div class="store-banner-content">
+            <div class="section-label">See It In Action</div>
+            <h3>Designed for<br><span class="accent">every classroom.</span></h3>
+            <p>From Google-ready Android to optional Windows OPS and external-computer display setups, the Penthia lineup covers every modern classroom workflow.</p>
+            <a class="btn-primary" href="contact.html">Get in Touch →</a>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal" onclick="handleModalClick(event)">
+      <div class="modal-panel">
+        <div class="modal-close"><button class="close-btn" onclick="closeModal()">✕</button></div>
+        <div class="modal-product">
+          <section class="modal-gallery">
+            <div class="gallery-main-wrap">
+              <button class="gal-arrow left" onclick="changeImage(-1)">‹</button>
+              <img class="gallery-main-img" id="modalMainImg" src="" alt="Product" />
+              <button class="gal-arrow right" onclick="changeImage(1)">›</button>
+            </div>
+            <div class="gallery-thumbs" id="galleryThumbs"></div>
+          </section>
+          <section class="modal-details">
+            <div class="modal-badge" id="modalBadge"></div>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-rating">★★★★★</div>
+            <p class="modal-desc" id="modalDesc"></p>
+            <ul class="modal-bullets" id="modalBullets"></ul>
+            <div class="variant-section"><div class="variant-label">Display</div><div class="chips" id="variantDisplay"></div></div>
+            <div class="variant-section"><div class="variant-label">Operating System</div><div class="chips" id="variantOS"></div></div>
+            <div class="variant-section"><div class="variant-label">RAM / Storage</div><div class="chips" id="variantStorage"></div></div>
+            <div class="variant-section"><div class="variant-label">Sizes</div><div class="chips" id="variantSupport"></div></div>
+            <div class="variant-section"><div class="variant-label">Input</div><div class="chips" id="variantInput"></div></div>
+          </section>
+          <aside class="modal-buybox">
+            <div class="buybox-price" id="buyboxPrice">Request Pricing</div>
+            <p class="buybox-sub" id="buyboxSub"></p>
+            <div class="buybox-actions">
+              <button class="buybox-btn-primary" onclick="openContactForm('Request Quote')">Request a Quote</button>
+              <button class="buybox-btn-ghost" onclick="openContactForm('Contact Sales')">Contact Sales</button>
+            </div>
+            <div class="buybox-note" id="buyboxNote"></div>
+          </aside>
         </div>
       </div>
     </div>
@@ -142,49 +184,11 @@
     </footer>
   </div>
 
-  <!-- PRODUCT MODAL -->
-  <div class="modal" id="modal" onclick="handleModalClick(event)">
-    <div class="modal-panel">
-      <div class="modal-close"><button class="close-btn" onclick="closeModal()">×</button></div>
-      <div class="modal-product">
-        <section class="modal-gallery">
-          <div class="gallery-main-wrap">
-            <button class="gal-arrow left" onclick="changeImage(-1)">‹</button>
-            <img class="gallery-main-img" id="modalMainImg" src="" alt="Product" />
-            <button class="gal-arrow right" onclick="changeImage(1)">›</button>
-          </div>
-          <div class="gallery-thumbs" id="galleryThumbs"></div>
-        </section>
-        <section class="modal-details">
-          <div class="modal-badge" id="modalBadge"></div>
-          <h2 class="modal-title" id="modalTitle"></h2>
-          <div class="modal-rating">★★★★★</div>
-          <p class="modal-desc" id="modalDesc"></p>
-          <ul class="modal-bullets" id="modalBullets"></ul>
-          <div class="variant-section"><div class="variant-label">Display</div><div class="chips" id="variantDisplay"></div></div>
-          <div class="variant-section"><div class="variant-label">Operating System</div><div class="chips" id="variantOS"></div></div>
-          <div class="variant-section"><div class="variant-label">RAM / Storage</div><div class="chips" id="variantStorage"></div></div>
-          <div class="variant-section"><div class="variant-label">Sizes</div><div class="chips" id="variantSupport"></div></div>
-          <div class="variant-section"><div class="variant-label">Input</div><div class="chips" id="variantInput"></div></div>
-        </section>
-        <aside class="modal-buybox">
-          <div class="buybox-price" id="buyboxPrice">Request Pricing</div>
-          <p class="buybox-sub" id="buyboxSub"></p>
-          <div class="buybox-actions">
-            <button class="buybox-btn-primary" onclick="openContactForm('Request Quote')">Request a Quote</button>
-            <button class="buybox-btn-ghost" onclick="openContactForm('Contact Sales')">Contact Sales</button>
-          </div>
-          <div class="buybox-note" id="buyboxNote"></div>
-        </aside>
-      </div>
-    </div>
-  </div>
-
   <nav class="mobile-nav" aria-label="Mobile navigation">
     <div class="mobile-nav-inner">
       <a class="mobile-nav-btn" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
       <a class="mobile-nav-btn" id="mnav-about" href="about.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About</a>
-      <a class="mobile-nav-btn" id="mnav-store" href="store.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Store</a>
+      <a class="mobile-nav-btn active" id="mnav-store" href="store.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Store</a>
       <a class="mobile-nav-btn" id="mnav-compare" href="compare.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Compare</a>
       <a class="mobile-nav-btn" id="mnav-contact" href="contact.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a>
     </div>
@@ -192,11 +196,5 @@
 
   <script src="script.js"></script>
   <script src="penthia-assistant.js"></script>
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>

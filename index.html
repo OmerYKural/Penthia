@@ -4,74 +4,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Penthia Solutions | Interactive Smartboards for Schools and Businesses</title>
-  <meta name="description" content="Penthia Solutions provides interactive smartboards and classroom displays for schools and businesses. Vertex Pro models run Android 14, Vertex Elite models run Android 15, and Google apps are supported on Pro and Elite models." />
-  <meta name="keywords" content="Penthia Solutions, Penthia smartboard, Penthia interactive display, Vertex Elite, Vertex Pro, Vertex Standard, QS3, interactive smartboard, classroom display, school smartboard, Android smartboard, Google apps smartboard" />
-  <meta name="author" content="Penthia Solutions" />
+  <meta name="description" content="Penthia Solutions provides interactive smartboards and classroom displays for schools and businesses. Vertex Pro runs Android 14, Vertex Elite runs Android 15, and Google apps are supported on Pro and Elite models." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="theme-color" content="#080a0f" />
   <link rel="canonical" href="https://penthiasolutions.com/" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Penthia Solutions" />
-  <meta property="og:title" content="Penthia Solutions | Interactive Smartboards for Schools and Businesses" />
-  <meta property="og:description" content="Purpose-built interactive smartboards. Vertex Pro runs Android 14, Vertex Elite runs Android 15. Google apps supported on Pro and Elite." />
+  <meta property="og:title" content="Penthia Solutions | Interactive Smartboards" />
+  <meta property="og:description" content="Purpose-built interactive smartboards. Vertex Pro runs Android 14, Vertex Elite runs Android 15." />
   <meta property="og:url" content="https://penthiasolutions.com/" />
   <meta property="og:image" content="https://penthiasolutions.com/penthialogo.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Penthia Solutions | Interactive Smartboards" />
-  <meta name="twitter:description" content="School-focused interactive displays with Android 14 & 15, Google app support, 4K touch, optional Windows OPS." />
-  <meta name="twitter:image" content="https://penthiasolutions.com/penthialogo.jpg" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://penthiasolutions.com/#organization","name":"Penthia Solutions","url":"https://penthiasolutions.com/","logo":{"@type":"ImageObject","url":"https://penthiasolutions.com/penthialogo.jpg"},"brand":{"@type":"Brand","name":"Penthia"},"areaServed":{"@type":"Country","name":"United States"},"description":"Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, and businesses.","sameAs":["https://penthiasolutions.com/","https://www.youtube.com/@PenthiaSolutions","https://www.linkedin.com/company/penthia-solutions/"]},{"@type":"WebSite","@id":"https://penthiasolutions.com/#website","url":"https://penthiasolutions.com/","name":"Penthia Solutions","publisher":{"@id":"https://penthiasolutions.com/#organization"}},{"@type":"FAQPage","@id":"https://penthiasolutions.com/#faq","mainEntity":[{"@type":"Question","name":"Are Penthia smartboards just televisions with touch overlays?","acceptedAnswer":{"@type":"Answer","text":"No. Penthia Vertex boards are purpose-built interactive classroom smartboards with Android-based operation, 4K touch, annotation tools, and optional Windows OPS."}},{"@type":"Question","name":"Do Penthia Pro and Elite models support Google apps?","acceptedAnswer":{"@type":"Answer","text":"Yes. Vertex Pro runs Android 14 and Vertex Elite runs Android 15. Both support Google apps on supported configurations."}}]}]}
+  {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://penthiasolutions.com/#organization","name":"Penthia Solutions","url":"https://penthiasolutions.com/","description":"Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, and businesses.","sameAs":["https://www.youtube.com/@PenthiaSolutions","https://www.linkedin.com/company/penthia-solutions/"]},{"@type":"FAQPage","@id":"https://penthiasolutions.com/#faq","mainEntity":[{"@type":"Question","name":"Are Penthia smartboards just televisions?","acceptedAnswer":{"@type":"Answer","text":"No. Penthia Vertex boards are purpose-built interactive classroom smartboards with Android-based operation, 4K touch, annotation tools, and more."}},{"@type":"Question","name":"Do Penthia Pro and Elite support Google apps?","acceptedAnswer":{"@type":"Answer","text":"Yes. Google apps are supported on Penthia Vertex Pro and Elite models. Vertex Pro runs Android 14, Vertex Elite runs Android 15."}}]}]}
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- AI INTRO POPUP -->
-  <div id="ai-intro-overlay">
-    <div class="ai-intro-card">
-      <div class="ai-intro-glow">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
-          <path d="M18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
-        </svg>
+  <!-- AI POPUP -->
+  <div id="ai-popup-overlay">
+    <div id="ai-popup">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div class="popup-glow"></div>
+      <div class="popup-icon">✦</div>
+      <div class="popup-badge"><span class="popup-dot"></span>New Feature</div>
+      <h2 class="popup-title">Meet your <span class="accent">AI guide.</span></h2>
+      <p class="popup-desc">Penthia AI is built into our website. Ask it anything about our boards, get instant spec comparisons, or let it recommend the perfect model for your school.</p>
+      <div class="popup-features">
+        <div class="popup-feature">
+          <div class="popup-feature-icon">💬</div>
+          <div class="popup-feature-title">Instant Answers</div>
+          <div class="popup-feature-desc">Specs, pricing info, Google support — ask anything.</div>
+        </div>
+        <div class="popup-feature">
+          <div class="popup-feature-icon">🎯</div>
+          <div class="popup-feature-title">Find My Board</div>
+          <div class="popup-feature-desc">5 questions. One perfect recommendation.</div>
+        </div>
+        <div class="popup-feature">
+          <div class="popup-feature-icon">🔍</div>
+          <div class="popup-feature-title">Highlight to Ask</div>
+          <div class="popup-feature-desc">Select any text on site to ask the AI about it.</div>
+        </div>
+        <div class="popup-feature">
+          <div class="popup-feature-icon">🔗</div>
+          <div class="popup-feature-title">Stays With You</div>
+          <div class="popup-feature-desc">Chat persists as you browse every page.</div>
+        </div>
       </div>
-      <div class="ai-intro-eyebrow">Penthia AI — Now Live</div>
-      <h2>Your personal<br><em>board advisor</em> is here.</h2>
-      <p>Ask anything about our product lineup — specs, Google compatibility, sizing, pricing, or which model fits your school. Our AI assistant knows everything about Penthia boards and responds instantly.</p>
-      <div class="ai-intro-actions">
-        <button class="btn-ai-try" id="aiIntroTry">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          Try it now
-        </button>
-        <button class="btn-ai-dismiss" id="aiIntroDismiss">Maybe later</button>
+      <div class="popup-actions">
+        <button class="popup-try-btn" onclick="openAIFromPopup()">Try Penthia AI <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        <button class="popup-skip-btn" onclick="closePopup()">Maybe later</button>
       </div>
     </div>
   </div>
 
   <!-- NAV -->
   <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <img class="brand-name-img" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
+    <div class="nav-brand">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;">
+        <img class="nav-brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
+        <img class="nav-brand-wordmark" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
       </a>
-      <nav class="nav-center">
-        <a class="nav-link" id="nav-home" href="index.html">Home</a>
-        <a class="nav-link" id="nav-about" href="about.html">About</a>
-        <a class="nav-link" id="nav-store" href="store.html">Store</a>
-        <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
-        <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
-      </nav>
-      <div class="nav-right">
-        <div class="nav-search">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
-        </div>
-        <a class="nav-cta" href="store.html">Shop Now <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link active" id="nav-home" href="index.html">Home</a>
+      <a class="nav-link" id="nav-about" href="about.html">About</a>
+      <a class="nav-link" id="nav-store" href="store.html">Store</a>
+      <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
+      <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
       </div>
+      <a class="nav-cta" href="store.html">Shop Now →</a>
     </div>
   </header>
 
@@ -79,163 +91,206 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-bg"></div>
-      <div class="hero-grid"></div>
-      <div class="hero-orb hero-orb-1"></div>
-      <div class="hero-orb hero-orb-2"></div>
-
+      <div class="hero-glow-left"></div>
       <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-dot"></span>
-          <span class="eyebrow-text">Purpose-built for modern education</span>
-        </div>
-        <h1 class="hero-headline">
-          Displays that<br>
-          <em>transform</em><br>
-          the classroom.
-        </h1>
-        <p class="hero-sub">Premium interactive smartboards for schools, training rooms, and collaboration spaces — with Google-ready Android, optional Windows OPS, 4K touch, and professional deployment support.</p>
+        <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Introducing the Vertex Family</div>
+        <h1 class="hero-title">Displays that<br>make classrooms<br><span class="accent">come alive.</span></h1>
+        <p class="hero-sub">Purpose-built interactive smartboards for schools, training rooms, and businesses. 4K touch, Android-powered, Google-ready — and built to last.</p>
         <div class="hero-actions">
-          <a class="btn-primary" href="store.html">Browse Products <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a class="btn-primary" href="store.html">Explore Products →</a>
           <a class="btn-ghost" href="compare.html">Compare Models</a>
         </div>
-        <div class="hero-metrics">
-          <div>
-            <div class="hero-metric-num">4K</div>
-            <div class="hero-metric-label">Resolution</div>
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">4K</div>
+            <div class="hero-stat-label">UHD Display</div>
           </div>
-          <div>
-            <div class="hero-metric-num">50pt</div>
-            <div class="hero-metric-label">Touch</div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">50pt</div>
+            <div class="hero-stat-label">Touch Points</div>
           </div>
-          <div>
-            <div class="hero-metric-num">4</div>
-            <div class="hero-metric-label">Product Lines</div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">4</div>
+            <div class="hero-stat-label">Model Lines</div>
           </div>
-          <div>
-            <div class="hero-metric-num">5</div>
-            <div class="hero-metric-label">Size Options</div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-num">110"</div>
+            <div class="hero-stat-label">Max Size</div>
           </div>
         </div>
       </div>
-
       <div class="hero-right">
-        <div class="hero-board">
-          <div class="hero-board-glow"></div>
-          <div class="hero-spec">
-            <span class="hero-spec-dot"></span>
-            <span class="hero-spec-text">Android 15 · RK3588</span>
-          </div>
-          <div class="hero-board-frame">
+        <div class="hero-product-card">
+          <div class="hero-card-top">
             <img src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" fetchpriority="high" decoding="async" />
+            <div class="hero-card-tag">2026 Flagship</div>
           </div>
-          <div class="hero-badge">
-            <div class="hero-badge-label">Current Flagship</div>
-            <div class="hero-badge-value">Penthia Vertex Elite</div>
+          <div class="hero-card-body">
+            <div class="hero-card-label">Current Flagship</div>
+            <div class="hero-card-title">Vertex Elite</div>
+            <div class="hero-card-sub">Android 15 · RK3588 · 16GB RAM · Google-Ready</div>
+            <div class="hero-card-chips">
+              <span class="hero-card-chip">Android 15</span>
+              <span class="hero-card-chip">50-pt Touch</span>
+              <span class="hero-card-chip">4K UHD</span>
+              <span class="hero-card-chip">Google Play</span>
+            </div>
           </div>
-          <div class="hero-tag">New 2026</div>
         </div>
       </div>
     </section>
 
-    <!-- IMAGE SPLIT -->
-    <div class="home-split">
-      <div class="home-split-inner">
-        <div class="split-image">
-          <img src="IMG-20260408-WA0094.jpg" loading="lazy" decoding="async" alt="Penthia interactive display in a classroom" />
-          <div class="split-overlay"></div>
-          <div class="split-caption">
-            <div class="split-caption-label">In the Classroom</div>
-            <div class="split-caption-title">Google-ready learning at the center of every lesson.</div>
-          </div>
-        </div>
-        <div class="split-image">
-          <img src="penthiaboardinsciencelab.png" loading="lazy" decoding="async" alt="Penthia board in a science lab" />
-          <div class="split-overlay"></div>
-          <div class="split-caption">
-            <div class="split-caption-label">Science Lab</div>
-            <div class="split-caption-title">Vivid 4K content and responsive annotation for every subject.</div>
-          </div>
-        </div>
+    <!-- MARQUEE -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 4K UHD Display</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Android 15 Vertex Elite</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Google Workspace Ready</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 50-Point Multi-Touch</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Optional Windows OPS</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 48MP AI Camera Option</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Sizes up to 110"</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Purpose-Built for Classrooms</span>
+        <!-- duplicate for seamless loop -->
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 4K UHD Display</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Android 15 Vertex Elite</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Google Workspace Ready</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 50-Point Multi-Touch</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Optional Windows OPS</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> 48MP AI Camera Option</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Sizes up to 110"</span>
+        <span class="marquee-item"><span class="marquee-sep">✦</span> Purpose-Built for Classrooms</span>
       </div>
     </div>
 
-    <!-- VALUE PROPS -->
+    <!-- PRODUCTS -->
     <div class="section">
       <div class="container">
-        <div class="section-eyebrow reveal">
-          <span class="eyebrow-line"></span>
-          <span class="eyebrow-label">Why Penthia</span>
+        <div class="reveal">
+          <div class="section-label">Product Lineup</div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px;">
+            <h2 class="section-title" style="margin-bottom:0;">The Vertex <span class="accent">family.</span></h2>
+            <a href="store.html" class="btn-ghost" style="flex-shrink:0;white-space:nowrap;">View All →</a>
+          </div>
         </div>
-        <h2 class="section-title reveal">Built different.<br><em>By design.</em></h2>
+        <div class="products-bento reveal reveal-delay-1">
+          <article class="bento-card featured" onclick="openProduct('pro-max')">
+            <div class="bento-img-wrap">
+              <img class="bento-featured-img" src="iBoardWebsite,windowsbackgroundiboardpro.png" alt="Penthia Vertex Elite" loading="lazy" decoding="async" />
+            </div>
+            <div class="bento-body">
+              <span class="bento-tag">Elite — Flagship</span>
+              <div class="bento-name">Penthia Vertex Elite</div>
+              <p class="bento-desc">The most powerful board in the lineup. RK3588 chip, Android 15, 16GB RAM, full Google Play Store support, and the option to add a 48MP AI camera for hybrid classrooms.</p>
+              <div class="bento-specs">
+                <span class="bento-spec">Android 15</span>
+                <span class="bento-spec">RK3588</span>
+                <span class="bento-spec">16GB / 256GB</span>
+                <span class="bento-spec">50-pt Touch</span>
+                <span class="bento-spec">Google Play</span>
+                <span class="bento-spec">Optional OPS</span>
+              </div>
+              <div class="bento-cta">View Details <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </article>
+          <article class="bento-card" onclick="openProduct('pro')">
+            <div class="bento-img-wrap">
+              <img class="bento-img" src="iBoardWebsite,androidbackground,withstandtoholdup.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" />
+            </div>
+            <div class="bento-body">
+              <span class="bento-tag">Pro — Recommended</span>
+              <div class="bento-name">Vertex Pro</div>
+              <p class="bento-desc">The go-to for most schools. Android 14, Google-ready, 8GB RAM standard with optional upgrade.</p>
+              <div class="bento-specs">
+                <span class="bento-spec">Android 14</span>
+                <span class="bento-spec">311D2</span>
+                <span class="bento-spec">8GB / 128GB</span>
+                <span class="bento-spec">Google Play</span>
+              </div>
+              <div class="bento-cta">View Details →</div>
+            </div>
+          </article>
+          <article class="bento-card" onclick="openProduct('iboard')">
+            <div class="bento-img-wrap">
+              <img class="bento-img" src="iBoardWebsite,androidbackgroundiboardpro.png" alt="Penthia Vertex Standard" loading="lazy" decoding="async" />
+            </div>
+            <div class="bento-body">
+              <span class="bento-tag">Standard</span>
+              <div class="bento-name">Vertex Standard</div>
+              <p class="bento-desc">Essential classroom interaction at an accessible price. Android 14, 4K, 50-point touch.</p>
+              <div class="bento-specs">
+                <span class="bento-spec">Android 14</span>
+                <span class="bento-spec">T985</span>
+                <span class="bento-spec">8GB / 128GB</span>
+              </div>
+              <div class="bento-cta">View Details →</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
 
-        <div class="value-grid" style="margin-top: 48px;">
-          <div class="value-card reveal reveal-delay-1">
-            <div class="value-number">01</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-            <h3>4K Clarity</h3>
-            <p>Ultra-high resolution keeps every diagram, presentation, and video sharp and readable from every seat in the room.</p>
+    <!-- FEATURES -->
+    <div class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="reveal" style="margin-bottom:40px;">
+          <div class="section-label">Why Penthia</div>
+          <h2 class="section-title">Built for the real <span class="accent">classroom.</span></h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card reveal reveal-delay-1">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <div class="feature-title">4K Ultra HD</div>
+            <p class="feature-desc">Crystal-clear 3840×2160 resolution keeps every pixel sharp, even from the back of the room.</p>
           </div>
-          <div class="value-card reveal reveal-delay-2">
-            <div class="value-number">02</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-            </div>
-            <h3>50-Point Touch</h3>
-            <p>Precise multi-touch input and stylus support for smooth annotation, whiteboarding, and multi-student interaction.</p>
+          <div class="feature-card reveal reveal-delay-2">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg></div>
+            <div class="feature-title">50-Point Touch</div>
+            <p class="feature-desc">Multiple students can write simultaneously. Responsive, low-latency infrared touch with 6ms response time.</p>
           </div>
-          <div class="value-card reveal reveal-delay-3">
-            <div class="value-number">03</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
-            </div>
-            <h3>Google-Ready</h3>
-            <p>Vertex Pro and Elite support Google Play Store, Google account login, and full Google Workspace on supported configurations.</p>
+          <div class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+            <div class="feature-title">Google-Ready</div>
+            <p class="feature-desc">Vertex Pro and Elite support Google Play, Google Classroom, Drive, Meet, Docs, and more on supported configurations.</p>
           </div>
-          <div class="value-card reveal reveal-delay-1">
-            <div class="value-number">04</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 2v4M16 2v4"/></svg>
-            </div>
-            <h3>Windows Flexibility</h3>
-            <p>Optional Windows OPS module gives schools full desktop capability — Windows 11, Microsoft Office, and more — on the same board.</p>
+          <div class="feature-card reveal reveal-delay-1">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 2v4M16 2v4"/></svg></div>
+            <div class="feature-title">Windows OPS Option</div>
+            <p class="feature-desc">Add a full Windows 11 computer inside the board. Switch between Android and Windows workflows instantly.</p>
           </div>
-          <div class="value-card reveal reveal-delay-2">
-            <div class="value-number">05</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-            </div>
-            <h3>Deployment Support</h3>
-            <p>Penthia works with schools and organizations through evaluation, configuration, and deployment — not just the sale.</p>
+          <div class="feature-card reveal reveal-delay-2">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M6.343 6.343a8 8 0 1011.314 0M12 2v4"/></svg></div>
+            <div class="feature-title">48MP AI Camera</div>
+            <p class="feature-desc">Optional AI camera with speaker tracking, gesture controls, and 8-mic array for hybrid learning and Zoom/Teams/Meet.</p>
           </div>
-          <div class="value-card reveal reveal-delay-3">
-            <div class="value-number">06</div>
-            <div class="value-icon">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-            </div>
-            <h3>Built to Last</h3>
-            <p>Designed for the daily demands of classroom use with hardware built for consistent, long-term performance.</p>
+          <div class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="feature-title">Built to Last</div>
+            <p class="feature-desc">7H tempered anti-glare glass, 50,000-hour panel lifespan, and hardware designed for daily classroom use.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- FEATURE BANNER -->
+    <!-- IMAGE PANELS -->
     <div class="section" style="padding-top:0;">
       <div class="container">
-        <div class="feature-banner reveal">
-          <img src="penthiaimage2.png" loading="lazy" decoding="async" alt="Penthia display in use" />
-          <div class="feature-banner-overlay"></div>
-          <div class="feature-banner-content">
-            <div class="section-eyebrow">
-              <span class="eyebrow-line"></span>
-              <span class="eyebrow-label">See It In Action</span>
+        <div class="image-panels reveal">
+          <div class="image-panel">
+            <img src="IMG-20260408-WA0094.jpg" loading="lazy" decoding="async" alt="Penthia display in a modern classroom" />
+            <div class="image-panel-overlay"></div>
+            <div class="image-panel-content">
+              <div class="image-panel-label">In the Classroom</div>
+              <div class="image-panel-title">Google-ready environments built for collaboration at the center.</div>
             </div>
-            <h3>Designed for<br><em>every classroom.</em></h3>
-            <p>From Google-ready Android to optional Windows OPS, Penthia supports the way your school actually works.</p>
-            <a class="btn-primary" href="contact.html">Get in Touch <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="image-panel">
+            <img src="penthiaboardinsciencelab.png" loading="lazy" decoding="async" alt="Penthia board in a science lab" />
+            <div class="image-panel-overlay"></div>
+            <div class="image-panel-content">
+              <div class="image-panel-label">Science Lab</div>
+              <div class="image-panel-title">Vivid 4K content and responsive annotation for every subject.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -256,10 +311,48 @@
     </footer>
   </div>
 
+  <!-- PRODUCT MODAL -->
+  <div class="modal" id="modal" onclick="handleModalClick(event)">
+    <div class="modal-panel">
+      <div class="modal-close"><button class="close-btn" onclick="closeModal()">✕</button></div>
+      <div class="modal-product">
+        <section class="modal-gallery">
+          <div class="gallery-main-wrap">
+            <button class="gal-arrow left" onclick="changeImage(-1)">‹</button>
+            <img class="gallery-main-img" id="modalMainImg" src="" alt="Product" />
+            <button class="gal-arrow right" onclick="changeImage(1)">›</button>
+          </div>
+          <div class="gallery-thumbs" id="galleryThumbs"></div>
+        </section>
+        <section class="modal-details">
+          <div class="modal-badge" id="modalBadge"></div>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <div class="modal-rating">★★★★★</div>
+          <p class="modal-desc" id="modalDesc"></p>
+          <ul class="modal-bullets" id="modalBullets"></ul>
+          <div class="variant-section"><div class="variant-label">Display</div><div class="chips" id="variantDisplay"></div></div>
+          <div class="variant-section"><div class="variant-label">Operating System</div><div class="chips" id="variantOS"></div></div>
+          <div class="variant-section"><div class="variant-label">RAM / Storage</div><div class="chips" id="variantStorage"></div></div>
+          <div class="variant-section"><div class="variant-label">Sizes</div><div class="chips" id="variantSupport"></div></div>
+          <div class="variant-section"><div class="variant-label">Input</div><div class="chips" id="variantInput"></div></div>
+        </section>
+        <aside class="modal-buybox">
+          <div class="buybox-price" id="buyboxPrice">Request Pricing</div>
+          <p class="buybox-sub" id="buyboxSub"></p>
+          <div class="buybox-actions">
+            <button class="buybox-btn-primary" onclick="openContactForm('Request Quote')">Request a Quote</button>
+            <button class="buybox-btn-ghost" onclick="openContactForm('Contact Sales')">Contact Sales</button>
+          </div>
+          <div class="buybox-note" id="buyboxNote"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE NAV -->
   <nav class="mobile-nav" aria-label="Mobile navigation">
     <div class="mobile-nav-inner">
-      <a class="mobile-nav-btn" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+      <a class="mobile-nav-btn active" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
       <a class="mobile-nav-btn" id="mnav-about" href="about.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About</a>
       <a class="mobile-nav-btn" id="mnav-store" href="store.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Store</a>
       <a class="mobile-nav-btn" id="mnav-compare" href="compare.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Compare</a>
@@ -270,38 +363,26 @@
   <script src="script.js"></script>
   <script src="penthia-assistant.js"></script>
   <script>
-    // AI Intro popup logic
-    (function() {
-      const overlay = document.getElementById('ai-intro-overlay');
-      const tryBtn  = document.getElementById('aiIntroTry');
-      const dismiss = document.getElementById('aiIntroDismiss');
-      if (sessionStorage.getItem('ai_intro_seen')) {
-        overlay.style.display = 'none'; return;
-      }
-      function hide() {
-        overlay.classList.add('hiding');
-        setTimeout(() => { overlay.style.display = 'none'; }, 500);
-        sessionStorage.setItem('ai_intro_seen', '1');
-      }
-      tryBtn.addEventListener('click', function() {
-        hide();
-        setTimeout(() => {
-          const launcher = document.getElementById('p-launcher');
-          const widget = document.getElementById('p-widget');
-          if (launcher && widget && !widget.classList.contains('open')) {
-            launcher.classList.add('open');
-            widget.classList.add('open');
-          }
-        }, 300);
-      });
-      dismiss.addEventListener('click', hide);
-    })();
-
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function closePopup() {
+      const overlay = document.getElementById('ai-popup-overlay');
+      overlay.style.animation = 'fadeInOverlay 0.3s ease reverse forwards';
+      setTimeout(() => overlay.remove(), 300);
+      sessionStorage.setItem('penthia_popup_seen', '1');
+    }
+    function openAIFromPopup() {
+      closePopup();
+      setTimeout(() => {
+        const launcher = document.getElementById('p-launcher');
+        const widget = document.getElementById('p-widget');
+        if (launcher && widget) {
+          launcher.classList.add('open');
+          widget.classList.add('open');
+        }
+      }, 350);
+    }
+    if (sessionStorage.getItem('penthia_popup_seen')) {
+      document.getElementById('ai-popup-overlay').remove();
+    }
   </script>
 </body>
 </html>
