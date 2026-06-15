@@ -168,5 +168,471 @@
   </nav>
 
   <script src="script.js"></script>
+  <!-- ============================================================
+     PENTHIA AI ASSISTANT WIDGET
+     Paste this entire block just before </body> on every page
+     ============================================================ -->
+
+<style>
+  :root {
+    --ink: #0b0d12; --ink-2: #12151d; --ink-3: #1a1e2a; --ink-4: #242838;
+    --gold: #c9a84c; --gold-2: #e2c27a; --gold-pale: rgba(201,168,76,0.12);
+    --gold-border: rgba(201,168,76,0.30); --muted: #7a849f; --muted-2: #9aa3bb;
+    --white: #f4f1eb; --line: rgba(255,255,255,0.06); --line-2: rgba(255,255,255,0.10);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  #p-launcher {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--gold); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(201,168,76,0.35), 0 2px 8px rgba(0,0,0,0.4);
+    transition: background 0.2s, transform 0.2s;
+  }
+  #p-launcher:hover { background: var(--gold-2); transform: scale(1.07); }
+  #p-launcher svg { width: 26px; height: 26px; color: var(--ink); }
+  #p-launcher .p-icon-close { display: none; }
+  #p-launcher.open .p-icon-chat { display: none; }
+  #p-launcher.open .p-icon-close { display: block; }
+  #p-launcher::before {
+    content: ''; position: absolute; inset: -6px; border-radius: 50%;
+    border: 2px solid var(--gold); opacity: 0;
+    animation: p-pulse 2.5s ease-out 1.5s infinite;
+  }
+  @keyframes p-pulse { 0%{opacity:0.6;transform:scale(1)} 100%{opacity:0;transform:scale(1.5)} }
+
+  #p-widget {
+    position: fixed; bottom: 104px; right: 28px; z-index: 8999;
+    width: 400px; max-height: 620px;
+    background: var(--ink-2); border: 1px solid var(--line-2);
+    border-radius: 12px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+    display: flex; flex-direction: column;
+    transform: translateY(20px) scale(0.97); opacity: 0; pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+    overflow: hidden;
+  }
+  #p-widget.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+
+  .p-header {
+    padding: 16px 20px; background: var(--ink-3);
+    border-bottom: 1px solid var(--line-2);
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  .p-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gold-pale); border: 1px solid var(--gold-border);
+    display: grid; place-items: center; flex-shrink: 0; color: var(--gold);
+  }
+  .p-header-text { flex: 1; }
+  .p-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--white); }
+  .p-status { font-size: 0.72rem; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+  .p-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+  .p-mode-btn {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); background: var(--ink-4); border: 1px solid var(--line-2);
+    padding: 5px 10px; border-radius: 4px; cursor: pointer; transition: all 0.2s;
+    font-family: var(--font-body); white-space: nowrap;
+  }
+  .p-mode-btn:hover { color: var(--gold-2); border-color: var(--gold-border); }
+
+  .p-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    scrollbar-width: thin; scrollbar-color: var(--ink-4) transparent;
+  }
+  .p-messages::-webkit-scrollbar { width: 4px; }
+  .p-messages::-webkit-scrollbar-thumb { background: var(--ink-4); border-radius: 2px; }
+
+  .p-bubble { max-width: 88%; display: flex; flex-direction: column; gap: 4px; }
+  .p-bubble.ai { align-self: flex-start; }
+  .p-bubble.user { align-self: flex-end; }
+  .p-bubble-text {
+    padding: 10px 14px; border-radius: 10px;
+    font-size: 0.88rem; line-height: 1.6; font-weight: 300;
+    font-family: var(--font-body);
+  }
+  .p-bubble.ai .p-bubble-text {
+    background: var(--ink-3); border: 1px solid var(--line-2); color: var(--white);
+    border-radius: 2px 10px 10px 10px;
+  }
+  .p-bubble.user .p-bubble-text {
+    background: var(--gold); color: var(--ink); font-weight: 500;
+    border-radius: 10px 10px 2px 10px;
+  }
+  .p-bubble-time { font-size: 0.65rem; color: var(--muted); padding: 0 4px; font-family: var(--font-body); }
+  .p-bubble.user .p-bubble-time { text-align: right; }
+
+  .p-typing { display: flex; align-items: center; gap: 5px; padding: 10px 14px;
+    background: var(--ink-3); border: 1px solid var(--line-2);
+    border-radius: 2px 10px 10px 10px; width: fit-content; }
+  .p-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
+    animation: p-bounce 1.2s infinite; display: block; }
+  .p-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .p-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes p-bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  .p-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .p-qr-chip {
+    padding: 6px 12px; background: transparent; border: 1px solid var(--gold-border);
+    color: var(--gold-2); border-radius: 99px; font-size: 0.78rem; cursor: pointer;
+    font-family: var(--font-body); transition: all 0.18s;
+  }
+  .p-qr-chip:hover { background: var(--gold-pale); }
+
+  .p-quiz-card {
+    background: var(--ink-3); border: 1px solid var(--line-2);
+    border-radius: 8px; padding: 14px; margin-top: 4px;
+  }
+  .p-quiz-q { font-size: 0.82rem; color: var(--muted-2); margin-bottom: 10px; font-weight: 300; font-family: var(--font-body); }
+  .p-quiz-options { display: flex; flex-direction: column; gap: 6px; }
+  .p-quiz-opt {
+    padding: 9px 14px; background: var(--ink-2); border: 1px solid var(--line-2);
+    border-radius: 6px; color: var(--muted-2); font-size: 0.82rem; cursor: pointer;
+    font-family: var(--font-body); text-align: left; transition: all 0.18s;
+  }
+  .p-quiz-opt:hover { border-color: var(--gold-border); color: var(--gold-2); background: var(--gold-pale); }
+  .p-quiz-opt.selected { border-color: var(--gold); color: var(--gold-2); background: var(--gold-pale); }
+
+  .p-rec-card {
+    background: linear-gradient(135deg, var(--ink-3), var(--ink-4));
+    border: 1px solid var(--gold-border); border-radius: 8px; padding: 16px; margin-top: 4px;
+  }
+  .p-rec-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; font-family: var(--font-body); }
+  .p-rec-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .p-rec-desc { font-size: 0.82rem; color: var(--muted-2); line-height: 1.6; margin-bottom: 12px; font-weight: 300; font-family: var(--font-body); }
+  .p-rec-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .p-rec-btn-primary {
+    padding: 8px 16px; background: var(--gold); color: var(--ink);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 4px; border: none; cursor: pointer; font-family: var(--font-body);
+    transition: background 0.2s; text-decoration: none; display: inline-block;
+  }
+  .p-rec-btn-primary:hover { background: var(--gold-2); }
+  .p-rec-btn-ghost {
+    padding: 8px 16px; border: 1px solid var(--gold-border); color: var(--gold-2);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 4px; cursor: pointer; background: transparent; font-family: var(--font-body); transition: all 0.2s;
+  }
+  .p-rec-btn-ghost:hover { background: var(--gold-pale); }
+
+  .p-input-bar {
+    padding: 12px 16px; border-top: 1px solid var(--line-2);
+    display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0;
+    background: var(--ink-2);
+  }
+  .p-input {
+    flex: 1; background: var(--ink-3); border: 1px solid var(--line-2);
+    border-radius: 8px; padding: 10px 14px; color: var(--white);
+    font: 300 0.88rem/1.5 var(--font-body); outline: none; resize: none;
+    max-height: 100px; transition: border-color 0.2s;
+  }
+  .p-input:focus { border-color: var(--gold-border); }
+  .p-input::placeholder { color: var(--muted); }
+  .p-send {
+    width: 38px; height: 38px; border-radius: 8px; background: var(--gold);
+    border: none; cursor: pointer; display: grid; place-items: center; flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s; color: var(--ink);
+  }
+  .p-send:hover { background: var(--gold-2); transform: scale(1.05); }
+  .p-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .p-send svg { width: 16px; height: 16px; }
+  .p-footer {
+    padding: 6px 16px 10px; text-align: center;
+    font-size: 0.65rem; color: var(--muted); border-top: 1px solid var(--line);
+    font-family: var(--font-body);
+  }
+
+  @media (max-width: 460px) {
+    #p-widget { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
+    #p-launcher { bottom: 16px; right: 16px; }
+  }
+</style>
+
+<!-- Launcher button -->
+<button id="p-launcher" aria-label="Open Penthia AI Assistant">
+  <svg class="p-icon-chat" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+  </svg>
+  <svg class="p-icon-close" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path d="M18 6L6 18M6 6l12 12"/>
+  </svg>
+</button>
+
+<!-- Widget panel -->
+<div id="p-widget" role="dialog" aria-label="Penthia AI Assistant">
+  <div class="p-header">
+    <div class="p-avatar">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2a7 7 0 017 7c0 2.5-1.3 4.7-3.3 6L16 21H8l.3-6A7 7 0 0112 2z"/>
+      </svg>
+    </div>
+    <div class="p-header-text">
+      <div class="p-name">Penthia Assistant</div>
+      <div class="p-status"><span class="p-dot"></span>Online · Powered by Claude</div>
+    </div>
+    <button class="p-mode-btn" id="pModeBtn" onclick="pSwitchMode()">Find My Board</button>
+  </div>
+
+  <div class="p-messages" id="pMessages"></div>
+
+  <div class="p-input-bar">
+    <textarea class="p-input" id="pUserInput" placeholder="Ask about any Penthia product…" rows="1"></textarea>
+    <button class="p-send" id="pSendBtn" onclick="pSendMessage()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+        <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+      </svg>
+    </button>
+  </div>
+  <div class="p-footer">Penthia AI · Answers are for guidance only · Confirm specs before purchase</div>
+</div>
+
+<script>
+(function() {
+
+  /* ── Config ── */
+  const SUPABASE_URL = 'https://qwbtgguduzygwtrmkjul.supabase.co';
+  const FUNCTION_URL = `${SUPABASE_URL}/functions/v1/claude-proxy`;
+
+  const SYSTEM_PROMPT = `You are the Penthia Solutions AI Assistant, embedded on the Penthia Solutions website. You help visitors understand Penthia's interactive smartboard lineup and choose the right product.
+
+PRODUCT KNOWLEDGE:
+- Penthia Vertex Elite: Flagship. RK3588 platform. Android 15. 16GB RAM / 256GB storage. 50-point touch. 4K UHD. 20W×2 + 20W subwoofer. Google Play Store + Google account on supported configs. Optional 48MP AI camera/mic. Optional Windows OPS. Sizes: 65", 75", 86", 98", 110". Standard 350 nits; 65/75/86" may upgrade to 400-450 nits.
+- Penthia Vertex Pro: Recommended for most schools. 311D2 platform. Android 14. 8GB/128GB standard, optional 16GB/256GB. 50-point touch. 4K UHD. Google Play Store + Google account on supported configs. Optional 48MP camera/mic. Optional Windows OPS. Sizes: 65", 75", 86", 98", 110".
+- Penthia Vertex Standard: Budget-friendly. T985 platform. Android 14. 8GB/128GB. 50-point touch. 4K UHD. USB-C. Google Play may be configurable. Sizes: 65", 75", 86", 98", 110".
+- Penthia QS3 Series: No built-in Android. For customers with existing Windows/Mac/Linux computers. 20-point touch. 4K. 15W×2 speakers. Works with external OPS devices.
+
+KEY FACTS:
+- All pricing is quote-based (no public pricing)
+- Google apps supported on Pro and Elite configurations
+- Windows OPS is always optional, never required
+- Penthia is based in Ohio, USA
+- For quotes or demos, visitors should use the contact form
+
+BEHAVIOR:
+- Be concise, warm, and direct. This is a chat widget, not an essay.
+- Keep replies to 2-4 sentences unless more detail is clearly needed.
+- When recommending a product, briefly say which and why.
+- If asked for pricing, explain it is quote-based and suggest contacting Penthia.
+- Never make up specs or certifications.`;
+
+  /* ── State ── */
+  let pMode = 'chat';
+  let pHistory = [];
+  let pQuizAnswers = {};
+  let pQuizStep = 0;
+  let pLoading = false;
+
+  const pQuizSteps = [
+    { key: 'environment', q: 'What best describes where the display will be used?', opts: ['K-12 classroom', 'University / higher ed', 'Corporate / training room', 'Other'] },
+    { key: 'google', q: 'Does your organization use Google Workspace (Gmail, Google Classroom, Drive)?', opts: ['Yes, heavily', 'Somewhat / mixed', 'No — we use Microsoft or other', 'Not sure'] },
+    { key: 'windows', q: 'Do you need to run Windows desktop software on the board?', opts: ['Yes, definitely', 'Maybe, as an option', 'No, Android is fine', 'Not sure'] },
+    { key: 'budget', q: 'What best describes the budget priority?', opts: ['Best performance available', 'Good balance of value and features', 'Most cost-effective option', 'Flexible / unsure'] },
+    { key: 'camera', q: 'Do you need a built-in camera or microphone for video calls or recording?', opts: ['Yes', 'No', 'Nice to have'] }
+  ];
+
+  /* ── DOM ── */
+  const msgsEl = document.getElementById('pMessages');
+  const inputEl = document.getElementById('pUserInput');
+  const sendBtn = document.getElementById('pSendBtn');
+
+  function pNow() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+  function pScroll() { setTimeout(() => msgsEl.scrollTop = msgsEl.scrollHeight, 50); }
+
+  function pAddBubble(role, text) {
+    const wrap = document.createElement('div');
+    wrap.className = `p-bubble ${role === 'user' ? 'user' : 'ai'}`;
+    const t = document.createElement('div');
+    t.className = 'p-bubble-text';
+    t.textContent = text;
+    const time = document.createElement('div');
+    time.className = 'p-bubble-time';
+    time.textContent = pNow();
+    wrap.appendChild(t); wrap.appendChild(time);
+    msgsEl.appendChild(wrap);
+    pScroll();
+    return wrap;
+  }
+
+  function pAddTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'p-bubble ai'; wrap.id = 'p-typing';
+    const t = document.createElement('div');
+    t.className = 'p-typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    wrap.appendChild(t); msgsEl.appendChild(wrap); pScroll();
+  }
+
+  function pRemoveTyping() { const el = document.getElementById('p-typing'); if (el) el.remove(); }
+
+  function pAddQuickReplies(opts, onSelect) {
+    const chips = document.createElement('div');
+    chips.className = 'p-quick-replies';
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'p-qr-chip'; btn.textContent = opt;
+      btn.onclick = () => { chips.remove(); onSelect(opt); };
+      chips.appendChild(btn);
+    });
+    msgsEl.appendChild(chips); pScroll();
+  }
+
+  function pAddQuizCard(step, onAnswer) {
+    const card = document.createElement('div');
+    card.className = 'p-quiz-card';
+    const q = document.createElement('div');
+    q.className = 'p-quiz-q'; q.textContent = step.q;
+    const opts = document.createElement('div');
+    opts.className = 'p-quiz-options';
+    step.opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'p-quiz-opt'; btn.textContent = opt;
+      btn.onclick = () => {
+        card.querySelectorAll('.p-quiz-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        setTimeout(() => { card.remove(); onAnswer(opt); }, 300);
+      };
+      opts.appendChild(btn);
+    });
+    card.appendChild(q); card.appendChild(opts);
+    msgsEl.appendChild(card); pScroll();
+  }
+
+  function pAddRecCard(product, reason) {
+    const card = document.createElement('div');
+    card.className = 'p-rec-card';
+    card.innerHTML = `
+      <div class="p-rec-label">Recommended for you</div>
+      <div class="p-rec-title">${product}</div>
+      <div class="p-rec-desc">${reason}</div>
+      <div class="p-rec-actions">
+        <a class="p-rec-btn-primary" href="store.html">View in Store →</a>
+        <button class="p-rec-btn-ghost" onclick="document.getElementById('pUserInput').focus()">Ask a question</button>
+      </div>`;
+    msgsEl.appendChild(card); pScroll();
+  }
+
+  /* ── Claude API call via Supabase ── */
+  async function pAskClaude(userMessage) {
+    pHistory.push({ role: 'user', content: userMessage });
+    pAddTyping();
+    sendBtn.disabled = true;
+    pLoading = true;
+
+    try {
+      const res = await fetch(FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: pHistory, system: SYSTEM_PROMPT })
+      });
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || "I had trouble responding. Please try again or contact Penthia directly.";
+      pHistory.push({ role: 'assistant', content: reply });
+      pRemoveTyping();
+      pAddBubble('ai', reply);
+    } catch (err) {
+      pRemoveTyping();
+      pAddBubble('ai', "I'm having connection trouble. Please try again, or reach out to Penthia using the contact form.");
+    }
+
+    sendBtn.disabled = false;
+    pLoading = false;
+  }
+
+  /* ── Quiz logic ── */
+  function pGetRecommendation() {
+    const { google, windows, budget, camera } = pQuizAnswers;
+    const wantsWindows = windows === 'Yes, definitely';
+    const wantsGoogle = google === 'Yes, heavily' || google === 'Somewhat / mixed';
+    const wantsBest = budget === 'Best performance available';
+    const wantsBudget = budget === 'Most cost-effective option';
+    const wantsCamera = camera === 'Yes' || camera === 'Nice to have';
+
+    if (wantsBudget && !wantsWindows) return {
+      product: 'Penthia Vertex Standard',
+      reason: "It covers the essentials — Android 14, 4K, 50-point touch — at the most accessible price point. A strong choice when budget is the top priority."
+    };
+    if (!wantsGoogle && !wantsWindows && !wantsBest) return {
+      product: 'Penthia QS3 Series',
+      reason: "Since you already have a Windows or Mac computer, the QS3 pairs with it to give you 4K touch and annotation without paying for a built-in Android system you wouldn't use."
+    };
+    if (wantsBest || (wantsGoogle && wantsCamera)) return {
+      product: 'Penthia Vertex Elite',
+      reason: `The flagship model — Android 15, RK3588, 16GB RAM — gives you the strongest performance in the lineup${wantsCamera ? ', plus support for the optional 48MP AI camera and microphone' : ''}. Built for schools that want the best.`
+    };
+    return {
+      product: 'Penthia Vertex Pro',
+      reason: `The recommended model for most schools. Android 14 with full Google Workspace support${wantsCamera ? ', optional camera/mic' : ''}${wantsWindows ? ', and optional Windows OPS' : ''} — strong balance of features and value.`
+    };
+  }
+
+  function pNextQuizStep() {
+    if (pQuizStep >= pQuizSteps.length) {
+      const { product, reason } = pGetRecommendation();
+      pAddBubble('ai', 'Based on your answers, here\'s my recommendation:');
+      pAddRecCard(product, reason);
+      pAddBubble('ai', 'Feel free to ask me anything else about this model or any other Penthia product.');
+      document.getElementById('pModeBtn').textContent = 'Find My Board';
+      pMode = 'chat';
+      return;
+    }
+    const step = pQuizSteps[pQuizStep];
+    if (pQuizStep === 0) pAddBubble('ai', `Let's find your ideal board. I'll ask ${pQuizSteps.length} quick questions. (${pQuizStep + 1}/${pQuizSteps.length})`);
+    pAddQuizCard(step, (answer) => {
+      pQuizAnswers[step.key] = answer;
+      pAddBubble('user', answer);
+      pQuizStep++;
+      setTimeout(pNextQuizStep, 400);
+    });
+  }
+
+  /* ── Mode switch ── */
+  window.pSwitchMode = function() {
+    const btn = document.getElementById('pModeBtn');
+    if (pMode === 'chat') {
+      pMode = 'quiz'; btn.textContent = 'Free Chat';
+      pQuizStep = 0; pQuizAnswers = {};
+      pNextQuizStep();
+    } else {
+      pMode = 'chat'; btn.textContent = 'Find My Board';
+      pAddBubble('ai', 'Switched to free chat. What would you like to know about Penthia products?');
+    }
+  };
+
+  /* ── Send message ── */
+  window.pSendMessage = function() {
+    const text = inputEl.value.trim();
+    if (!text || pLoading) return;
+    inputEl.value = ''; inputEl.style.height = 'auto';
+    pAddBubble('user', text);
+    pAskClaude(text);
+  };
+
+  /* ── Input events ── */
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); pSendMessage(); }
+  });
+  inputEl.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+  });
+
+  /* ── Launcher toggle ── */
+  document.getElementById('p-launcher').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.getElementById('p-widget').classList.toggle('open');
+  });
+
+  /* ── Initial greeting ── */
+  pAddBubble('ai', "Hi! I'm Penthia's AI assistant. I can answer questions about any Vertex model, or use \"Find My Board\" to get a personalized recommendation.");
+  pAddQuickReplies(
+    ["What's the difference between Pro and Elite?", "Do your boards support Google?", "Does it need Windows to work?"],
+    (q) => { pAddBubble('user', q); pAskClaude(q); }
+  );
+
+})();
+</script>
 </body>
 </html>
