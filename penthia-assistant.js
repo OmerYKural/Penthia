@@ -78,6 +78,11 @@ KEY FACTS:
 - Shipping nationwide. Installation arrangements available, contact Penthia for details.
 - Extended warranty available.
 
+WEBSITE CONTEXT:
+- When a user asks about highlighted website text, the message may include hidden page context, nearby section text, and a short website text map. Use that context as your source.
+- Never say you do not have access to the website when the user message includes website context. Explain the highlighted text using the provided page, section, and product information.
+- If the highlighted phrase has a typo or is shortened, infer the intended website phrase from the nearby context and say what it likely means.
+
 BEHAVIOR:
 - Be concise, warm, and helpful. 2-4 sentences for most answers.
 - Use bullet points and bold for spec comparisons.
@@ -258,8 +263,15 @@ function injectWidget() {
     /* Recommendation card */
     .p-rec-card {
       background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25);
-      border-radius:12px; padding:14px; margin-top:8px;
+      border-radius:12px; padding:12px; margin-top:8px;
+      display:grid; grid-template-columns:86px 1fr; gap:12px; align-items:center;
     }
+    .p-rec-media {
+      width:86px; height:70px; border-radius:10px; overflow:hidden;
+      background:#f5f5f2; border:1px solid rgba(255,255,255,0.08);
+      display:grid; place-items:center;
+    }
+    .p-rec-media img { width:100%; height:100%; object-fit:contain; padding:5px; }
     .p-rec-title { font-weight:800; color:#e2c27a; font-size:0.9rem; margin-bottom:4px; }
     .p-rec-desc { font-size:0.78rem; color:#9aa3bb; line-height:1.55; }
     .p-rec-link {
@@ -268,6 +280,7 @@ function injectWidget() {
       padding:6px 13px; border-radius:8px; text-decoration:none; transition:background 0.2s;
     }
     .p-rec-link:hover { background:#e2c27a; }
+    @media(max-width:480px){ .p-rec-card { grid-template-columns:74px 1fr; } .p-rec-media { width:74px; height:62px; } }
     @media(max-width:480px){
       #p-widget { width:calc(100vw - 24px); right:12px; bottom:84px; }
       #p-launcher { bottom:20px; right:20px; }
@@ -369,23 +382,24 @@ function formatMarkdown(text) {
 }
 
 /* ── SEND MESSAGE ── */
-async function sendPenthiaMessage(overrideText) {
+async function sendPenthiaMessage(overrideText, displayText) {
   if (isLoading) return;
   const input = document.getElementById('p-input');
   const text = overrideText || (input ? input.value.trim() : '');
+  const visibleText = displayText || text;
   if (!text) return;
   if (input) input.value = '';
 
   // Check for quiz trigger
-  if (text.toLowerCase().includes('find my board') || text.toLowerCase().includes('recommend')) {
-    appendMessage('user', text);
+  if (visibleText.toLowerCase().includes('find my board') || visibleText.toLowerCase().includes('recommend')) {
+    appendMessage('user', visibleText);
     chatHistory.push({ role: 'user', content: text });
     saveSession();
     startQuiz();
     return;
   }
 
-  appendMessage('user', text);
+  appendMessage('user', visibleText);
   chatHistory.push({ role: 'user', content: text });
   saveSession();
   showTyping();
@@ -474,11 +488,67 @@ function answerQuiz(i) {
 }
 window.answerQuiz = answerQuiz;
 
+const RECOMMENDATION_PRODUCTS = {
+  elite: {
+    id: 'pro-max',
+    label: 'Vertex Elite',
+    image: 'elite.png',
+    url: 'store.html?product=pro-max'
+  },
+  pro: {
+    id: 'pro',
+    label: 'Vertex Pro',
+    image: 'pro2.png',
+    url: 'store.html?product=pro'
+  },
+  standard: {
+    id: 'iboard',
+    label: 'Vertex Standard',
+    image: 'vertexstandard1.png',
+    url: 'store.html?product=iboard'
+  },
+  qs3: {
+    id: 'qs3',
+    label: 'QS3 Series',
+    image: 'qs31.png',
+    url: 'store.html?product=qs3'
+  }
+};
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function getRecommendationProduct(modelName, reasonText = '') {
+  const text = `${modelName || ''} ${reasonText || ''}`.toLowerCase();
+  if (text.includes('qs3') || text.includes('external')) return RECOMMENDATION_PRODUCTS.qs3;
+  if (text.includes('standard') || text.includes('budget') || text.includes('essential')) return RECOMMENDATION_PRODUCTS.standard;
+  if (text.includes('elite') || text.includes('flagship') || text.includes('highest') || text.includes('best performance')) return RECOMMENDATION_PRODUCTS.elite;
+  return RECOMMENDATION_PRODUCTS.pro;
+}
+
+function renderRecommendationCard(modelName, reasonText) {
+  const container = document.getElementById('p-messages');
+  if (!container) return;
+
+  const product = getRecommendationProduct(modelName, reasonText);
+  const card = document.createElement('div');
+  card.className = 'p-msg ai';
+  card.innerHTML = `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble"><div class="p-rec-card"><div class="p-rec-media"><img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.label)}"></div><div><div class="p-rec-title">⭐ Recommended: ${escapeHtml(product.label)}</div><div class="p-rec-desc">${escapeHtml(reasonText)}</div><a class="p-rec-link" href="${escapeHtml(product.url)}">View on Store →</a></div></div></div>`;
+  container.appendChild(card);
+  container.scrollTop = container.scrollHeight;
+}
+
 async function finishQuiz() {
   quizMode = false;
   showTyping();
   const prompt = `Based on these answers from a customer exploring Penthia boards, recommend the best model. Be specific and warm. Include a recommendation card at the end in this format:
-[RECOMMEND: ModelName | One-line reason | store-link]
+[RECOMMEND: ModelName | One-line reason]
 
 Customer answers:
 1. Use case: ${quizAnswers[0]}
@@ -502,25 +572,23 @@ Customer answers:
     hideTyping();
     let reply = data?.content?.[0]?.text || "Based on your needs, I'd recommend the Vertex Pro as a great starting point. Contact us to discuss your configuration!";
 
-    // Parse recommendation card
-    const recMatch = reply.match(/\[RECOMMEND:\s*([^|]+)\|\s*([^|]+)\|\s*([^\]]+)\]/);
+    // Parse recommendation card. The link is generated locally so it never points to a missing page.
+    const recMatch = reply.match(/\[RECOMMEND:\s*([^|\]]+)\|\s*([^|\]]+?)(?:\|\s*[^\]]+)?\s*\]/);
     if (recMatch) {
-      reply = reply.replace(recMatch[0], '');
-      appendMessage('ai', reply.trim());
-      const container = document.getElementById('p-messages');
-      const card = document.createElement('div');
-      card.className = 'p-msg ai';
-      card.innerHTML = `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble"><div class="p-rec-card"><div class="p-rec-title">⭐ Recommended: ${recMatch[1].trim()}</div><div class="p-rec-desc">${recMatch[2].trim()}</div><a class="p-rec-link" href="${recMatch[3].trim()}">View on Store →</a></div></div>`;
-      container.appendChild(card);
-      container.scrollTop = container.scrollHeight;
+      reply = reply.replace(recMatch[0], '').trim();
+      if (reply) appendMessage('ai', reply);
+      renderRecommendationCard(recMatch[1].trim(), recMatch[2].trim());
     } else {
       appendMessage('ai', reply);
+      renderRecommendationCard('Vertex Pro', 'A strong starting point for most classrooms and school deployments.');
     }
     chatHistory.push({ role: 'assistant', content: reply });
     saveSession();
   } catch(_) {
     hideTyping();
-    appendMessage('ai', "Based on your answers, the **Vertex Pro** is likely the best match for most needs. Contact us to confirm the right configuration!");
+    const fallback = "Based on your answers, the **Vertex Pro** is likely the best match for most needs. Contact us to confirm the right configuration!";
+    appendMessage('ai', fallback);
+    renderRecommendationCard('Vertex Pro', 'A balanced choice for most schools with Google-ready Android, 4K touch, and optional Windows OPS.');
   }
 }
 
@@ -597,7 +665,67 @@ document.addEventListener('pointerdown', (e) => {
   tip.classList.remove('show');
 });
 
-function askFromHighlight() {
+function cleanContextText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function limitContext(value, maxLength) {
+  const text = cleanContextText(value);
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength - 1).trim() + '…';
+}
+
+function getSelectionSectionContext() {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return { heading: '', sectionText: '' };
+
+  let node = sel.getRangeAt(0).commonAncestorContainer;
+  if (node && node.nodeType === Node.TEXT_NODE) node = node.parentElement;
+  if (!node || !node.closest) return { heading: '', sectionText: '' };
+
+  const section = node.closest('section, article, .section, .container, .hero, .store-header, .store-banner, .prod-card, .bento-card, .feature-card, .info-card, .faq-item, .compare-table-wrap, .contact-grid') || document.body;
+  const headingEl = section.querySelector('h1, h2, h3, .section-title, .prod-name, .bento-name, .faq-question h3, .image-panel-title');
+
+  return {
+    heading: cleanContextText(headingEl ? headingEl.textContent : ''),
+    sectionText: limitContext(section.innerText || section.textContent || '', 2400)
+  };
+}
+
+async function getWebsiteTextMap() {
+  const pages = [
+    { name: 'Home', url: 'index.html' },
+    { name: 'Store', url: 'store.html' },
+    { name: 'Compare', url: 'compare.html' },
+    { name: 'About', url: 'about.html' },
+    { name: 'Contact', url: 'contact.html' }
+  ];
+
+  const parts = [];
+  for (const page of pages) {
+    try {
+      const response = await fetch(page.url, { cache: 'no-store' });
+      if (!response.ok) continue;
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      doc.querySelectorAll('script, style, nav, footer, svg, .modal, #ai-popup-overlay, .mobile-nav').forEach(el => el.remove());
+      const text = limitContext(doc.body ? doc.body.textContent : '', 1800);
+      if (text) parts.push(`${page.name} page (${page.url}): ${text}`);
+    } catch(_) {}
+  }
+
+  return parts.join('\n\n');
+}
+
+async function buildHighlightPrompt(selectedText) {
+  const sectionContext = getSelectionSectionContext();
+  const siteMap = await getWebsiteTextMap();
+  const currentPageText = limitContext(document.body ? document.body.innerText : '', 2600);
+
+  return `A website visitor highlighted text on the Penthia Solutions website and asked for an explanation. Use the provided website context directly. Do not say you cannot access the website.\n\nHighlighted text:\n"${selectedText}"\n\nCurrent page:\nTitle: ${document.title}\nURL: ${window.location.href}\nNearest section heading: ${sectionContext.heading || 'Not detected'}\nNearest section text:\n${sectionContext.sectionText || 'Not detected'}\n\nVisible current page text excerpt:\n${currentPageText}\n\nWebsite text map from available pages:\n${siteMap}\n\nQuestion to answer:\nExplain what the highlighted text means in context and how it relates to Penthia's products.`;
+}
+
+async function askFromHighlight() {
   const tip = document.getElementById('p-highlight-tooltip');
   if (tip) tip.classList.remove('show');
 
@@ -608,10 +736,16 @@ function askFromHighlight() {
 
   if (!widgetOpen) togglePenthiaWidget();
 
-  setTimeout(() => {
-    sendPenthiaMessage(`I highlighted this text on your website: "${textToAsk}"\n\nCan you explain what it means and how it relates to Penthia's products?`);
+  const displayText = `I highlighted this text on your website: "${textToAsk}"
+
+Can you explain what it means and how it relates to Penthia's products?`;
+
+  setTimeout(async () => {
+    const prompt = await buildHighlightPrompt(textToAsk);
+    sendPenthiaMessage(prompt, displayText);
   }, 220);
 }
+
 window.askFromHighlight = askFromHighlight;
 
 /* ── INPUT HANDLERS ── */

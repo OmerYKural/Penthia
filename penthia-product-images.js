@@ -1,6 +1,7 @@
 /* ============================================================
    Penthia product image gallery patch
    Adds new product images first in the existing product modal.
+   Also supports store.html?product=... deep links.
    ============================================================ */
 
 (function () {
@@ -11,8 +12,27 @@
     'qs3': ['qs31.png']
   };
 
+  const PRODUCT_ALIASES = {
+    elite: 'pro-max',
+    'vertex-elite': 'pro-max',
+    'vertex_elite': 'pro-max',
+    'pro-max': 'pro-max',
+    promax: 'pro-max',
+    pro: 'pro',
+    'vertex-pro': 'pro',
+    'vertex_pro': 'pro',
+    standard: 'iboard',
+    'vertex-standard': 'iboard',
+    'vertex_standard': 'iboard',
+    iboard: 'iboard',
+    qs3: 'qs3',
+    'qs3-series': 'qs3',
+    'qs3_series': 'qs3'
+  };
+
   let activeModalImages = [];
   let activeModalIndex = 0;
+  let openedUrlProduct = false;
 
   function imageLabel(src) {
     return src
@@ -63,6 +83,24 @@
     });
 
     setMainImage();
+  }
+
+  function getProductIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('product') || params.get('model') || window.location.hash.replace(/^#/, '');
+    if (!raw) return '';
+    const key = raw.trim().toLowerCase();
+    return PRODUCT_ALIASES[key] || key;
+  }
+
+  function openProductFromUrl() {
+    if (openedUrlProduct || typeof window.openProduct !== 'function') return;
+    const productId = getProductIdFromUrl();
+    if (!productId) return;
+    if (!NEW_PRODUCT_IMAGES[productId] && !['pro-max', 'pro', 'iboard', 'qs3'].includes(productId)) return;
+
+    openedUrlProduct = true;
+    setTimeout(() => window.openProduct(productId), 120);
   }
 
   function patchOpenProduct() {
@@ -122,6 +160,7 @@
     }
 
     patchChangeImage();
+    openProductFromUrl();
   }
 
   initProductImagePatch();

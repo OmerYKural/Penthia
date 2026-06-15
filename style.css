@@ -212,6 +212,7 @@ body::after {
 @keyframes cardFloat { 0%,100%{transform:translateY(0) rotate(0.5deg)} 50%{transform:translateY(-14px) rotate(-0.5deg)} }
 .hero-card-top { position: relative; background: linear-gradient(135deg, var(--ink-3) 0%, var(--ink-2) 100%); }
 .hero-card-top img { width: 100%; height: 280px; object-fit: contain; padding: 32px; }
+.hero-card-top img.hero-home-product-img { height: 380px; padding: 14px; }
 .hero-card-tag {
   position: absolute; top: 16px; right: 16px;
   background: var(--gold); color: var(--ink);
