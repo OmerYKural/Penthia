@@ -28,32 +28,34 @@
   <!-- AI POPUP -->
   <div id="ai-popup-overlay">
     <div id="ai-popup">
-      <button class="popup-close" onclick="closePopup()">✕</button>
+      <button class="popup-close" onclick="closePopup()" aria-label="Close">✕</button>
       <div class="popup-glow"></div>
-      <div class="popup-icon">✦</div>
-      <div class="popup-badge"><span class="popup-dot"></span>New Feature</div>
-      <h2 class="popup-title">Meet your <span class="accent">AI guide.</span></h2>
-      <p class="popup-desc">Penthia AI is built into our website. Ask it anything about our boards, get instant spec comparisons, or let it recommend the perfect model for your school.</p>
+      <div class="popup-topline">Penthia AI is live</div>
+      <h2 class="popup-title">A faster way to understand <span class="accent">our boards.</span></h2>
+      <p class="popup-desc">Ask questions, compare models, or get help choosing the right Vertex display without digging through every page.</p>
+      <div class="popup-inline-note">
+        <strong>New:</strong> highlight any text on the website, then click “Ask Penthia AI” to ask about that exact section.
+      </div>
       <div class="popup-features">
         <div class="popup-feature">
-          <div class="popup-feature-icon">💬</div>
-          <div class="popup-feature-title">Instant Answers</div>
-          <div class="popup-feature-desc">Specs, pricing info, Google support — ask anything.</div>
+          <div class="popup-feature-icon">1</div>
+          <div class="popup-feature-title">Ask naturally</div>
+          <div class="popup-feature-desc">Specs, Google support, sizes, configurations, and product fit.</div>
         </div>
         <div class="popup-feature">
-          <div class="popup-feature-icon">🎯</div>
-          <div class="popup-feature-title">Find My Board</div>
-          <div class="popup-feature-desc">5 questions. One perfect recommendation.</div>
+          <div class="popup-feature-icon">2</div>
+          <div class="popup-feature-title">Find your model</div>
+          <div class="popup-feature-desc">Answer a few questions and get a guided recommendation.</div>
         </div>
         <div class="popup-feature">
-          <div class="popup-feature-icon">🔍</div>
-          <div class="popup-feature-title">Highlight to Ask</div>
-          <div class="popup-feature-desc">Select any text on site to ask the AI about it.</div>
+          <div class="popup-feature-icon">3</div>
+          <div class="popup-feature-title">Highlight to ask</div>
+          <div class="popup-feature-desc">Select page text and ask the assistant to explain it instantly.</div>
         </div>
         <div class="popup-feature">
-          <div class="popup-feature-icon">🔗</div>
-          <div class="popup-feature-title">Stays With You</div>
-          <div class="popup-feature-desc">Chat persists as you browse every page.</div>
+          <div class="popup-feature-icon">4</div>
+          <div class="popup-feature-title">Keep browsing</div>
+          <div class="popup-feature-desc">Your chat stays available while you move between pages.</div>
         </div>
       </div>
       <div class="popup-actions">
@@ -372,11 +374,11 @@
     function openAIFromPopup() {
       closePopup();
       setTimeout(() => {
-        const launcher = document.getElementById('p-launcher');
-        const widget = document.getElementById('p-widget');
-        if (launcher && widget) {
-          launcher.classList.add('open');
-          widget.classList.add('open');
+        if (typeof togglePenthiaWidget === 'function') {
+          const widget = document.getElementById('p-widget');
+          if (!widget || !widget.classList.contains('open')) {
+            togglePenthiaWidget();
+          }
         }
       }, 350);
     }

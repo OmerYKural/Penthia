@@ -119,6 +119,7 @@ let quizMode = false;
 let quizStep = 0;
 let quizAnswers = [];
 const SESSION_KEY = 'penthia_chat_v2';
+const OPEN_KEY = 'penthia_widget_open_v2';
 
 /* ── RESTORE SESSION ── */
 try {
@@ -247,7 +248,7 @@ function injectWidget() {
     .p-quiz-opt:hover { border-color:rgba(201,168,76,0.3); background:rgba(201,168,76,0.06); color:#e2c27a; }
     /* Highlight tooltip */
     #p-highlight-tooltip {
-      position:fixed; z-index:6999; background:#c9a84c; color:#080a0f;
+      position:fixed; z-index:7600; background:#c9a84c; color:#080a0f;
       font:700 0.72rem 'Inter',sans-serif; padding:6px 12px; border-radius:99px;
       cursor:pointer; white-space:nowrap; box-shadow:0 4px 16px rgba(201,168,76,0.4);
       opacity:0; pointer-events:none; transition:opacity 0.2s;
@@ -316,6 +317,7 @@ function togglePenthiaWidget() {
   widgetOpen = !widgetOpen;
   document.getElementById('p-launcher').classList.toggle('open', widgetOpen);
   document.getElementById('p-widget').classList.toggle('open', widgetOpen);
+  try { sessionStorage.setItem(OPEN_KEY, widgetOpen ? '1' : '0'); } catch(_) {}
   if (widgetOpen) {
     if (chatHistory.length === 0) showWelcome();
     else renderHistory();
@@ -531,40 +533,84 @@ function saveSession() {
 
 /* ── HIGHLIGHT TO ASK ── */
 let highlightedText = '';
-const tooltip = null;
+let highlightTimer = null;
 
-document.addEventListener('mouseup', (e) => {
-  setTimeout(() => {
-    const sel = window.getSelection();
-    const text = sel ? sel.toString().trim() : '';
-    const tip = document.getElementById('p-highlight-tooltip');
-    if (!tip) return;
-    if (text && text.length > 10 && text.length < 400) {
-      highlightedText = text;
-      const range = sel.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      tip.style.left = (rect.left + rect.width / 2 - 70) + 'px';
-      tip.style.top = (rect.top - 44 + window.scrollY) + 'px';
-      tip.classList.add('show');
-    } else {
-      tip.classList.remove('show');
-    }
-  }, 10);
+function getSelectedText() {
+  const sel = window.getSelection();
+  return sel ? sel.toString().trim().replace(/\s+/g, ' ') : '';
+}
+
+function showHighlightTooltip() {
+  const tip = document.getElementById('p-highlight-tooltip');
+  const sel = window.getSelection();
+  if (!tip || !sel || sel.rangeCount === 0) return;
+
+  const text = getSelectedText();
+
+  if (!text || text.length < 8 || text.length > 500) {
+    tip.classList.remove('show');
+    return;
+  }
+
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+
+  if (!rect || (rect.width === 0 && rect.height === 0)) {
+    tip.classList.remove('show');
+    return;
+  }
+
+  highlightedText = text;
+
+  const tooltipWidth = 148;
+  const left = Math.max(12, Math.min(window.innerWidth - tooltipWidth - 12, rect.left + rect.width / 2 - tooltipWidth / 2));
+  const top = Math.max(12, rect.top - 42);
+
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+  tip.classList.add('show');
+}
+
+document.addEventListener('selectionchange', () => {
+  clearTimeout(highlightTimer);
+  highlightTimer = setTimeout(showHighlightTooltip, 160);
 });
 
-document.addEventListener('mousedown', (e) => {
+document.addEventListener('mouseup', () => {
+  clearTimeout(highlightTimer);
+  highlightTimer = setTimeout(showHighlightTooltip, 80);
+});
+
+document.addEventListener('touchend', () => {
+  clearTimeout(highlightTimer);
+  highlightTimer = setTimeout(showHighlightTooltip, 220);
+});
+
+document.addEventListener('pointerdown', (e) => {
   const tip = document.getElementById('p-highlight-tooltip');
-  if (tip && e.target !== tip) tip.classList.remove('show');
+  if (!tip) return;
+
+  if (e.target === tip || tip.contains(e.target)) return;
+
+  if (e.target.closest && e.target.closest('#p-widget, #p-launcher')) return;
+
+  tip.classList.remove('show');
 });
 
 function askFromHighlight() {
   const tip = document.getElementById('p-highlight-tooltip');
   if (tip) tip.classList.remove('show');
-  if (!highlightedText) return;
+
+  const textToAsk = highlightedText || getSelectedText();
+  if (!textToAsk) return;
+
+  highlightedText = textToAsk;
+
   if (!widgetOpen) togglePenthiaWidget();
+
   setTimeout(() => {
-    sendPenthiaMessage(`I highlighted this text on your website: "${highlightedText}" — can you tell me more about this?`);
-  }, 300);
+    sendPenthiaMessage(`I highlighted this text on your website: "${textToAsk}"\n\nCan you explain what it means and how it relates to Penthia's products?`);
+  }, 220);
 }
 window.askFromHighlight = askFromHighlight;
 
@@ -591,6 +637,12 @@ function initInputHandlers() {
 document.addEventListener('DOMContentLoaded', () => {
   injectWidget();
   initInputHandlers();
+
+  try {
+    if (sessionStorage.getItem(OPEN_KEY) === '1') {
+      togglePenthiaWidget();
+    }
+  } catch(_) {}
 
   // Add scroll reveal
   const observer = new IntersectionObserver((entries) => {
