@@ -185,8 +185,9 @@ function injectWidget() {
       width:38px; height:38px; border-radius:10px;
       background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.25);
       display:flex; align-items:center; justify-content:center;
-      color:#c9a84c; font-size:1rem; flex-shrink:0;
+      color:#c9a84c; font-size:1rem; flex-shrink:0; overflow:hidden;
     }
+    #p-header-icon img { width:100%; height:100%; object-fit:cover; display:block; }
     #p-header-text { flex:1; }
     #p-header-title { font-size:0.88rem; font-weight:700; color:#f0eeea; font-family:'Inter',sans-serif; }
     #p-header-status { font-size:0.7rem; color:#5a6480; display:flex; align-items:center; gap:5px; margin-top:2px; }
@@ -214,8 +215,9 @@ function injectWidget() {
       width:28px; height:28px; border-radius:8px; flex-shrink:0; margin-top:2px;
       background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.2);
       display:flex; align-items:center; justify-content:center;
-      color:#c9a84c; font-size:0.7rem;
+      color:#c9a84c; font-size:0.7rem; overflow:hidden;
     }
+    .p-msg-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .p-typing { display:flex; gap:4px; align-items:center; padding:12px 14px; }
     .p-typing span { width:6px; height:6px; background:#5a6480; border-radius:50%; animation:pDot 1.2s infinite; }
     .p-typing span:nth-child(2) { animation-delay:0.2s; }
@@ -290,9 +292,32 @@ function injectWidget() {
     }
     .p-rec-link:hover { background:#e2c27a; }
     @media(max-width:480px){ .p-rec-card { grid-template-columns:74px 1fr; } .p-rec-media { width:74px; height:62px; } }
-    @media(max-width:480px){
-      #p-widget { width:calc(100vw - 24px); right:12px; bottom:84px; }
-      #p-launcher { bottom:20px; right:20px; }
+
+    /* Mobile: bottom nav bar is 62px tall + safe-area-inset.
+       All floating elements (launcher, widget, reopen chip, intro banner)
+       must clear it with margin, or buttons underneath become unreachable. */
+    @media (max-width: 760px) {
+      #p-launcher {
+        bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 14px);
+        right: 16px;
+        width: 50px; height: 50px;
+      }
+      #p-widget {
+        width: calc(100vw - 24px);
+        right: 12px;
+        left: 12px;
+        bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 72px);
+        max-height: min(70vh, 560px);
+      }
+    }
+    @media (max-width: 480px) {
+      #p-widget {
+        bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 66px);
+      }
+      #p-launcher {
+        bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 12px);
+        right: 14px;
+      }
     }
   `;
 
@@ -309,7 +334,7 @@ function injectWidget() {
 
     <div id="p-widget" role="dialog" aria-label="Penthia AI Assistant">
       <div id="p-header">
-        <div id="p-header-icon">✦</div>
+        <div id="p-header-icon"><img src="favicon.png" alt="Penthia AI" /></div>
         <div id="p-header-text">
           <div id="p-header-title">Penthia AI</div>
           <div id="p-header-status"><span class="p-status-dot"></span>Online · Ready to help</div>
@@ -372,10 +397,29 @@ function appendMessage(role, text, scroll = true) {
   div.className = `p-msg ${role}`;
   const formatted = formatMarkdown(text);
   div.innerHTML = role === 'ai'
-    ? `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble">${formatted}</div>`
+    ? `<div class="p-msg-avatar"><img src="favicon.png" alt="Penthia AI" /></div><div class="p-msg-bubble">${formatted}</div>`
     : `<div class="p-msg-bubble">${formatted}</div>`;
   container.appendChild(div);
-  if (scroll) container.scrollTop = container.scrollHeight;
+  if (scroll) scrollToMessage(container, div, role);
+}
+
+/**
+ * Scrolls so the person starts reading a new message from its first line,
+ * not its last. For the person's own messages (and the typing indicator)
+ * we still want the familiar "snap to bottom" behavior. For an AI reply —
+ * which can be long — landing on the bottom of the container means the
+ * person has to scroll back up to read from the start, so instead we
+ * scroll just enough to bring the top of that new bubble into view.
+ */
+function scrollToMessage(container, messageEl, role) {
+  if (role === 'ai') {
+    // messageEl.offsetTop is relative to the container since #p-messages
+    // is itself the scrolling element and the direct parent of each message.
+    const targetTop = messageEl.offsetTop - 8;
+    container.scrollTop = Math.max(0, targetTop);
+  } else {
+    container.scrollTop = container.scrollHeight;
+  }
 }
 
 /* ── FORMAT MARKDOWN ── */
@@ -454,7 +498,7 @@ function showTyping() {
   if (!container) return;
   const div = document.createElement('div');
   div.className = 'p-msg ai'; div.id = 'p-typing-indicator';
-  div.innerHTML = `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble"><div class="p-typing"><span></span><span></span><span></span></div></div>`;
+  div.innerHTML = `<div class="p-msg-avatar"><img src="favicon.png" alt="Penthia AI" /></div><div class="p-msg-bubble"><div class="p-typing"><span></span><span></span><span></span></div></div>`;
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
@@ -481,7 +525,7 @@ function showQuizQuestion() {
   const opts = q.opts.map((o, i) =>
     `<button class="p-quiz-opt" onclick="answerQuiz(${i})">${o}</button>`
   ).join('');
-  div.innerHTML = `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble"><strong>Q${quizStep+1}/${QUIZ_QUESTIONS.length}:</strong> ${q.q}<div class="p-quiz-opts">${opts}</div></div>`;
+  div.innerHTML = `<div class="p-msg-avatar"><img src="favicon.png" alt="Penthia AI" /></div><div class="p-msg-bubble"><strong>Q${quizStep+1}/${QUIZ_QUESTIONS.length}:</strong> ${q.q}<div class="p-quiz-opts">${opts}</div></div>`;
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
@@ -541,6 +585,10 @@ function getRecommendationProduct(modelName, reasonText = '') {
   return RECOMMENDATION_PRODUCTS.pro;
 }
 
+window.PENTHIA_RECOMMENDATION_PRODUCTS = RECOMMENDATION_PRODUCTS;
+window.getRecommendationProduct = getRecommendationProduct;
+window.escapeHtml = escapeHtml;
+
 function renderRecommendationCard(modelName, reasonText) {
   const container = document.getElementById('p-messages');
   if (!container) return;
@@ -548,9 +596,9 @@ function renderRecommendationCard(modelName, reasonText) {
   const product = getRecommendationProduct(modelName, reasonText);
   const card = document.createElement('div');
   card.className = 'p-msg ai';
-  card.innerHTML = `<div class="p-msg-avatar">✦</div><div class="p-msg-bubble"><div class="p-rec-card"><div class="p-rec-media"><img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.label)}"></div><div><div class="p-rec-title">⭐ Recommended: ${escapeHtml(product.label)}</div><div class="p-rec-desc">${escapeHtml(reasonText)}</div><a class="p-rec-link" href="${escapeHtml(product.url)}">View on Store →</a></div></div></div>`;
+  card.innerHTML = `<div class="p-msg-avatar"><img src="favicon.png" alt="Penthia AI" /></div><div class="p-msg-bubble"><div class="p-rec-card"><div class="p-rec-media"><img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.label)}"></div><div><div class="p-rec-title">⭐ Recommended: ${escapeHtml(product.label)}</div><div class="p-rec-desc">${escapeHtml(reasonText)}</div><a class="p-rec-link" href="${escapeHtml(product.url)}">View on Store →</a></div></div></div>`;
   container.appendChild(card);
-  container.scrollTop = container.scrollHeight;
+  scrollToMessage(container, card, 'ai');
 }
 
 async function finishQuiz() {

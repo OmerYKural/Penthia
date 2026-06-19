@@ -265,11 +265,12 @@ body::after {
 }
 .bento-card:hover { border-color: var(--gold-border); transform: translateY(-5px); box-shadow: 0 32px 64px rgba(0,0,0,0.5); }
 .bento-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
-.bento-img-wrap { background: linear-gradient(135deg, var(--ink-3) 0%, var(--ink-2) 100%); }
+.bento-img-wrap { background: linear-gradient(135deg, var(--ink-3) 0%, var(--ink-2) 100%); display: flex; align-items: center; }
 .bento-img { width: 100%; height: 220px; object-fit: contain; padding: 24px; transition: transform 0.4s; }
 .bento-card:hover .bento-img { transform: scale(1.04); }
 .bento-featured-img { width: 100%; height: 100%; min-height: 280px; object-fit: contain; padding: 32px; }
-.bento-body { padding: 26px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+.bento-body { padding: 26px 28px 28px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.bento-card.featured .bento-body { justify-content: center; gap: 2px; }
 .bento-tag {
   display: inline-block; background: var(--gold); color: var(--ink);
   font-size: 0.63rem; font-weight: 800; letter-spacing: 0.12em;
@@ -277,6 +278,10 @@ body::after {
 }
 .bento-name { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.1; }
 .bento-desc { font-size: 0.87rem; line-height: 1.75; color: var(--muted-2); margin-bottom: 20px; flex: 1; }
+.bento-mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+.bento-mini-stat { background: var(--ink-3); padding: 12px 8px; text-align: center; }
+.bento-mini-stat-num { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: var(--gold-2); line-height: 1; margin-bottom: 3px; }
+.bento-mini-stat-label { font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .bento-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
 .bento-spec { background: var(--ink-4); border: 1px solid var(--line-2); color: var(--muted-3); font-size: 0.71rem; font-weight: 600; padding: 4px 9px; border-radius: 6px; }
 .bento-cta {
@@ -481,11 +486,16 @@ body::after {
    FIRST-VISIT QUIZ POPUP
    Pops up automatically, asks questions like a guided survey,
    always offers a clear "skip" path.
+   CRITICAL: hidden by default. JS is solely responsible for
+   ever showing this — it must never appear from CSS/markup alone.
    ============================================================ */
 #quiz-popup-overlay {
   position: fixed; inset: 0; z-index: 8000;
   background: rgba(4,6,10,0.86);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+#quiz-popup-overlay.qp-visible {
+  display: flex;
   animation: fadeInOverlay 0.3s ease;
 }
 @keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
@@ -557,8 +567,16 @@ body::after {
   width: 56px; height: 56px; border-radius: 14px;
   background: var(--gold-pale2); border: 1px solid var(--gold-border);
   display: grid; place-items: center; color: var(--gold);
-  margin-bottom: 18px; font-size: 1.4rem;
+  margin-bottom: 18px; font-size: 1.4rem; overflow: hidden;
 }
+.qp-result-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.qp-result-media {
+  width: 100%; height: 160px; border-radius: 14px; overflow: hidden;
+  background: linear-gradient(135deg, var(--ink-3), var(--ink-4));
+  border: 1px solid var(--line-2); margin-bottom: 18px;
+  display: grid; place-items: center;
+}
+.qp-result-media img { width: 100%; height: 100%; object-fit: contain; padding: 14px; }
 .qp-result-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 12px; line-height: 1.2; }
 .qp-result-title .accent { color: var(--gold-2); }
 .qp-result-desc { font-size: 0.9rem; line-height: 1.75; color: var(--muted-2); margin-bottom: 22px; }
@@ -576,24 +594,117 @@ body::after {
 }
 .qp-result-secondary:hover { color: var(--gold-2); }
 
+/* Loading state while AI deliberates */
+.qp-thinking { display: flex; align-items: center; gap: 10px; padding: 8px 0 4px; }
+.qp-thinking-dots { display: flex; gap: 4px; }
+.qp-thinking-dots span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: qpDot 1.2s infinite; }
+.qp-thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.qp-thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes qpDot { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+.qp-thinking-text { font-size: 0.85rem; color: var(--muted-2); }
+
+/* Optional extra-info field — intentionally tiny and unobtrusive */
+.qp-extra-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.71rem; color: var(--muted); background: none; border: none;
+  cursor: pointer; font-family: var(--font-body); padding: 4px 0;
+  margin-bottom: 14px; transition: color 0.2s;
+}
+.qp-extra-toggle:hover { color: var(--muted-2); }
+.qp-extra-toggle svg { transition: transform 0.2s; flex-shrink: 0; }
+.qp-extra-toggle.open svg { transform: rotate(90deg); }
+.qp-extra-wrap { max-height: 0; overflow: hidden; transition: max-height 0.25s var(--ease-smooth); }
+.qp-extra-wrap.open { max-height: 80px; }
+.qp-extra-input {
+  width: 100%; background: var(--ink-3); border: 1px solid var(--line-2);
+  border-radius: 8px; padding: 8px 11px; color: var(--white);
+  font: 400 0.78rem var(--font-body); outline: none; resize: none;
+  margin-bottom: 14px; transition: border-color 0.2s;
+}
+.qp-extra-input:focus { border-color: var(--gold-border); }
+.qp-extra-input::placeholder { color: var(--muted); font-size: 0.76rem; }
+
 /* Floating re-open chip (always-visible option, no auto popup needed) */
 #qp-reopen-chip {
-  position: fixed; bottom: 100px; right: 28px; z-index: 6800;
+  position: fixed; bottom: 100px; right: 28px; z-index: 6500;
   background: var(--ink-2); border: 1px solid var(--gold-border);
   color: var(--gold-2); font-size: 0.76rem; font-weight: 700;
   padding: 9px 16px; border-radius: 99px; cursor: pointer;
   box-shadow: 0 12px 32px rgba(0,0,0,0.5);
   display: none; align-items: center; gap: 7px;
   font-family: var(--font-body); transition: transform 0.2s, border-color 0.2s;
-  animation: fadeIn 0.4s ease;
 }
 #qp-reopen-chip:hover { transform: translateY(-2px); border-color: var(--gold); }
-#qp-reopen-chip.show { display: flex; }
+#qp-reopen-chip.show { display: flex; animation: fadeIn 0.4s ease; }
 
+@media (max-width: 760px) {
+  #qp-reopen-chip {
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 76px);
+    right: 16px;
+  }
+}
 @media (max-width: 480px) {
-  #quiz-popup { padding: 28px 22px; max-width: 100%; }
-  .qp-question { font-size: 1.3rem; }
-  #qp-reopen-chip { bottom: 90px; right: 16px; }
+  #quiz-popup { padding: 26px 20px; max-width: 100%; }
+  .qp-question { font-size: 1.22rem; }
+  #qp-reopen-chip {
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 70px);
+    right: 14px; font-size: 0.72rem; padding: 8px 14px;
+  }
+}
+
+/* ============================================================
+   AI INTRO BANNER — "Penthia AI is here"
+   A separate, persistent introduction to the chat assistant.
+   Distinct from the quiz popup; coexists with it.
+   ============================================================ */
+#ai-intro-banner {
+  position: fixed; bottom: 100px; right: 28px; z-index: 6600;
+  background: var(--ink-2); border: 1px solid var(--gold-border);
+  border-radius: 16px; padding: 16px 18px 16px 16px;
+  box-shadow: 0 24px 56px rgba(0,0,0,0.55);
+  max-width: 280px;
+  display: none; gap: 12px; align-items: flex-start;
+  font-family: var(--font-body);
+}
+#ai-intro-banner.show { display: flex; animation: fadeUp 0.4s var(--ease-smooth); }
+.ai-intro-icon {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  overflow: hidden; border: 1px solid var(--gold-border); margin-top: 1px;
+}
+.ai-intro-icon img { width: 100%; height: 100%; object-fit: cover; }
+.ai-intro-body { flex: 1; }
+.ai-intro-title { font-size: 0.82rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.ai-intro-text { font-size: 0.76rem; line-height: 1.55; color: var(--muted-2); margin-bottom: 10px; }
+.ai-intro-actions { display: flex; gap: 10px; align-items: center; }
+.ai-intro-try {
+  font-size: 0.74rem; font-weight: 700; color: var(--gold-2); background: none;
+  border: none; cursor: pointer; padding: 0; font-family: var(--font-body); transition: color 0.2s;
+}
+.ai-intro-try:hover { color: var(--gold-3); }
+.ai-intro-dismiss {
+  font-size: 0.74rem; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 0; font-family: var(--font-body); transition: color 0.2s;
+}
+.ai-intro-dismiss:hover { color: var(--muted-2); }
+.ai-intro-close {
+  position: absolute; top: 8px; right: 8px;
+  width: 20px; height: 20px; border-radius: 5px;
+  background: var(--ink-3); border: none; color: var(--muted);
+  display: grid; place-items: center; cursor: pointer; font-size: 0.7rem;
+  transition: color 0.2s;
+}
+.ai-intro-close:hover { color: var(--gold-2); }
+
+@media (max-width: 760px) {
+  #ai-intro-banner {
+    right: 12px; left: 12px; max-width: none;
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 130px);
+  }
+}
+@media (max-width: 480px) {
+  #ai-intro-banner {
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 124px);
+  }
 }
 
 /* Footer */
@@ -659,13 +770,20 @@ footer { background: var(--ink-2); border-top: 1px solid var(--line-2); padding:
   .nav { padding: 0 16px; }
   .nav-links, .nav-search-wrap { display: none; }
   .nav-cta { display: none; }
-  .section { padding: 72px 0; }
-  .hero { padding: 48px 20px; }
-  .hero-title { font-size: clamp(2.4rem, 8.5vw, 3.4rem); }
-  .hero-stats-row { flex-direction: row; gap: 24px; flex-wrap: wrap; }
+  .section { padding: 60px 0; }
+  .hero { padding: 40px 20px; }
+  .hero-title { font-size: clamp(2.2rem, 8.5vw, 3.2rem); }
+  .hero-sub { font-size: 0.98rem; }
+  .hero-actions { width: 100%; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { flex: 1; justify-content: center; white-space: nowrap; }
+  .hero-stats-row { flex-direction: row; gap: 20px; flex-wrap: wrap; }
+  .hero-product-card { max-width: 360px; margin: 0 auto; }
   .feature-grid { grid-template-columns: 1fr; }
+  .bento-mini-stats { grid-template-columns: repeat(3, 1fr); }
+  .bento-mini-stat-num { font-size: 1.1rem; }
   .about-features { grid-template-columns: 1fr; }
   .about-stats { grid-template-columns: 1fr 1fr; }
+  .about-hero-img img { height: 280px; }
   .info-grid { grid-template-columns: 1fr; }
   .product-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
@@ -675,9 +793,31 @@ footer { background: var(--ink-2); border-top: 1px solid var(--line-2); padding:
   .footer-social { justify-content: center; }
   .mobile-nav { display: block; }
   .page-wrap { padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px)); }
-  .compare-cta { flex-direction: column; }
-  .store-banner-content { left: 20px; max-width: 240px; }
+  .compare-cta { flex-direction: column; align-items: stretch; }
+  .compare-cta-actions { flex-direction: column; }
+  .compare-cta-actions a { text-align: center; justify-content: center; }
+  .store-banner { height: auto; }
+  .store-banner img { height: 280px; object-position: center 20%; }
+  .store-banner-content { left: 20px; right: 20px; max-width: none; top: auto; bottom: 20px; transform: none; }
   .store-banner-content p { display: none; }
+  .store-banner-content h3 { font-size: 1.5rem; }
+  .modal-panel { border-radius: 16px; }
+  .gallery-main-wrap { min-height: 260px; }
+  .gallery-main-img { max-height: 260px; }
+  .modal-buybox { border-top: 1px solid var(--line); }
+  .buybox-actions { flex-direction: column; }
+  .page-stat-row { width: 100%; }
+  .page-stat { flex: 1; padding: 14px 12px; }
+  .contact-info-item { align-items: center; }
+  .form-box { padding: 24px; }
+  .section-title { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+}
+@media (max-width: 420px) {
+  .container { width: calc(100% - 32px); }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn-primary, .hero-actions .btn-ghost { width: 100%; }
+  .about-stats, .bento-mini-stats { grid-template-columns: 1fr 1fr 1fr; }
+  .compare-table th, .compare-table td { padding: 12px 14px; font-size: 0.78rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

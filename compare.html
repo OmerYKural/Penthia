@@ -124,7 +124,22 @@
     </div>
   </nav>
 
+  <!-- PENTHIA AI INTRO BANNER -->
+  <div id="ai-intro-banner">
+    <button class="ai-intro-close" aria-label="Dismiss" onclick="AIIntro.dismiss()">✕</button>
+    <div class="ai-intro-icon"><img src="favicon.png" alt="Penthia AI" /></div>
+    <div class="ai-intro-body">
+      <div class="ai-intro-title">Penthia AI is here!</div>
+      <div class="ai-intro-text">Ask about specs, pricing, or get a recommendation — anytime, on any page.</div>
+      <div class="ai-intro-actions">
+        <button class="ai-intro-try" onclick="AIIntro.openChat()">Say hi →</button>
+        <button class="ai-intro-dismiss" onclick="AIIntro.dismiss()">Not now</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script src="penthia-assistant.js"></script>
+  <script src="penthia-ai-intro.js"></script>
 </body>
 </html>

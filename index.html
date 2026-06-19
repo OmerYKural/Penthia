@@ -144,7 +144,12 @@
             <div class="bento-body">
               <span class="bento-tag">Elite — Flagship</span>
               <div class="bento-name">Penthia Vertex Elite</div>
-              <p class="bento-desc">The most powerful board in the lineup. RK3588 chip, Android 15, 16GB RAM, full Google Play Store support, and the option to add a 48MP AI camera for hybrid classrooms.</p>
+              <p class="bento-desc">The most powerful board in the lineup. Built on the RK3588 chip with Android 15 and 16GB of RAM, the Elite gives schools the strongest performance in the Vertex family — full Google Play Store support, 50-point touch, and the option to add a 48MP AI camera for hybrid classrooms.</p>
+              <div class="bento-mini-stats">
+                <div class="bento-mini-stat"><div class="bento-mini-stat-num">16GB</div><div class="bento-mini-stat-label">RAM</div></div>
+                <div class="bento-mini-stat"><div class="bento-mini-stat-num">256GB</div><div class="bento-mini-stat-label">Storage</div></div>
+                <div class="bento-mini-stat"><div class="bento-mini-stat-num">15</div><div class="bento-mini-stat-label">Android Ver.</div></div>
+              </div>
               <div class="bento-specs">
                 <span class="bento-spec">Android 15</span>
                 <span class="bento-spec">RK3588</span>
@@ -156,6 +161,7 @@
               <div class="bento-cta">View Details <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
             </div>
           </article>
+
           <article class="bento-card" onclick="openProduct('pro')">
             <div class="bento-img-wrap">
               <img class="bento-img" src="pro2.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" />
@@ -280,6 +286,20 @@
   </div>
   <button id="qp-reopen-chip" onclick="QuizPopup.reopen()">✦ Find My Board</button>
 
+  <!-- PENTHIA AI INTRO BANNER — separate from the quiz, introduces the chat assistant -->
+  <div id="ai-intro-banner">
+    <button class="ai-intro-close" aria-label="Dismiss" onclick="AIIntro.dismiss()">✕</button>
+    <div class="ai-intro-icon"><img src="favicon.png" alt="Penthia AI" /></div>
+    <div class="ai-intro-body">
+      <div class="ai-intro-title">Penthia AI is here!</div>
+      <div class="ai-intro-text">Ask about specs, pricing, or get a recommendation — anytime, on any page.</div>
+      <div class="ai-intro-actions">
+        <button class="ai-intro-try" onclick="AIIntro.openChat()">Say hi →</button>
+        <button class="ai-intro-dismiss" onclick="AIIntro.dismiss()">Not now</button>
+      </div>
+    </div>
+  </div>
+
   <!-- PRODUCT MODAL -->
   <div class="modal" id="modal" onclick="handleModalClick(event)">
     <div class="modal-panel">
@@ -333,5 +353,6 @@
   <script src="penthia-product-images.js"></script>
   <script src="penthia-assistant.js"></script>
   <script src="penthia-quiz-popup.js"></script>
+  <script src="penthia-ai-intro.js"></script>
 </body>
 </html>
