@@ -20,50 +20,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- AI POPUP -->
-  <div id="ai-popup-overlay">
-    <div id="ai-popup">
-      <button class="popup-close" onclick="closePopup()" aria-label="Close">✕</button>
-      <div class="popup-glow"></div>
-      <div class="popup-topline">Penthia AI is live</div>
-      <h2 class="popup-title">A faster way to understand <span class="accent">our boards.</span></h2>
-      <p class="popup-desc">Ask questions, compare models, or get help choosing the right Vertex display without digging through every page.</p>
-      <div class="popup-inline-note">
-        <strong>New:</strong> highlight any text on the website, then click “Ask Penthia AI” to ask about that exact section.
-      </div>
-      <div class="popup-features">
-        <div class="popup-feature">
-          <div class="popup-feature-icon">1</div>
-          <div class="popup-feature-title">Ask naturally</div>
-          <div class="popup-feature-desc">Specs, Google support, sizes, configurations, and product fit.</div>
-        </div>
-        <div class="popup-feature">
-          <div class="popup-feature-icon">2</div>
-          <div class="popup-feature-title">Find your model</div>
-          <div class="popup-feature-desc">Answer a few questions and get a guided recommendation.</div>
-        </div>
-        <div class="popup-feature">
-          <div class="popup-feature-icon">3</div>
-          <div class="popup-feature-title">Highlight to ask</div>
-          <div class="popup-feature-desc">Select page text and ask the assistant to explain it instantly.</div>
-        </div>
-        <div class="popup-feature">
-          <div class="popup-feature-icon">4</div>
-          <div class="popup-feature-title">Keep browsing</div>
-          <div class="popup-feature-desc">Your chat stays available while you move between pages.</div>
-        </div>
-      </div>
-      <div class="popup-actions">
-        <button class="popup-try-btn" onclick="openAIFromPopup()">Try Penthia AI <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-        <button class="popup-skip-btn" onclick="closePopup()">Maybe later</button>
-      </div>
-    </div>
-  </div>
 
   <!-- NAV -->
   <header class="nav">
@@ -268,7 +229,7 @@
           <div class="feature-card reveal reveal-delay-3">
             <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <div class="feature-title">Built to Last</div>
-            <p class="feature-desc">7H tempered anti-glare glass, 50,000-hour panel lifespan, and hardware designed for daily classroom use.</p>
+            <p class="feature-desc">7H tempered anti-glare glass, 50,000-hour panel lifespan, and a 3-year limited hardware warranty.</p>
           </div>
         </div>
       </div>
@@ -312,6 +273,12 @@
       </div>
     </footer>
   </div>
+
+  <!-- FIRST-VISIT QUIZ POPUP -->
+  <div id="quiz-popup-overlay">
+    <div id="quiz-popup"></div>
+  </div>
+  <button id="qp-reopen-chip" onclick="QuizPopup.reopen()">✦ Find My Board</button>
 
   <!-- PRODUCT MODAL -->
   <div class="modal" id="modal" onclick="handleModalClick(event)">
@@ -365,27 +332,6 @@
   <script src="script.js"></script>
   <script src="penthia-product-images.js"></script>
   <script src="penthia-assistant.js"></script>
-  <script>
-    function closePopup() {
-      const overlay = document.getElementById('ai-popup-overlay');
-      overlay.style.animation = 'fadeInOverlay 0.3s ease reverse forwards';
-      setTimeout(() => overlay.remove(), 300);
-      sessionStorage.setItem('penthia_popup_seen', '1');
-    }
-    function openAIFromPopup() {
-      closePopup();
-      setTimeout(() => {
-        if (typeof togglePenthiaWidget === 'function') {
-          const widget = document.getElementById('p-widget');
-          if (!widget || !widget.classList.contains('open')) {
-            togglePenthiaWidget();
-          }
-        }
-      }, 350);
-    }
-    if (sessionStorage.getItem('penthia_popup_seen')) {
-      document.getElementById('ai-popup-overlay').remove();
-    }
-  </script>
+  <script src="penthia-quiz-popup.js"></script>
 </body>
 </html>
