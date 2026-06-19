@@ -67,7 +67,6 @@ KEY FACTS:
 - Windows OPS is always optional, never required for everyday use.
 - Touch technology: Infrared (IR), ~6ms response time
 - Panel lifespan: ~50,000 hours
-- Warranty: 1 year panel, 3 year components
 - MDM: iMagic MDM supported (remote lock, reboot, install/enable/disable apps — does NOT support remote factory reset, Wi-Fi profile push, or app uninstall)
 - Wireless presentation supported. Screen sharing supported.
 - WPA2/WPA3 Enterprise, 802.1X authentication, proxy/static IP/DNS configuration all supported.
@@ -76,7 +75,17 @@ KEY FACTS:
 - Zoom, Teams, and Google Meet all supported with appropriate camera/mic configuration.
 - Whiteboard and annotation software built in. Annotations can be saved and exported.
 - Shipping nationwide. Installation arrangements available, contact Penthia for details.
-- Extended warranty available.
+
+WARRANTY — Penthia Solutions 3-Year Limited Hardware Warranty:
+- Penthia Solutions provides a three-year limited hardware warranty on eligible interactive display panels purchased directly through Penthia Solutions.
+- Warranty term: begins on the confirmed delivery date. If installation is provided directly or coordinated by Penthia Solutions, the warranty begins on the installation completion date instead.
+- Covered items: defects in materials or workmanship and unexpected hardware failure under normal classroom use — including the display panel, touch system, internal electronics, Android board, speakers, power supply, built-in camera/microphone modules if included, and the OPS Windows computer if purchased through Penthia Solutions.
+- Shipping/delivery issues: products that arrive damaged, defective, or non-functional must be reported promptly with photos, videos, packaging images, and delivery documentation. Claims may be covered if reported within the required window and properly documented.
+- NOT covered: accidental damage, misuse, abuse, vandalism, impact damage, cracked glass from external force, liquid damage, fire damage, power surge damage, improper installation, unauthorized repair or modification, cosmetic wear, lost accessories, consumable items, network configuration issues, software account issues, or damage caused by students, staff, contractors, installers, movers, or other third parties.
+- Examples of non-covered damage: a student throwing an object at the board, damage during school-handled installation, dropping the board, moving it incorrectly, striking the glass, or damage from improper mounting.
+- Warranty remedy: Penthia may, at its discretion, provide troubleshooting, replacement parts, repair coordination, or product replacement for a covered issue. Photos, videos, serial numbers, remote diagnosis, and manufacturer technical review may be required before approval.
+- This limited warranty applies only to products purchased directly through Penthia Solutions and is subject to the final written warranty terms provided with the quote or invoice.
+- If asked about warranty, always summarize accurately and recommend contacting Penthia for the full written terms tied to their specific quote or invoice.
 
 WEBSITE CONTEXT:
 - When a user asks about highlighted website text, the message may include hidden page context, nearby section text, and a short website text map. Use that context as your source.
@@ -194,12 +203,12 @@ function injectWidget() {
     .p-msg.user { flex-direction:row-reverse; }
     .p-msg-bubble {
       max-width:82%; padding:10px 14px; border-radius:14px;
-      font-size:0.83rem; line-height:1.65; font-family:'Inter',sans-serif;
+      font-size:0.84rem; line-height:1.7; font-family:'Inter',sans-serif;
     }
     .p-msg.ai .p-msg-bubble { background:#1a1e2d; color:#9aa3bb; border-radius:4px 14px 14px 14px; }
     .p-msg.user .p-msg-bubble { background:#c9a84c; color:#080a0f; font-weight:500; border-radius:14px 4px 14px 14px; }
     .p-msg-bubble strong { color:#f0eeea; font-weight:700; }
-    .p-msg-bubble ul { list-style:none; padding:0; margin:6px 0 0; display:flex; flex-direction:column; gap:3px; }
+    .p-msg-bubble ul { list-style:none; padding:0; margin:6px 0 0; display:flex; flex-direction:column; gap:4px; }
     .p-msg-bubble li::before { content:'›'; color:#c9a84c; margin-right:6px; font-weight:700; }
     .p-msg-avatar {
       width:28px; height:28px; border-radius:8px; flex-shrink:0; margin-top:2px;
@@ -228,7 +237,7 @@ function injectWidget() {
     #p-input {
       flex:1; background:#131620; border:1px solid rgba(255,255,255,0.08);
       border-radius:10px; padding:10px 14px; color:#f0eeea;
-      font:0.83rem 'Inter',sans-serif; outline:none; resize:none;
+      font:0.84rem 'Inter',sans-serif; outline:none; resize:none;
       min-height:40px; max-height:100px; line-height:1.5;
       transition:border-color 0.2s;
     }
@@ -246,7 +255,7 @@ function injectWidget() {
     .p-quiz-opts { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
     .p-quiz-opt {
       background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
-      color:#9aa3bb; font-size:0.8rem; padding:9px 13px; border-radius:9px;
+      color:#9aa3bb; font-size:0.81rem; padding:9px 13px; border-radius:9px;
       cursor:pointer; text-align:left; transition:all 0.2s;
       font-family:'Inter',sans-serif;
     }
@@ -273,7 +282,7 @@ function injectWidget() {
     }
     .p-rec-media img { width:100%; height:100%; object-fit:contain; padding:5px; }
     .p-rec-title { font-weight:800; color:#e2c27a; font-size:0.9rem; margin-bottom:4px; }
-    .p-rec-desc { font-size:0.78rem; color:#9aa3bb; line-height:1.55; }
+    .p-rec-desc { font-size:0.79rem; color:#9aa3bb; line-height:1.6; }
     .p-rec-link {
       display:inline-flex; align-items:center; gap:5px; margin-top:10px;
       background:#c9a84c; color:#080a0f; font-size:0.72rem; font-weight:700;
@@ -310,7 +319,7 @@ function injectWidget() {
       <div id="p-messages"></div>
       <div id="p-quick-btns">
         <button class="p-qbtn" onclick="sendQuickMessage('Compare Pro vs Elite')">Pro vs Elite</button>
-        <button class="p-qbtn" onclick="sendQuickMessage('Does it support Google Classroom?')">Google support?</button>
+        <button class="p-qbtn" onclick="sendQuickMessage('What does the warranty cover?')">Warranty?</button>
         <button class="p-qbtn" onclick="startQuiz()">Find My Board 🎯</button>
       </div>
       <div id="p-input-area">
@@ -602,10 +611,41 @@ function saveSession() {
 /* ── HIGHLIGHT TO ASK ── */
 let highlightedText = '';
 let highlightTimer = null;
+let lastValidRect = null;
 
 function getSelectedText() {
   const sel = window.getSelection();
   return sel ? sel.toString().trim().replace(/\s+/g, ' ') : '';
+}
+
+/**
+ * Returns a usable bounding rect for the current selection.
+ * getBoundingClientRect() on a Range can return an all-zero rect in some
+ * edge cases (e.g. selection ends right at a block boundary). When that
+ * happens, fall back to the union of the individual client rects, which
+ * covers virtually every text node on the page (headings, paragraphs,
+ * list items, table cells, FAQ answers, modal text, etc).
+ */
+function getSelectionRect(range) {
+  let rect = range.getBoundingClientRect();
+  if (rect && (rect.width > 0 || rect.height > 0)) return rect;
+
+  const rects = range.getClientRects();
+  if (rects && rects.length) {
+    let top = Infinity, left = Infinity, bottom = -Infinity, right = -Infinity;
+    for (let i = 0; i < rects.length; i++) {
+      const r = rects[i];
+      if (r.width === 0 && r.height === 0) continue;
+      top = Math.min(top, r.top);
+      left = Math.min(left, r.left);
+      bottom = Math.max(bottom, r.bottom);
+      right = Math.max(right, r.right);
+    }
+    if (top !== Infinity) {
+      return { top, left, bottom, right, width: right - left, height: bottom - top };
+    }
+  }
+  return null;
 }
 
 function showHighlightTooltip() {
@@ -615,20 +655,27 @@ function showHighlightTooltip() {
 
   const text = getSelectedText();
 
-  if (!text || text.length < 8 || text.length > 500) {
+  if (!text || text.length < 4 || text.length > 600) {
     tip.classList.remove('show');
     return;
   }
 
-  const range = sel.getRangeAt(0);
-  const rect = range.getBoundingClientRect();
+  let range;
+  try {
+    range = sel.getRangeAt(0);
+  } catch (_) {
+    tip.classList.remove('show');
+    return;
+  }
 
-  if (!rect || (rect.width === 0 && rect.height === 0)) {
+  const rect = getSelectionRect(range);
+  if (!rect) {
     tip.classList.remove('show');
     return;
   }
 
   highlightedText = text;
+  lastValidRect = rect;
 
   const tooltipWidth = 148;
   const left = Math.max(12, Math.min(window.innerWidth - tooltipWidth - 12, rect.left + rect.width / 2 - tooltipWidth / 2));
@@ -646,7 +693,7 @@ document.addEventListener('selectionchange', () => {
 
 document.addEventListener('mouseup', () => {
   clearTimeout(highlightTimer);
-  highlightTimer = setTimeout(showHighlightTooltip, 80);
+  highlightTimer = setTimeout(showHighlightTooltip, 60);
 });
 
 document.addEventListener('touchend', () => {
@@ -658,6 +705,8 @@ document.addEventListener('pointerdown', (e) => {
   const tip = document.getElementById('p-highlight-tooltip');
   if (!tip) return;
 
+  // Never hide the tooltip because of a click on the tooltip itself —
+  // this is the bug that previously made the button feel unresponsive.
   if (e.target === tip || tip.contains(e.target)) return;
 
   if (e.target.closest && e.target.closest('#p-widget, #p-launcher')) return;
@@ -676,20 +725,31 @@ function limitContext(value, maxLength) {
 }
 
 function getSelectionSectionContext() {
-  const sel = window.getSelection();
-  if (!sel || sel.rangeCount === 0) return { heading: '', sectionText: '' };
+  try {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return { heading: '', sectionText: '' };
 
-  let node = sel.getRangeAt(0).commonAncestorContainer;
-  if (node && node.nodeType === Node.TEXT_NODE) node = node.parentElement;
-  if (!node || !node.closest) return { heading: '', sectionText: '' };
+    let node = sel.getRangeAt(0).commonAncestorContainer;
+    if (node && node.nodeType === Node.TEXT_NODE) node = node.parentElement;
+    if (!node || typeof node.closest !== 'function') return { heading: '', sectionText: '' };
 
-  const section = node.closest('section, article, .section, .container, .hero, .store-header, .store-banner, .prod-card, .bento-card, .feature-card, .info-card, .faq-item, .compare-table-wrap, .contact-grid') || document.body;
-  const headingEl = section.querySelector('h1, h2, h3, .section-title, .prod-name, .bento-name, .faq-question h3, .image-panel-title');
+    const section = node.closest(
+      'section, article, .section, .container, .hero, .store-header, .store-banner, ' +
+      '.prod-card, .bento-card, .feature-card, .info-card, .faq-item, .compare-table-wrap, ' +
+      '.contact-grid, #quiz-popup, .modal-product'
+    ) || document.body;
 
-  return {
-    heading: cleanContextText(headingEl ? headingEl.textContent : ''),
-    sectionText: limitContext(section.innerText || section.textContent || '', 2400)
-  };
+    const headingEl = section.querySelector(
+      'h1, h2, h3, .section-title, .prod-name, .bento-name, .faq-question h3, .image-panel-title, .qp-question'
+    );
+
+    return {
+      heading: cleanContextText(headingEl ? headingEl.textContent : ''),
+      sectionText: limitContext(section.innerText || section.textContent || '', 2400)
+    };
+  } catch (_) {
+    return { heading: '', sectionText: '' };
+  }
 }
 
 async function getWebsiteTextMap() {
@@ -708,7 +768,7 @@ async function getWebsiteTextMap() {
       if (!response.ok) continue;
       const html = await response.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
-      doc.querySelectorAll('script, style, nav, footer, svg, .modal, #ai-popup-overlay, .mobile-nav').forEach(el => el.remove());
+      doc.querySelectorAll('script, style, nav, footer, svg, .modal, #quiz-popup-overlay, .mobile-nav').forEach(elNode => elNode.remove());
       const text = limitContext(doc.body ? doc.body.textContent : '', 1800);
       if (text) parts.push(`${page.name} page (${page.url}): ${text}`);
     } catch(_) {}
@@ -778,7 +838,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch(_) {}
 
-  // Add scroll reveal
+  // Add scroll reveal — uses a single shared observer for performance
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -786,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal').forEach(elNode => observer.observe(elNode));
 });
