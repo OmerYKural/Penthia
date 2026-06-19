@@ -44,7 +44,7 @@ const products = {
   'pro-max': {
     badge: 'Flagship Model', title: 'Penthia Vertex Elite',
     desc: 'The Penthia Vertex Elite is the flagship model in the Vertex family. Based on the RK3588 platform with Android 15, 16GB RAM, 256GB storage, 4K UHD visuals, 50-point touch, and Google Play Store and Google services support on supported configurations.',
-    bullets: ['RK3588 platform','Android 15','16GB RAM / 256GB storage','Google Play Store + Google account on supported configurations','4K UHD anti-glare display','50-point IR touch, ~6ms response','20W × 2 speakers + 20W subwoofer','Full-function USB-C, 65W charging','Optional 48MP / 48MP AI camera + 8-mic array','Optional Windows OPS module','Available: 65", 75", 86", 98", 110"','iMagic MDM supported','1-year panel, 3-year component warranty'],
+    bullets: ['RK3588 platform','Android 15','16GB RAM / 256GB storage','Google Play Store + Google account on supported configurations','4K UHD anti-glare display','50-point IR touch, ~6ms response','20W × 2 speakers + 20W subwoofer','Full-function USB-C, 65W charging','Optional 48MP / 48MP AI camera + 8-mic array','Optional Windows OPS module','Available: 65", 75", 86", 98", 110"','iMagic MDM supported','3-year limited hardware warranty'],
     display:['4K UHD','350 nits standard','Anti-glare 7H glass'], os:['Android 15','Optional Windows OPS'],
     storage:['16GB RAM / 256GB'], support:['65" 75" 86" 98" 110"','Deployment support'],
     input:['50-point IR touch','Stylus support','Full-function USB-C'],
@@ -53,7 +53,7 @@ const products = {
   'pro': {
     badge: 'Recommended Model', title: 'Penthia Vertex Pro',
     desc: 'The Penthia Vertex Pro is the recommended model for most schools. 311D2 platform, Android 14, 8GB/128GB standard, Google Play Store and Google services support on supported configurations, with optional 16GB/256GB upgrade and optional Windows OPS.',
-    bullets: ['311D2 Android 14 platform','Android 14','8GB / 128GB standard; optional 16GB / 256GB upgrade','Google Play Store + Google account on supported configurations','4K UHD anti-glare display','50-point IR touch, ~6ms response','20W × 2 speakers + 20W subwoofer','Full-function USB-C, 65W charging','Optional 48MP / 48MP AI camera + 8-mic array','Optional Windows OPS module','Available: 65", 75", 86", 98", 110"','iMagic MDM supported','1-year panel, 3-year component warranty'],
+    bullets: ['311D2 Android 14 platform','Android 14','8GB / 128GB standard; optional 16GB / 256GB upgrade','Google Play Store + Google account on supported configurations','4K UHD anti-glare display','50-point IR touch, ~6ms response','20W × 2 speakers + 20W subwoofer','Full-function USB-C, 65W charging','Optional 48MP / 48MP AI camera + 8-mic array','Optional Windows OPS module','Available: 65", 75", 86", 98", 110"','iMagic MDM supported','3-year limited hardware warranty'],
     display:['4K UHD','350 nits standard','Anti-glare 7H glass'], os:['Android 14','Optional Windows OPS'],
     storage:['8GB / 128GB standard','Optional 16GB / 256GB'], support:['65" 75" 86" 98" 110"','Deployment support'],
     input:['50-point IR touch','Stylus support','Full-function USB-C'],
@@ -62,7 +62,7 @@ const products = {
   'iboard': {
     badge: 'Essential Classroom Model', title: 'Penthia Vertex Standard',
     desc: 'The Penthia Vertex Standard is the cost-effective option for schools needing the essential smartboard experience. T985 platform, Android 14, 8GB/128GB, 4K UHD, 50-point touch, anti-glare glass, and USB-C connectivity.',
-    bullets: ['T985 platform','Android 14','8GB RAM / 128GB storage','Google Play Store may be configurable on supported setups','4K UHD anti-glare display','50-point touch','USB-C connectivity','Available: 65", 75", 86", 98", 110"','1-year panel, 3-year component warranty','Best positioned as essential classroom and cost-effective deployment option'],
+    bullets: ['T985 platform','Android 14','8GB RAM / 128GB storage','Google Play Store may be configurable on supported setups','4K UHD anti-glare display','50-point touch','USB-C connectivity','Available: 65", 75", 86", 98", 110"','3-year limited hardware warranty','Best positioned as essential classroom and cost-effective deployment option'],
     display:['4K UHD','350 nits standard','Anti-glare glass'], os:['Android 14'],
     storage:['8GB RAM / 128GB'], support:['65" 75" 86" 98" 110"','Deployment support'],
     input:['50-point touch','Stylus support','USB-C'],
