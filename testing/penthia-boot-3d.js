@@ -32,7 +32,11 @@
   })();
 
   if (!window.THREE || !window.gsap || !window.ScrollTrigger || !hasWebGL || reduceMotion) {
-    mount.innerHTML = '<img src="vertexhomepage.png" alt="Penthia Vertex Elite interactive smartboard" style="width:100%;height:100%;object-fit:contain;" loading="eager" decoding="async" />';
+    // Fallback: collapse the tall runway to one screen and show a static
+    // board anchored inside the hero (not fixed over the whole page).
+    pinWrap.style.height = '100vh';
+    mount.style.position = 'absolute';
+    mount.innerHTML = '<img src="vertexhomepage.png" alt="Penthia Vertex Elite interactive smartboard" style="width:100%;height:100%;object-fit:contain;padding-top:64px;" loading="eager" decoding="async" />';
     return;
   }
 
@@ -207,6 +211,13 @@
   board.rotation.set(rand(-0.5, -0.2), rand(-0.8, 0.8), rand(-0.4, 0.4));
   board.scale.setScalar(0.7);
 
+  // Landing position composes with the sticky headline (lower-left),
+  // so the board settles slightly right-of-center on desktop and
+  // higher on small screens instead of colliding with the text.
+  var narrow = mount.clientWidth < 760;
+  var LAND_X = narrow ? 0 : 1.1;
+  var LAND_Y = narrow ? 0.9 : 0.25;
+
   // ---- Scrubbed timeline ----
   var tl = gsap.timeline({ paused: true });
 
@@ -214,15 +225,15 @@
   // Multiple waypoints give a "flying through" arc rather than a straight drop.
   tl.to(board.position, { x: 0.6, y: 6, z: 1.5, duration: 0.5, ease: 'power1.inOut' }, 0)
     .to(board.position, { x: -0.4, y: 2.4, z: -0.4, duration: 0.5, ease: 'power1.inOut' }, 0.5)
-    .to(board.position, { x: 0, y: 0, z: 0, duration: 0.6, ease: 'power2.out' }, 1.0)
+    .to(board.position, { x: LAND_X, y: LAND_Y, z: 0, duration: 0.6, ease: 'power2.out' }, 1.0)
     // banking rotation that resolves to flat/vertical on land
     .to(board.rotation, { x: 0.25, y: Math.PI * 1.2, z: -0.2, duration: 0.5, ease: 'power1.inOut' }, 0)
     .to(board.rotation, { x: -0.15, y: Math.PI * 1.8, z: 0.15, duration: 0.5, ease: 'power1.inOut' }, 0.5)
     .to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: 0.6, ease: 'power3.out' }, 1.0)
     .to(board.scale, { x: 1, y: 1, z: 1, duration: 1.1, ease: 'power2.out' }, 0)
     // small settle
-    .to(board.position, { y: 0.12, duration: 0.12, ease: 'power1.out' }, 1.6)
-    .to(board.position, { y: 0, duration: 0.4, ease: 'bounce.out' }, 1.72);
+    .to(board.position, { y: LAND_Y + 0.12, duration: 0.12, ease: 'power1.out' }, 1.6)
+    .to(board.position, { y: LAND_Y, duration: 0.4, ease: 'bounce.out' }, 1.72);
 
   // Phase B: screen wakes
   tl.to(wallMat, { opacity: 0.92, duration: 0.4, ease: 'power2.out' }, 1.5);
@@ -248,29 +259,37 @@
     unlocked = true;
     // Snap the flight to wherever the user has already scrolled,
     // so closing the quiz mid-page doesn't leave a stale frame.
-    if (st) { tl.progress(st.progress); seqProgress = st.progress; }
+    if (st) {
+      var p = Math.min(st.progress / 0.85, 1);
+      tl.progress(p); seqProgress = p;
+    }
     window.ScrollTrigger.refresh();
   }
   window.addEventListener('penthia:quiz-closed', unlockNow);
   setTimeout(function () { if (!quizIsOpen()) unlockNow(); }, 1200);
 
-  // ---- ScrollTrigger pin + scrub ----
+  // ---- ScrollTrigger: no pin. The page scrolls naturally over the
+  //      fixed background scene; scroll position through the tall hero
+  //      runway drives the flight. The last 15% of the runway fades the
+  //      whole scene out so content takes the stage cleanly.
+  var FLIGHT_END = 0.85; // flight completes here; fade happens after
   var st = window.ScrollTrigger.create({
     trigger: pinWrap,
     start: 'top top',
-    end: '+=2200',        // scroll span (tuned: smooth, moderately slow)
-    pin: true,
-    scrub: 1.1,           // eased catch-up = smooth
+    end: 'bottom bottom',
+    scrub: 1.1,
     onUpdate: function (self) {
       if (!unlocked) { tl.progress(0); return; }
-      tl.progress(self.progress);
-      seqProgress = self.progress;
-      // The copy bows out as the board takes the stage; the scroll
-      // hint disappears the moment the user starts driving.
-      var copy = document.querySelector('.boot-copy');
+      var flightP = Math.min(self.progress / FLIGHT_END, 1);
+      tl.progress(flightP);
+      seqProgress = flightP;
+      // Scene handoff: fade the canvas as the runway ends.
+      var fade = self.progress <= FLIGHT_END ? 1
+        : Math.max(0, 1 - (self.progress - FLIGHT_END) / (1 - FLIGHT_END));
+      mount.style.opacity = String(fade);
+      // The scroll hint disappears the moment the user starts driving.
       var hint = document.querySelector('.boot-hint');
-      if (copy) copy.style.opacity = String(Math.max(0, 1 - self.progress * 2.2));
-      if (hint) hint.style.opacity = String(Math.max(0, 1 - self.progress * 5));
+      if (hint) hint.style.opacity = String(Math.max(0, 1 - self.progress * 6));
     }
   });
 

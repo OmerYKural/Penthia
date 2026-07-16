@@ -44,10 +44,12 @@
   </header>
 
   <section class="boot" id="boot-pin">
-    <div class="boot-inner">
+    <!-- Fixed background layer: the 3D scene lives BEHIND the page -->
+    <div id="boot-stage" class="boot-stage" role="img"
+         aria-label="A Penthia Vertex smartboard descends, turns, lands, and fills with classroom apps as you scroll"></div>
+    <!-- Sticky foreground: headline stays on screen through the whole flight -->
+    <div class="boot-sticky">
       <div class="boot-grid-overlay" aria-hidden="true"></div>
-      <div id="boot-stage" class="boot-stage" role="img"
-           aria-label="A Penthia Vertex smartboard descends, turns, lands, and fills with classroom apps as you scroll"></div>
       <div class="boot-copy">
         <div class="boot-kicker"><span class="dot"></span>The Vertex line</div>
         <h1 class="boot-title">Power on<br>the <span class="g">classroom.</span></h1>

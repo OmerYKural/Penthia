@@ -67,14 +67,26 @@
 }
 .home2 .tbar-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(201,168,76,0.35); }
 
-/* ---------- Boot hero (scroll-pinned) ---------- */
-.home2 .boot { position: relative; height: 100vh; width: 100%; }
-.home2 .boot-inner {
-  position: relative; height: 100vh; width: 100%; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+/* ---------- Boot hero: background-integrated flight ----------
+   The hero is a tall scroll RUNWAY. The 3D canvas is a FIXED layer
+   behind the whole page; the headline is STICKY so it stays on
+   screen through the entire flight (it never fades out). The page
+   scrolls naturally — no pinning, no hijack. As the runway ends,
+   the scene hands off and content takes over. */
+.home2 .boot { position: relative; height: 280vh; }
+
+.home2 .boot-stage {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(1100px 700px at 50% 38%, rgba(201,168,76,0.10), transparent 60%),
-    var(--void);
+    radial-gradient(1100px 700px at 50% 40%, rgba(201,168,76,0.10), transparent 60%),
+    transparent;
+  transition: opacity .2s linear;
+}
+.home2 .boot-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+
+.home2 .boot-sticky {
+  position: sticky; top: 0; height: 100vh; z-index: 2;
+  pointer-events: none;
 }
 .home2 .boot-grid-overlay {
   position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
@@ -85,8 +97,13 @@
   mask-image: radial-gradient(circle at 50% 42%, #000 30%, transparent 72%);
   -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 30%, transparent 72%);
 }
-.home2 .boot-stage { position: absolute; inset: 0; z-index: 1; }
-.home2 .boot-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* Everything after the hero rides ABOVE the fixed canvas */
+.home2 .readout, .home2 .line, .home2 .cap, .home2 .room, .home2 .close, .home2 .foot {
+  position: relative; z-index: 1;
+}
+.home2 .readout { background: var(--panel); }
+.home2 .line, .home2 .room { background: var(--void); }
 
 .home2 .boot-copy {
   position: absolute; left: clamp(20px, 6vw, 80px); bottom: clamp(60px, 12vh, 120px);
