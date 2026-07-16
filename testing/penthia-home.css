@@ -271,8 +271,11 @@
    tilt, and layered shadow — without changing any behavior.
    ============================================================ */
 
-/* Establish a shared perspective on the page body */
-.home2 { perspective: 1600px; }
+/* NOTE: never put `perspective` (or transform/filter) on the body —
+   it silently converts every position:fixed element (nav, quiz overlay,
+   AI chat, mobile bar, ScrollTrigger pins) into page-anchored elements
+   and breaks them all. Each card carries its own perspective() inside
+   its transform instead, which achieves the 3D tilt safely. */
 
 /* Cards tilt in 3D toward the cursor (JS sets --rx/--ry) */
 .home2 .board-row,

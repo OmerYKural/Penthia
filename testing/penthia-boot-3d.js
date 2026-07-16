@@ -69,6 +69,23 @@
   var rimLight = new THREE.DirectionalLight(0xc9a84c, 0.6); rimLight.position.set(-6, 2, 5); scene.add(rimLight);
   var fillLight = new THREE.DirectionalLight(0x6f86c9, 0.35); fillLight.position.set(0, -4, 6); scene.add(fillLight);
 
+  // ---- Ambient gold dust ----
+  // Alive from the very first frame — even while the quiz gate holds the
+  // flight at zero, the hero visibly breathes instead of sitting dead.
+  var DUST = 160;
+  var dustPos = new Float32Array(DUST * 3);
+  for (var di = 0; di < DUST; di++) {
+    dustPos[di * 3] = rand(-9, 9);
+    dustPos[di * 3 + 1] = rand(-5, 5);
+    dustPos[di * 3 + 2] = rand(-6, 2);
+  }
+  var dustGeo = new THREE.BufferGeometry();
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  var dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+    color: 0xc9a84c, size: 0.035, transparent: true, opacity: 0.55, depthWrite: false
+  }));
+  scene.add(dust);
+
   // ---- Board group ----
   // boardWrap carries gentle idle motion (float / cursor yaw) AFTER landing;
   // board carries the scroll-scrubbed flight. Separating them means the idle
@@ -226,11 +243,19 @@
     var ov = document.getElementById('quiz-popup-overlay');
     return !!(ov && ov.classList.contains('qp-visible'));
   }
-  window.addEventListener('penthia:quiz-closed', function () { unlocked = true; window.ScrollTrigger.refresh(); });
-  setTimeout(function () { if (!quizIsOpen()) unlocked = true; }, 1200);
+  function unlockNow() {
+    if (unlocked) return;
+    unlocked = true;
+    // Snap the flight to wherever the user has already scrolled,
+    // so closing the quiz mid-page doesn't leave a stale frame.
+    if (st) { tl.progress(st.progress); seqProgress = st.progress; }
+    window.ScrollTrigger.refresh();
+  }
+  window.addEventListener('penthia:quiz-closed', unlockNow);
+  setTimeout(function () { if (!quizIsOpen()) unlockNow(); }, 1200);
 
   // ---- ScrollTrigger pin + scrub ----
-  window.ScrollTrigger.create({
+  var st = window.ScrollTrigger.create({
     trigger: pinWrap,
     start: 'top top',
     end: '+=2200',        // scroll span (tuned: smooth, moderately slow)
@@ -270,6 +295,8 @@
     requestAnimationFrame(render);
     if (!heroVisible) return; // hero off-screen: zero GPU cost
     t += 0.01;
+    dust.rotation.y += 0.0006;
+    dust.position.y = Math.sin(t * 0.35) * 0.18;
     if (seqProgress > 0.97) {
       boardWrap.position.y = Math.sin(t) * 0.05;
       boardWrap.rotation.x = Math.sin(t * 0.7) * 0.01;
