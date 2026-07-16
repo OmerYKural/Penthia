@@ -73,7 +73,7 @@
    screen through the entire flight (it never fades out). The page
    scrolls naturally — no pinning, no hijack. As the runway ends,
    the scene hands off and content takes over. */
-.home2 .boot { position: relative; height: 280vh; }
+.home2 .boot { position: relative; height: 160vh; }
 
 .home2 .boot-stage {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;

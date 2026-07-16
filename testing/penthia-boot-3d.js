@@ -355,80 +355,82 @@
   var LAND_Y = narrow ? 1.05 : 0.25;
   var LAND_S = narrow ? 0.58 : 1;   // shrink to fit phone viewports
 
-  // ---- Scrubbed timeline ----
+  // ---- Cinematic timeline (time-based, NOT scroll-scrubbed) ----
+  // The user's FIRST scroll presses "play"; from there the flight runs on
+  // its own clock with graceful easing. Positions in scene units, times in
+  // seconds. Total sequence ~5s.
   var tl = gsap.timeline({ paused: true });
 
-  // Phase A: board flies through space and settles upright as it lands.
-  // Multiple waypoints give a "flying through" arc rather than a straight drop.
-  tl.to(board.position, { x: 0.6, y: 6, z: 1.5, duration: 0.5, ease: 'power1.inOut' }, 0)
-    .to(board.position, { x: -0.4, y: 2.4, z: -0.4, duration: 0.5, ease: 'power1.inOut' }, 0.5)
-    .to(board.position, { x: LAND_X, y: LAND_Y, z: 0, duration: 0.6, ease: 'power2.out' }, 1.0)
+  tl.to(board.position, { x: 0.6, y: 6, z: 1.5, duration: 0.9, ease: 'power2.inOut' }, 0)
+    .to(board.position, { x: -0.4, y: 2.4, z: -0.4, duration: 0.9, ease: 'power2.inOut' }, 0.9)
+    .to(board.position, { x: LAND_X, y: LAND_Y, z: 0, duration: 1.15, ease: 'power3.out' }, 1.8)
     // banking rotation that resolves to flat/vertical on land
-    .to(board.rotation, { x: 0.25, y: Math.PI * 1.2, z: -0.2, duration: 0.5, ease: 'power1.inOut' }, 0)
-    .to(board.rotation, { x: -0.15, y: Math.PI * 1.8, z: 0.15, duration: 0.5, ease: 'power1.inOut' }, 0.5)
-    .to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: 0.6, ease: 'power3.out' }, 1.0)
-    .to(board.scale, { x: LAND_S, y: LAND_S, z: LAND_S, duration: 1.1, ease: 'power2.out' }, 0)
-    // small settle
-    .to(board.position, { y: LAND_Y + 0.12, duration: 0.12, ease: 'power1.out' }, 1.6)
-    .to(board.position, { y: LAND_Y, duration: 0.4, ease: 'bounce.out' }, 1.72);
+    .to(board.rotation, { x: 0.25, y: Math.PI * 1.2, z: -0.2, duration: 0.9, ease: 'power2.inOut' }, 0)
+    .to(board.rotation, { x: -0.15, y: Math.PI * 1.8, z: 0.15, duration: 0.9, ease: 'power2.inOut' }, 0.9)
+    .to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: 1.15, ease: 'power3.out' }, 1.8)
+    .to(board.scale, { x: LAND_S, y: LAND_S, z: LAND_S, duration: 2.0, ease: 'power2.out' }, 0)
+    // small settle bounce on touchdown
+    .to(board.position, { y: LAND_Y + 0.1, duration: 0.18, ease: 'power1.out' }, 2.95)
+    .to(board.position, { y: LAND_Y, duration: 0.55, ease: 'bounce.out' }, 3.13);
 
-  // Phase B: screen wakes
-  tl.to(wallMat, { opacity: 0.92, duration: 0.4, ease: 'power2.out' }, 1.5);
+  // Screen wakes just before touchdown
+  tl.to(wallMat, { opacity: 0.92, duration: 0.6, ease: 'power2.out' }, 2.75);
 
-  // Phase C: apps fly in from scattered positions, randomized timing/spin
+  // Apps rain in after landing — randomized order, timing and spin
   var order = icons.map(function (_, i) { return i; }).sort(function () { return Math.random() - 0.5; });
   order.forEach(function (idx, k) {
     var m = icons[idx];
-    var at = 1.7 + k * rand(0.08, 0.16);
-    tl.to(m.position, { x: m.userData.target.x, y: m.userData.target.y, z: m.userData.target.z, duration: rand(0.7, 1.05), ease: 'power3.out' }, at);
-    tl.to(m.rotation, { z: 0, duration: rand(0.7, 1.0), ease: 'back.out(2)' }, at);
+    var at = 3.15 + k * rand(0.10, 0.17);
+    tl.to(m.position, { x: m.userData.target.x, y: m.userData.target.y, z: m.userData.target.z, duration: rand(0.9, 1.25), ease: 'power3.out' }, at);
+    tl.to(m.rotation, { z: 0, duration: rand(0.9, 1.2), ease: 'back.out(1.6)' }, at);
     tl.to(m.material, { opacity: 1, duration: 0.5, ease: 'power2.out' }, at);
   });
 
-  // ---- Quiz gate ----
-  var unlocked = false;
+  tl.eventCallback('onUpdate', function () { seqProgress = tl.progress(); });
+
+  // ---- Quiz gate + one-time scroll trigger ----
+  var unlocked = false, started = false;
   function quizIsOpen() {
     var ov = document.getElementById('quiz-popup-overlay');
     return !!(ov && ov.classList.contains('qp-visible'));
   }
+  function startFlight() {
+    if (started || !unlocked) return;
+    started = true;
+    tl.play();
+    var hint = document.querySelector('.boot-hint');
+    if (hint) { hint.style.transition = 'opacity .5s'; hint.style.opacity = '0'; }
+  }
   function unlockNow() {
     if (unlocked) return;
     unlocked = true;
-    // Snap the flight to wherever the user has already scrolled,
-    // so closing the quiz mid-page doesn't leave a stale frame.
-    if (st) {
-      var p = Math.min(st.progress / 0.85, 1);
-      tl.progress(p); seqProgress = p;
-    }
-    window.ScrollTrigger.refresh();
+    // If they already scrolled while the quiz was up, launch right away.
+    if (window.scrollY > 24) startFlight();
   }
   window.addEventListener('penthia:quiz-closed', unlockNow);
   setTimeout(function () { if (!quizIsOpen()) unlockNow(); }, 1200);
 
-  // ---- ScrollTrigger: no pin. The page scrolls naturally over the
-  //      fixed background scene; scroll position through the tall hero
-  //      runway drives the flight. The last 15% of the runway fades the
-  //      whole scene out so content takes the stage cleanly.
-  var FLIGHT_END = 0.85; // flight completes here; fade happens after
-  var st = window.ScrollTrigger.create({
-    trigger: pinWrap,
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 1.1,
-    onUpdate: function (self) {
-      if (!unlocked) { tl.progress(0); return; }
-      var flightP = Math.min(self.progress / FLIGHT_END, 1);
-      tl.progress(flightP);
-      seqProgress = flightP;
-      // Scene handoff: fade the canvas as the runway ends.
-      var fade = self.progress <= FLIGHT_END ? 1
-        : Math.max(0, 1 - (self.progress - FLIGHT_END) / (1 - FLIGHT_END));
-      mount.style.opacity = String(fade);
-      // The scroll hint disappears the moment the user starts driving.
-      var hint = document.querySelector('.boot-hint');
-      if (hint) hint.style.opacity = String(Math.max(0, 1 - self.progress * 6));
-    }
+  ['wheel', 'touchmove', 'scroll', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function (e) {
+      if (ev === 'keydown') {
+        var k = e.key;
+        if (k !== 'ArrowDown' && k !== 'PageDown' && k !== ' ') return;
+      }
+      startFlight();
+    }, { passive: true });
   });
+
+  // ---- Scene handoff without vanishing ----
+  // The canvas layer is position:fixed. While the hero runway is on screen
+  // the landed board holds its place; once the user scrolls past the runway
+  // the whole scene translates up in lockstep with the page, so the board
+  // scrolls away like normal content instead of fading out.
+  function onScrollSync() {
+    var leave = window.scrollY - (pinWrap.offsetHeight - window.innerHeight);
+    mount.style.transform = leave > 0 ? 'translate3d(0,' + (-leave) + 'px,0)' : '';
+  }
+  window.addEventListener('scroll', onScrollSync, { passive: true });
+  onScrollSync();
 
   // ---- Render loop ----
   // Skips all GPU work while the hero is off-screen (scrolled past),
@@ -474,7 +476,6 @@
     camera.position.z = w < 760 ? 13.5 : (w < 1100 ? 11 : 9.5);
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
-    window.ScrollTrigger.refresh();
   }
   onResize();
 
