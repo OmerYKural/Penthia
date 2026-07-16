@@ -265,7 +265,74 @@
   .home2 .boot-title { font-size: clamp(2.2rem, 11vw, 3.2rem); }
 }
 
+/* ============================================================
+   SITE-WIDE 3D DEPTH LAYER
+   Adds dimensionality to every major element via perspective,
+   tilt, and layered shadow — without changing any behavior.
+   ============================================================ */
+
+/* Establish a shared perspective on the page body */
+.home2 { perspective: 1600px; }
+
+/* Cards tilt in 3D toward the cursor (JS sets --rx/--ry) */
+.home2 .board-row,
+.home2 .cap-card,
+.home2 .room-shot {
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transition: transform .3s cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .4s;
+  will-change: transform;
+}
+/* Inner content lifts above the card plane for parallax depth */
+.home2 .board-info,
+.home2 .cap-card h3,
+.home2 .cap-card p,
+.home2 .cap-icon,
+.home2 .board-media { transform: translateZ(28px); transform-style: preserve-3d; }
+.home2 .board-media { transform: translateZ(46px); }
+.home2 .cap-icon { transform: translateZ(40px); }
+
+/* Nav links get a subtle push on hover */
+.home2 .tbar-link, .home2 .tbar-cta { transform-style: preserve-3d; transition: transform .2s, color .2s, background .2s, box-shadow .2s; }
+.home2 .tbar-link:hover { transform: translateZ(6px); }
+
+/* Buttons: layered depth + press */
+.home2 .btn-primary, .home2 .btn-ghost {
+  transform-style: preserve-3d;
+  box-shadow: 0 6px 24px rgba(201,168,76,0.25), 0 1px 0 rgba(255,255,255,0.08) inset;
+}
+.home2 .btn-primary:active, .home2 .btn-ghost:active { transform: translateZ(-2px) translateY(1px); }
+
+/* Readout cells: gentle 3D lift on hover */
+.home2 .readout-cell { transition: transform .3s, background .3s; transform-style: preserve-3d; }
+.home2 .readout-cell:hover { transform: translateZ(14px); background: var(--panel-2); }
+
+/* Spec-mono cells lift slightly */
+.home2 .spec-mono > div { transition: transform .25s, background .25s; }
+.home2 .board-row:hover .spec-mono > div { background: var(--panel-2); }
+
+/* Section backgrounds gain depth via layered radial glows (parallax in JS) */
+.home2 .line, .home2 .cap, .home2 .close { position: relative; }
+.home2 .depth-orb {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 68%);
+  filter: blur(8px); will-change: transform;
+}
+.home2 .wrap { position: relative; z-index: 1; }
+
+/* Footer brand lifts on hover */
+.home2 .foot-links a { transition: color .2s, transform .2s; transform-style: preserve-3d; }
+.home2 .foot-links a:hover { transform: translateZ(5px); }
+
+/* Respect reduced motion: flatten all 3D */
 @media (prefers-reduced-motion: reduce) {
   .home2 .reveal2 { opacity: 1; transform: none; transition: none; }
   .home2 .boot-hint-dot { animation: none; }
+  .home2 .board-row, .home2 .cap-card, .home2 .room-shot { transform: none !important; }
+  .home2 .board-info, .home2 .board-media, .home2 .cap-icon, .home2 .cap-card h3, .home2 .cap-card p { transform: none; }
+}
+
+/* On touch devices, disable cursor-tilt (no hover) to keep it calm */
+@media (hover: none) {
+  .home2 .board-row, .home2 .cap-card, .home2 .room-shot { transform: none !important; }
 }
