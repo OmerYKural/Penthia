@@ -324,6 +324,8 @@ ${extraNote ? `Additional notes from visitor: ${extraNote}` : ''}`;
     if (overlay) overlay.classList.remove('qp-visible');
     try { sessionStorage.setItem(SEEN_KEY, '1'); } catch (_) {}
     showReopenChip();
+    // Let the homepage boot-sequence know it may begin.
+    try { window.dispatchEvent(new Event('penthia:quiz-closed')); } catch (_) {}
   }
 
   function showReopenChip() {
