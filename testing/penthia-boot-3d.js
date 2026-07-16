@@ -152,50 +152,34 @@
     return s;
   }
 
-  // Face outline: extends BZ above/left/right of the screen, BOT below.
-  var faceW = W + BZ * 2, faceH = H + BZ + BOT, faceCY = (BZ - BOT) / 2;
+  // ---- Photoreal face: the REAL Vertex front, cropped from the product
+  // render in the repo (face-off.png = bezel + controls with the screen
+  // dark). The live screen content then fades in exactly over the screen
+  // opening, so the "wake" survives. Dimensions derived from the photo so
+  // the bezel proportions are the true ones.
+  var FACE_W = 6.646, FACE_H = 3.947, FACE_OY = -0.052;
 
-  // ---- Back shell: anodized graphite slab behind everything ----
-  var shellGeo = new THREE.ExtrudeGeometry(roundedRectShape(faceW, faceH, 0.12, faceCY), {
+  // Back shell: graphite slab behind the photo face
+  var shellGeo = new THREE.ExtrudeGeometry(roundedRectShape(FACE_W, FACE_H, 0.1, FACE_OY), {
     depth: DEPTH, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 3
   });
   shellGeo.translate(0, 0, -DEPTH / 2 - 0.03);
-  var bezelMat = new THREE.MeshStandardMaterial({ color: 0x0b0d11, roughness: 0.42, metalness: 0.55 });
-  bezelMat.envMapIntensity = 0.5;
-  var bezel = new THREE.Mesh(shellGeo, bezelMat);   // (name kept for GLB-swap list)
+  var bezelMat = new THREE.MeshStandardMaterial({ color: 0x0a0c10, roughness: 0.45, metalness: 0.5 });
+  bezelMat.envMapIntensity = 0.45;
+  var bezel = new THREE.Mesh(shellGeo, bezelMat);
   board.add(bezel);
 
-  // ---- Front bezel frame: matte black, machined edge around the glass ----
-  var frameShape = roundedRectShape(faceW, faceH, 0.12, faceCY);
-  frameShape.holes.push(roundedRectShape(W, H, 0.03, 0));
-  var frameGeo = new THREE.ExtrudeGeometry(frameShape, { depth: 0.045, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.012, bevelSegments: 2 });
-  frameGeo.translate(0, 0, FRONT - 0.02);
-  var frameMat = new THREE.MeshStandardMaterial({ color: 0x04060a, roughness: 0.55, metalness: 0.4 });
-  frameMat.envMapIntensity = 0.4;
-  var trim = new THREE.Mesh(frameGeo, frameMat);    // main visible bezel (name kept)
-  board.add(trim);
-
-  // ---- Gold pinstripe: thin brushed-gold edge around the outer rim ----
-  var stripeShape = roundedRectShape(faceW + 0.045, faceH + 0.045, 0.135, faceCY);
-  stripeShape.holes.push(roundedRectShape(faceW - 0.01, faceH - 0.01, 0.115, faceCY));
-  var stripeGeo = new THREE.ExtrudeGeometry(stripeShape, { depth: 0.055, bevelEnabled: false });
-  stripeGeo.translate(0, 0, FRONT - 0.01);
-  var goldMat = new THREE.MeshStandardMaterial({ color: 0xc9a84c, roughness: 0.28, metalness: 1.0 });
-  goldMat.envMapIntensity = 0.8;
-  var stripe = new THREE.Mesh(stripeGeo, goldMat);
-  board.add(stripe);
-
-  // ---- Screen: off = deep glossy black; on = the REAL Vertex home screen ----
-  var screenMat = new THREE.MeshPhysicalMaterial({
-    color: 0x03040a, roughness: 0.14, metalness: 0.0,
-    clearcoat: 1.0, clearcoatRoughness: 0.14, envMapIntensity: 0.55
+  var faceMat = new THREE.MeshBasicMaterial({ transparent: true, toneMapped: false });
+  new THREE.TextureLoader().load('face-off.png', function (tex) {
+    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
+    faceMat.map = tex; faceMat.needsUpdate = true;
   });
-  var screen = new THREE.Mesh(new THREE.PlaneGeometry(W, H), screenMat);
-  screen.position.z = FRONT + 0.028;
-  board.add(screen);
+  var face = new THREE.Mesh(new THREE.PlaneGeometry(FACE_W, FACE_H), faceMat);
+  face.position.set(0, FACE_OY, FRONT + 0.02);
+  board.add(face);
 
-  // Real UI texture (extracted from the actual product render). Falls back
-  // to the canvas wallpaper if the image is missing.
+  // Live screen content (real Vertex home screen) — fades in over the
+  // photo's dark screen opening on wake.
   var wallMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, toneMapped: false });
   new THREE.TextureLoader().load('screen-elite.jpg', function (tex) {
     tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
@@ -204,62 +188,29 @@
     wallMat.map = makeWallpaper(); wallMat.needsUpdate = true;
   });
   var wall = new THREE.Mesh(new THREE.PlaneGeometry(W, H), wallMat);
-  wall.position.z = FRONT + 0.03;
+  wall.position.z = FRONT + 0.028;
   board.add(wall);
 
-  // Glass sheen: a barely-there reflective layer OVER the lit screen,
-  // so the display keeps a product-shot glint even when powered on.
+  // Glass sheen over the screen: keeps a product-shot glint when lit
   var glassMat = new THREE.MeshPhysicalMaterial({
     color: 0xffffff, roughness: 0.04, metalness: 0,
     clearcoat: 1.0, clearcoatRoughness: 0.04,
-    transparent: true, opacity: 0.05, envMapIntensity: 1.6, depthWrite: false
+    transparent: true, opacity: 0.05, envMapIntensity: 1.5, depthWrite: false
   });
   var glass = new THREE.Mesh(new THREE.PlaneGeometry(W, H), glassMat);
-  glass.position.z = FRONT + 0.032;
+  glass.position.z = FRONT + 0.031;
   board.add(glass);
-
-  // ---- Bottom chin details: speaker grilles + PENTHIA wordmark ----
-  var chinY = -H / 2 - BOT / 2 + 0.02;
-  function grilleTexture() {
-    var c = document.createElement('canvas'); c.width = 512; c.height = 64;
-    var x = c.getContext('2d');
-    x.clearRect(0, 0, 512, 64);
-    x.fillStyle = 'rgba(210,220,235,0.5)';
-    for (var gy = 10; gy < 60; gy += 12) {
-      for (var gx = 6; gx < 508; gx += 12) {
-        x.beginPath(); x.arc(gx, gy, 2.1, 0, Math.PI * 2); x.fill();
-      }
-    }
-    var t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
-  }
-  var grilleMat = new THREE.MeshBasicMaterial({ map: grilleTexture(), transparent: true, opacity: 0.5, toneMapped: false, depthWrite: false });
-  var grilleL = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.16), grilleMat);
-  grilleL.position.set(-W / 2 + 0.95, chinY, FRONT + 0.044);
-  board.add(grilleL);
-  var grilleR = grilleL.clone();
-  grilleR.position.x = W / 2 - 0.95;
-  board.add(grilleR);
-
-  var wordmark = null;
-  new THREE.TextureLoader().load('penthia-wordmark.png', function (tex) {
-    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
-    var ar = tex.image.width / tex.image.height;
-    var wmH = 0.13, wmMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.95, toneMapped: false, depthWrite: false });
-    wordmark = new THREE.Mesh(new THREE.PlaneGeometry(wmH * ar, wmH), wmMat);
-    wordmark.position.set(0, chinY, FRONT + 0.045);
-    board.add(wordmark);
-  }, undefined, function () {});
 
   // ---- Camera bar: integrated rounded module on the top edge ----
   var camGroup = new THREE.Group();
-  var camY = H / 2 + BZ + 0.03;
+  var camY = FACE_OY + FACE_H / 2 + 0.06;
   var camBarGeo = new THREE.ExtrudeGeometry(roundedRectShape(0.92, 0.2, 0.09, 0), { depth: 0.14, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 });
   camBarGeo.translate(0, 0, -0.07);
   var camModule = new THREE.Mesh(camBarGeo, (function(){var m=new THREE.MeshStandardMaterial({ color: 0x080a0f, roughness: 0.4, metalness: 0.55 });m.envMapIntensity=0.5;return m;})());
   camGroup.add(camModule);
   var lensRing = new THREE.Mesh(
     new THREE.TorusGeometry(0.052, 0.012, 10, 28),
-    goldMat
+    (function () { var m = new THREE.MeshStandardMaterial({ color: 0x394253, roughness: 0.3, metalness: 0.85 }); m.envMapIntensity = 0.6; return m; })()
   );
   lensRing.position.z = 0.095; camGroup.add(lensRing);
   var lens = new THREE.Mesh(
@@ -281,12 +232,12 @@
   var standGroup = new THREE.Group();
   var colGeo = new THREE.CylinderGeometry(0.055, 0.055, 2.6, 14);
   var column = new THREE.Mesh(colGeo, standMat);           // left column (name kept)
-  column.position.set(-W / 2 + 1.1, -H / 2 - BOT - 0.9, -0.3);
+  column.position.set(-W / 2 + 1.1, FACE_OY - FACE_H / 2 - 0.95, -0.3);
   standGroup.add(column);
   var colR = column.clone(); colR.position.x = W / 2 - 1.1; standGroup.add(colR);
   var beam = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, W - 2.0, 12), standMat);
   beam.rotation.z = Math.PI / 2;
-  beam.position.set(0, -H / 2 - BOT - 1.35, -0.3);
+  beam.position.set(0, FACE_OY - FACE_H / 2 - 1.42, -0.3);
   standGroup.add(beam);
   function foot(x) {
     var g = new THREE.Group();
@@ -299,7 +250,7 @@
       wheel.position.set(0, -0.11, dz);
       g.add(wheel);
     });
-    g.position.set(x, -H / 2 - BOT - 2.2, -0.3);
+    g.position.set(x, FACE_OY - FACE_H / 2 - 2.28, -0.3);
     return g;
   }
   var footL = foot(-W / 2 + 1.1); standGroup.add(footL);
@@ -355,34 +306,49 @@
   var LAND_Y = narrow ? 1.05 : 0.25;
   var LAND_S = narrow ? 0.58 : 1;   // shrink to fit phone viewports
 
-  // ---- Cinematic timeline (time-based, NOT scroll-scrubbed) ----
-  // The user's FIRST scroll presses "play"; from there the flight runs on
-  // its own clock with graceful easing. Positions in scene units, times in
-  // seconds. Total sequence ~5s.
+  // ---- One seamless cinematic flow ----
+  // A single curved motion path carries the board from entry to touchdown
+  // (no waypoint stops), while rotation, scale, screen-wake and the icon
+  // shower all overlap inside the same gesture. Times in seconds.
+  var FLIGHT = 3.6;
   var tl = gsap.timeline({ paused: true });
 
-  tl.to(board.position, { x: 0.6, y: 6, z: 1.5, duration: 0.9, ease: 'power2.inOut' }, 0)
-    .to(board.position, { x: -0.4, y: 2.4, z: -0.4, duration: 0.9, ease: 'power2.inOut' }, 0.9)
-    .to(board.position, { x: LAND_X, y: LAND_Y, z: 0, duration: 1.15, ease: 'power3.out' }, 1.8)
-    // banking rotation that resolves to flat/vertical on land
-    .to(board.rotation, { x: 0.25, y: Math.PI * 1.2, z: -0.2, duration: 0.9, ease: 'power2.inOut' }, 0)
-    .to(board.rotation, { x: -0.15, y: Math.PI * 1.8, z: 0.15, duration: 0.9, ease: 'power2.inOut' }, 0.9)
-    .to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: 1.15, ease: 'power3.out' }, 1.8)
-    .to(board.scale, { x: LAND_S, y: LAND_S, z: LAND_S, duration: 2.0, ease: 'power2.out' }, 0)
-    // small settle bounce on touchdown
-    .to(board.position, { y: LAND_Y + 0.1, duration: 0.18, ease: 'power1.out' }, 2.95)
-    .to(board.position, { y: LAND_Y, duration: 0.55, ease: 'bounce.out' }, 3.13);
+  if (window.MotionPathPlugin) {
+    gsap.registerPlugin(window.MotionPathPlugin);
+    tl.to(board.position, {
+      motionPath: {
+        path: [
+          { x: 0.7,           y: 6.2,          z: 1.4 },
+          { x: -0.55,         y: 2.7,          z: -0.5 },
+          { x: LAND_X - 0.2,  y: LAND_Y + 0.5, z: 0.28 },
+          { x: LAND_X,        y: LAND_Y,       z: 0 }
+        ],
+        curviness: 1.35
+      },
+      duration: FLIGHT, ease: 'power2.out'
+    }, 0);
+  } else {
+    // graceful degradation if the plugin ever fails to load
+    tl.to(board.position, { x: -0.55, y: 2.7, z: -0.5, duration: FLIGHT * 0.5, ease: 'power2.in' }, 0)
+      .to(board.position, { x: LAND_X, y: LAND_Y, z: 0, duration: FLIGHT * 0.5, ease: 'power2.out' }, FLIGHT * 0.5);
+  }
 
-  // Screen wakes just before touchdown
-  tl.to(wallMat, { opacity: 0.92, duration: 0.6, ease: 'power2.out' }, 2.75);
+  // One continuous decelerating tumble that resolves upright exactly at
+  // touchdown, and one continuous scale — no piecewise segments.
+  tl.to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: FLIGHT, ease: 'power2.out' }, 0)
+    .to(board.scale, { x: LAND_S, y: LAND_S, z: LAND_S, duration: FLIGHT, ease: 'power2.out' }, 0);
 
-  // Apps rain in after landing — randomized order, timing and spin
+  // Screen wakes DURING the final approach — light blooms as it glides in
+  tl.to(wallMat, { opacity: 0.94, duration: 1.1, ease: 'power2.inOut' }, FLIGHT - 1.35);
+
+  // Apps start streaming in while the board is still finishing its glide,
+  // so landing and population read as one continuous shower.
   var order = icons.map(function (_, i) { return i; }).sort(function () { return Math.random() - 0.5; });
   order.forEach(function (idx, k) {
     var m = icons[idx];
-    var at = 3.15 + k * rand(0.10, 0.17);
-    tl.to(m.position, { x: m.userData.target.x, y: m.userData.target.y, z: m.userData.target.z, duration: rand(0.9, 1.25), ease: 'power3.out' }, at);
-    tl.to(m.rotation, { z: 0, duration: rand(0.9, 1.2), ease: 'back.out(1.6)' }, at);
+    var at = (FLIGHT - 1.05) + k * rand(0.09, 0.15);
+    tl.to(m.position, { x: m.userData.target.x, y: m.userData.target.y, z: m.userData.target.z, duration: rand(1.0, 1.35), ease: 'power3.out' }, at);
+    tl.to(m.rotation, { z: 0, duration: rand(1.0, 1.3), ease: 'power2.out' }, at);
     tl.to(m.material, { opacity: 1, duration: 0.5, ease: 'power2.out' }, at);
   });
 
@@ -489,8 +455,7 @@
         real.traverse(function (o) { if (o.isMesh) { o.castShadow = false; } });
         real.scale.setScalar(1);
         // Replace visual meshes but keep the animated `board` group as parent.
-        [bezel, trim, stripe, screen, wall, glass, grilleL, grilleR, camGroup, standGroup].forEach(function (m) { m.visible = false; });
-        if (wordmark) wordmark.visible = false;
+        [bezel, face, wall, glass, camGroup, standGroup].forEach(function (m) { m.visible = false; });
         board.add(real);
       }, undefined, function () { /* keep geometry board */ });
     } catch (e) { /* no loader; keep geometry board */ }
