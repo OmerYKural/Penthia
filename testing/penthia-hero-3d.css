@@ -1,0 +1,120 @@
+/* ============================================================
+   Penthia Solutions — penthia-hero-3d.css
+   Styles for the signature 3D homepage hero.
+   Loaded after style.css so it can lean on the same tokens.
+   ============================================================ */
+
+.hero3d {
+  position: relative;
+  min-height: calc(100vh - 68px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 40px 24px 80px;
+}
+
+/* Ambient gold glow behind the board */
+.hero3d-glow {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  max-width: 120vw;
+  max-height: 120vw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(201,168,76,0.10) 0%, rgba(201,168,76,0.04) 35%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* The Three.js canvas mount — sits above the glow, fills the hero */
+.hero3d-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+.hero3d-stage canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Text overlay — pinned to the lower area so it never covers the board face */
+.hero3d-copy {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 720px;
+  margin-top: auto;
+  pointer-events: none; /* let pointer parallax pass through, re-enable on buttons */
+}
+.hero3d-copy a { pointer-events: auto; }
+
+.hero3d-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 99px; padding: 5px 14px; margin-bottom: 22px;
+  font-size: 0.71rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold-2);
+}
+
+.hero3d-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 5rem);
+  font-weight: 800; line-height: 1.04; letter-spacing: -0.03em;
+  color: var(--white); margin-bottom: 20px;
+}
+.hero3d-title .accent {
+  color: transparent;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-3) 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+
+.hero3d-sub {
+  font-size: 1.05rem; line-height: 1.75; color: var(--muted-2);
+  max-width: 520px; margin: 0 auto 32px;
+}
+
+.hero3d-actions {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap; justify-content: center;
+}
+
+/* Scroll hint at the very bottom */
+.hero3d-scroll-hint {
+  position: absolute;
+  bottom: 22px; left: 50%; transform: translateX(-50%);
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--muted); font-size: 0.64rem; letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hero3d-scroll-hint svg { animation: heroScrollBob 1.8s ease-in-out infinite; }
+@keyframes heroScrollBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+
+/* Elements the animation reveals start hidden (JS/GSAP fades them up).
+   If JS is disabled, a <noscript>-style fallback keeps them visible. */
+.hero3d-reveal { opacity: 0; transform: translateY(20px); }
+
+/* Responsive: give the copy room and keep the board framed on phones */
+@media (max-width: 1100px) {
+  .hero3d { min-height: calc(100vh - 68px); }
+  .hero3d-title { font-size: clamp(2.2rem, 7vw, 3.4rem); }
+}
+@media (max-width: 760px) {
+  .hero3d { padding: 24px 18px 90px; }
+  .hero3d-sub { font-size: 0.98rem; }
+  .hero3d-actions { width: 100%; }
+  .hero3d-actions .btn-primary, .hero3d-actions .btn-ghost { flex: 1; justify-content: center; }
+  .hero3d-copy { margin-bottom: 8px; }
+}
+
+/* Respect reduced motion: kill the bob, everything is faded in by JS */
+@media (prefers-reduced-motion: reduce) {
+  .hero3d-scroll-hint svg { animation: none; }
+}
