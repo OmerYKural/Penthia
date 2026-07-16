@@ -66,12 +66,44 @@
   var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(mount.clientWidth, mount.clientHeight);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
   mount.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-  var keyLight = new THREE.DirectionalLight(0xfff1d4, 1.15); keyLight.position.set(4, 6, 8); scene.add(keyLight);
-  var rimLight = new THREE.DirectionalLight(0xc9a84c, 0.6); rimLight.position.set(-6, 2, 5); scene.add(rimLight);
-  var fillLight = new THREE.DirectionalLight(0x6f86c9, 0.35); fillLight.position.set(0, -4, 6); scene.add(fillLight);
+  // ---- Studio environment (PMREM) ----
+  // A tiny procedural "photo studio" — softbox planes around the origin —
+  // baked into an environment map. This is what makes the metal, glass and
+  // gold actually REFLECT like a product shot instead of flat plastic.
+  (function buildEnv() {
+    try {
+      var envScene = new THREE.Scene();
+      envScene.background = new THREE.Color(0x05070c);
+      function panel(w, h, color, x, y, z, ry, rx) {
+        var m = new THREE.Mesh(
+          new THREE.PlaneGeometry(w, h),
+          new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide })
+        );
+        m.position.set(x, y, z);
+        if (ry) m.rotation.y = ry;
+        if (rx) m.rotation.x = rx;
+        envScene.add(m);
+      }
+      panel(14, 9, 0xffffff, -8, 5, 6, Math.PI / 4, 0);        // big key softbox, upper-left front
+      panel(10, 2.2, 0xc9a84c, 9, 1.5, 4, -Math.PI / 3.2, 0);  // warm gold strip, right
+      panel(16, 5, 0x1a2130, 0, -8, 2, 0, Math.PI / 2.6);      // cool floor bounce
+      panel(8, 8, 0x55617a, 0, 9, -2, 0, -Math.PI / 2.2);      // soft cool top light
+      var pmrem = new THREE.PMREMGenerator(renderer);
+      var envRT = pmrem.fromScene(envScene, 0.045);
+      scene.environment = envRT.texture;
+      pmrem.dispose();
+    } catch (e) { /* env optional — lights below still carry the scene */ }
+  })();
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.32));
+  var keyLight = new THREE.DirectionalLight(0xfff1d4, 1.0); keyLight.position.set(4, 6, 8); scene.add(keyLight);
+  var rimLight = new THREE.DirectionalLight(0xc9a84c, 0.55); rimLight.position.set(-6, 2, 5); scene.add(rimLight);
+  var fillLight = new THREE.DirectionalLight(0x6f86c9, 0.3); fillLight.position.set(0, -4, 6); scene.add(fillLight);
 
   // ---- Ambient gold dust ----
   // Alive from the very first frame — even while the quiz gate holds the
@@ -99,12 +131,15 @@
   var board = new THREE.Group();
   boardWrap.add(board);
 
-  var W = 6.4, H = 3.7, DEPTH = 0.22;
+  var W = 6.4, H = 3.6, DEPTH = 0.22;           // 16:9 panel, like the real Vertex
+  var BZ = 0.09;                                 // thin side/top bezel
+  var BOT = 0.34;                                // deeper bottom chin (speakers/ports)
+  var FRONT = DEPTH / 2;                         // z of the front face
 
-  // Rounded-rect extrude for a real bezel silhouette
-  function roundedRectShape(w, h, r) {
+  // Rounded-rect shape helper (optionally offset vertically)
+  function roundedRectShape(w, h, r, cy) {
     var s = new THREE.Shape();
-    var x = -w / 2, y = -h / 2;
+    var x = -w / 2, y = (cy || 0) - h / 2;
     s.moveTo(x + r, y);
     s.lineTo(x + w - r, y);
     s.quadraticCurveTo(x + w, y, x + w, y + r);
@@ -117,58 +152,159 @@
     return s;
   }
 
-  // Bezel (extruded rounded frame)
-  var bezelShape = roundedRectShape(W + 0.34, H + 0.34, 0.22);
-  var bezelGeo = new THREE.ExtrudeGeometry(bezelShape, { depth: DEPTH, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3 });
-  bezelGeo.center();
-  var bezelMat = new THREE.MeshStandardMaterial({ color: 0x0a0c11, roughness: 0.5, metalness: 0.45 });
-  var bezel = new THREE.Mesh(bezelGeo, bezelMat);
+  // Face outline: extends BZ above/left/right of the screen, BOT below.
+  var faceW = W + BZ * 2, faceH = H + BZ + BOT, faceCY = (BZ - BOT) / 2;
+
+  // ---- Back shell: anodized graphite slab behind everything ----
+  var shellGeo = new THREE.ExtrudeGeometry(roundedRectShape(faceW, faceH, 0.12, faceCY), {
+    depth: DEPTH, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 3
+  });
+  shellGeo.translate(0, 0, -DEPTH / 2 - 0.03);
+  var bezelMat = new THREE.MeshStandardMaterial({ color: 0x0b0d11, roughness: 0.42, metalness: 0.55 });
+  bezelMat.envMapIntensity = 0.5;
+  var bezel = new THREE.Mesh(shellGeo, bezelMat);   // (name kept for GLB-swap list)
   board.add(bezel);
 
-  // Gold trim ring (thin, just inside the bezel)
-  var trimShape = roundedRectShape(W + 0.06, H + 0.06, 0.14);
-  var trimHole = roundedRectShape(W - 0.04, H - 0.04, 0.1);
-  trimShape.holes.push(trimHole);
-  var trimGeo = new THREE.ExtrudeGeometry(trimShape, { depth: 0.02, bevelEnabled: false });
-  trimGeo.center();
-  var trimMat = new THREE.MeshStandardMaterial({ color: 0xc9a84c, roughness: 0.25, metalness: 0.9 });
-  var trim = new THREE.Mesh(trimGeo, trimMat);
-  trim.position.z = DEPTH / 2 + 0.01;
+  // ---- Front bezel frame: matte black, machined edge around the glass ----
+  var frameShape = roundedRectShape(faceW, faceH, 0.12, faceCY);
+  frameShape.holes.push(roundedRectShape(W, H, 0.03, 0));
+  var frameGeo = new THREE.ExtrudeGeometry(frameShape, { depth: 0.045, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.012, bevelSegments: 2 });
+  frameGeo.translate(0, 0, FRONT - 0.02);
+  var frameMat = new THREE.MeshStandardMaterial({ color: 0x04060a, roughness: 0.55, metalness: 0.4 });
+  frameMat.envMapIntensity = 0.4;
+  var trim = new THREE.Mesh(frameGeo, frameMat);    // main visible bezel (name kept)
   board.add(trim);
 
-  // Screen (dark, wakes to wallpaper)
-  var screenMat = new THREE.MeshStandardMaterial({ color: 0x04060b, roughness: 0.85, metalness: 0.1 });
+  // ---- Gold pinstripe: thin brushed-gold edge around the outer rim ----
+  var stripeShape = roundedRectShape(faceW + 0.045, faceH + 0.045, 0.135, faceCY);
+  stripeShape.holes.push(roundedRectShape(faceW - 0.01, faceH - 0.01, 0.115, faceCY));
+  var stripeGeo = new THREE.ExtrudeGeometry(stripeShape, { depth: 0.055, bevelEnabled: false });
+  stripeGeo.translate(0, 0, FRONT - 0.01);
+  var goldMat = new THREE.MeshStandardMaterial({ color: 0xc9a84c, roughness: 0.28, metalness: 1.0 });
+  goldMat.envMapIntensity = 0.8;
+  var stripe = new THREE.Mesh(stripeGeo, goldMat);
+  board.add(stripe);
+
+  // ---- Screen: off = deep glossy black; on = the REAL Vertex home screen ----
+  var screenMat = new THREE.MeshPhysicalMaterial({
+    color: 0x03040a, roughness: 0.14, metalness: 0.0,
+    clearcoat: 1.0, clearcoatRoughness: 0.14, envMapIntensity: 0.55
+  });
   var screen = new THREE.Mesh(new THREE.PlaneGeometry(W, H), screenMat);
-  screen.position.z = DEPTH / 2 + 0.012;
+  screen.position.z = FRONT + 0.028;
   board.add(screen);
 
-  var wallMat = new THREE.MeshBasicMaterial({ map: makeWallpaper(), transparent: true, opacity: 0 });
+  // Real UI texture (extracted from the actual product render). Falls back
+  // to the canvas wallpaper if the image is missing.
+  var wallMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, toneMapped: false });
+  new THREE.TextureLoader().load('screen-elite.jpg', function (tex) {
+    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
+    wallMat.map = tex; wallMat.needsUpdate = true;
+  }, undefined, function () {
+    wallMat.map = makeWallpaper(); wallMat.needsUpdate = true;
+  });
   var wall = new THREE.Mesh(new THREE.PlaneGeometry(W, H), wallMat);
-  wall.position.z = DEPTH / 2 + 0.013;
+  wall.position.z = FRONT + 0.03;
   board.add(wall);
 
-  // Camera module (top center)
-  var camModule = new THREE.Mesh(
-    new THREE.BoxGeometry(1.0, 0.18, 0.16),
-    new THREE.MeshStandardMaterial({ color: 0x070910, roughness: 0.4, metalness: 0.5 })
-  );
-  camModule.position.set(0, H / 2 + 0.22, DEPTH / 2);
-  board.add(camModule);
-  var lens = new THREE.Mesh(
-    new THREE.CircleGeometry(0.035, 20),
-    new THREE.MeshStandardMaterial({ color: 0x1a2740, roughness: 0.2, metalness: 0.7 })
-  );
-  lens.position.set(0, H / 2 + 0.22, DEPTH / 2 + 0.09);
-  board.add(lens);
+  // Glass sheen: a barely-there reflective layer OVER the lit screen,
+  // so the display keeps a product-shot glint even when powered on.
+  var glassMat = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, roughness: 0.04, metalness: 0,
+    clearcoat: 1.0, clearcoatRoughness: 0.04,
+    transparent: true, opacity: 0.05, envMapIntensity: 1.6, depthWrite: false
+  });
+  var glass = new THREE.Mesh(new THREE.PlaneGeometry(W, H), glassMat);
+  glass.position.z = FRONT + 0.032;
+  board.add(glass);
 
-  // Simple stand silhouette (legs + column), sits behind, faint
-  var standMat = new THREE.MeshStandardMaterial({ color: 0x0b0d12, roughness: 0.6, metalness: 0.3 });
-  var column = new THREE.Mesh(new THREE.BoxGeometry(0.16, 2.2, 0.16), standMat);
-  column.position.set(0, -H / 2 - 1.1, -0.2);
-  board.add(column);
-  var footL = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.14, 2.2), standMat);
-  footL.position.set(-0.9, -H / 2 - 2.1, -0.2); footL.rotation.y = 0.35; board.add(footL);
-  var footR = footL.clone(); footR.position.x = 0.9; footR.rotation.y = -0.35; board.add(footR);
+  // ---- Bottom chin details: speaker grilles + PENTHIA wordmark ----
+  var chinY = -H / 2 - BOT / 2 + 0.02;
+  function grilleTexture() {
+    var c = document.createElement('canvas'); c.width = 512; c.height = 64;
+    var x = c.getContext('2d');
+    x.clearRect(0, 0, 512, 64);
+    x.fillStyle = 'rgba(210,220,235,0.5)';
+    for (var gy = 10; gy < 60; gy += 12) {
+      for (var gx = 6; gx < 508; gx += 12) {
+        x.beginPath(); x.arc(gx, gy, 2.1, 0, Math.PI * 2); x.fill();
+      }
+    }
+    var t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
+  }
+  var grilleMat = new THREE.MeshBasicMaterial({ map: grilleTexture(), transparent: true, opacity: 0.5, toneMapped: false, depthWrite: false });
+  var grilleL = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.16), grilleMat);
+  grilleL.position.set(-W / 2 + 0.95, chinY, FRONT + 0.044);
+  board.add(grilleL);
+  var grilleR = grilleL.clone();
+  grilleR.position.x = W / 2 - 0.95;
+  board.add(grilleR);
+
+  var wordmark = null;
+  new THREE.TextureLoader().load('penthia-wordmark.png', function (tex) {
+    tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
+    var ar = tex.image.width / tex.image.height;
+    var wmH = 0.13, wmMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.95, toneMapped: false, depthWrite: false });
+    wordmark = new THREE.Mesh(new THREE.PlaneGeometry(wmH * ar, wmH), wmMat);
+    wordmark.position.set(0, chinY, FRONT + 0.045);
+    board.add(wordmark);
+  }, undefined, function () {});
+
+  // ---- Camera bar: integrated rounded module on the top edge ----
+  var camGroup = new THREE.Group();
+  var camY = H / 2 + BZ + 0.03;
+  var camBarGeo = new THREE.ExtrudeGeometry(roundedRectShape(0.92, 0.2, 0.09, 0), { depth: 0.14, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 });
+  camBarGeo.translate(0, 0, -0.07);
+  var camModule = new THREE.Mesh(camBarGeo, (function(){var m=new THREE.MeshStandardMaterial({ color: 0x080a0f, roughness: 0.4, metalness: 0.55 });m.envMapIntensity=0.5;return m;})());
+  camGroup.add(camModule);
+  var lensRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.052, 0.012, 10, 28),
+    goldMat
+  );
+  lensRing.position.z = 0.095; camGroup.add(lensRing);
+  var lens = new THREE.Mesh(
+    new THREE.CircleGeometry(0.045, 24),
+    new THREE.MeshPhysicalMaterial({ color: 0x0a1322, roughness: 0.05, metalness: 0.4, clearcoat: 1, envMapIntensity: 2 })
+  );
+  lens.position.z = 0.096; camGroup.add(lens);
+  var led = new THREE.Mesh(
+    new THREE.CircleGeometry(0.014, 12),
+    new THREE.MeshBasicMaterial({ color: 0x35e08f, toneMapped: false })
+  );
+  led.position.set(0.3, 0, 0.096); camGroup.add(led);
+  camGroup.position.set(0, camY, FRONT - 0.06);
+  board.add(camGroup);
+
+  // ---- Mobile stand: brushed columns, cross beam, caster feet ----
+  var standMat = new THREE.MeshStandardMaterial({ color: 0x0b0d12, roughness: 0.5, metalness: 0.6 });
+  standMat.envMapIntensity = 0.5;
+  var standGroup = new THREE.Group();
+  var colGeo = new THREE.CylinderGeometry(0.055, 0.055, 2.6, 14);
+  var column = new THREE.Mesh(colGeo, standMat);           // left column (name kept)
+  column.position.set(-W / 2 + 1.1, -H / 2 - BOT - 0.9, -0.3);
+  standGroup.add(column);
+  var colR = column.clone(); colR.position.x = W / 2 - 1.1; standGroup.add(colR);
+  var beam = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, W - 2.0, 12), standMat);
+  beam.rotation.z = Math.PI / 2;
+  beam.position.set(0, -H / 2 - BOT - 1.35, -0.3);
+  standGroup.add(beam);
+  function foot(x) {
+    var g = new THREE.Group();
+    var bar = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.07, 1.7), standMat);
+    g.add(bar);
+    [0.72, -0.72].forEach(function (dz) {
+      var wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.05, 14),
+        new THREE.MeshStandardMaterial({ color: 0x0a0c10, roughness: 0.55, metalness: 0.4 }));
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(0, -0.11, dz);
+      g.add(wheel);
+    });
+    g.position.set(x, -H / 2 - BOT - 2.2, -0.3);
+    return g;
+  }
+  var footL = foot(-W / 2 + 1.1); standGroup.add(footL);
+  var footR = foot(W / 2 - 1.1); standGroup.add(footR);
+  board.add(standGroup);
 
   // ---- App tiles: organic scatter entry ----
   var iconGroup = new THREE.Group();
@@ -183,7 +319,7 @@
     var tx = startX + col * GAP_X;
     var ty = startY - row * GAP_Y;
 
-    var mat = new THREE.MeshBasicMaterial({ map: makeLetterTile(app.name, app.color), transparent: true, opacity: 0 });
+    var mat = new THREE.MeshBasicMaterial({ map: makeLetterTile(app.name, app.color), transparent: true, opacity: 0, toneMapped: false });
     var mesh = new THREE.Mesh(new THREE.PlaneGeometry(ICON, ICON), mat);
 
     loader.load(app.key + '.png',
@@ -215,8 +351,9 @@
   // so the board settles slightly right-of-center on desktop and
   // higher on small screens instead of colliding with the text.
   var narrow = mount.clientWidth < 760;
-  var LAND_X = narrow ? 0 : 1.1;
-  var LAND_Y = narrow ? 0.9 : 0.25;
+  var LAND_X = narrow ? 0 : 1.35;
+  var LAND_Y = narrow ? 1.05 : 0.25;
+  var LAND_S = narrow ? 0.58 : 1;   // shrink to fit phone viewports
 
   // ---- Scrubbed timeline ----
   var tl = gsap.timeline({ paused: true });
@@ -230,7 +367,7 @@
     .to(board.rotation, { x: 0.25, y: Math.PI * 1.2, z: -0.2, duration: 0.5, ease: 'power1.inOut' }, 0)
     .to(board.rotation, { x: -0.15, y: Math.PI * 1.8, z: 0.15, duration: 0.5, ease: 'power1.inOut' }, 0.5)
     .to(board.rotation, { x: 0, y: Math.PI * 2, z: 0, duration: 0.6, ease: 'power3.out' }, 1.0)
-    .to(board.scale, { x: 1, y: 1, z: 1, duration: 1.1, ease: 'power2.out' }, 0)
+    .to(board.scale, { x: LAND_S, y: LAND_S, z: LAND_S, duration: 1.1, ease: 'power2.out' }, 0)
     // small settle
     .to(board.position, { y: LAND_Y + 0.12, duration: 0.12, ease: 'power1.out' }, 1.6)
     .to(board.position, { y: LAND_Y, duration: 0.4, ease: 'bounce.out' }, 1.72);
@@ -351,7 +488,8 @@
         real.traverse(function (o) { if (o.isMesh) { o.castShadow = false; } });
         real.scale.setScalar(1);
         // Replace visual meshes but keep the animated `board` group as parent.
-        [bezel, trim, screen, wall, camModule, lens, column, footL, footR].forEach(function (m) { m.visible = false; });
+        [bezel, trim, stripe, screen, wall, glass, grilleL, grilleR, camGroup, standGroup].forEach(function (m) { m.visible = false; });
+        if (wordmark) wordmark.visible = false;
         board.add(real);
       }, undefined, function () { /* keep geometry board */ });
     } catch (e) { /* no loader; keep geometry board */ }
@@ -361,14 +499,29 @@
   function makeLetterTile(label, hex) {
     var s = 256, c = document.createElement('canvas'); c.width = c.height = s;
     var x = c.getContext('2d');
-    x.fillStyle = '#fff'; rr(x, 18, 18, s - 36, s - 36, 52); x.fill();
-    x.fillStyle = hex; rr(x, 54, 46, s - 108, s - 132, 34); x.fill();
-    x.fillStyle = '#fff'; x.font = 'bold 92px Inter, Arial, sans-serif';
+    // soft drop shadow
+    x.save();
+    x.shadowColor = 'rgba(0,0,0,0.45)'; x.shadowBlur = 26; x.shadowOffsetY = 10;
+    // squircle tile with a subtle top-lit gradient of the brand color
+    var g = x.createLinearGradient(0, 24, 0, s - 24);
+    g.addColorStop(0, shade(hex, 0.22)); g.addColorStop(1, shade(hex, -0.14));
+    x.fillStyle = g; rr(x, 24, 24, s - 48, s - 48, 62); x.fill();
+    x.restore();
+    // glass highlight across the top
+    var hl = x.createLinearGradient(0, 24, 0, s / 2);
+    hl.addColorStop(0, 'rgba(255,255,255,0.32)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+    x.fillStyle = hl; rr(x, 24, 24, s - 48, (s - 48) / 2, 62); x.fill();
+    // glyph
+    x.fillStyle = '#fff'; x.font = '800 118px Inter, Arial, sans-serif';
     x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText(label.charAt(0), s / 2, 108);
-    x.fillStyle = '#1a1a1a'; x.font = '600 30px Inter, Arial, sans-serif';
-    x.fillText(label, s / 2, s - 34);
+    x.shadowColor = 'rgba(0,0,0,0.25)'; x.shadowBlur = 8; x.shadowOffsetY = 3;
+    x.fillText(label.charAt(0), s / 2, s / 2 + 6);
     var tex = new THREE.CanvasTexture(c); tex.anisotropy = 4; return tex;
+  }
+  function shade(hex, amt) {
+    var n = parseInt(hex.slice(1), 16), r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    function ch(v) { v = Math.round(amt >= 0 ? v + (255 - v) * amt : v * (1 + amt)); return Math.max(0, Math.min(255, v)); }
+    return 'rgb(' + ch(r) + ',' + ch(g) + ',' + ch(b) + ')';
   }
   function makeWallpaper() {
     var w = 1024, h = 600, c = document.createElement('canvas'); c.width = w; c.height = h;

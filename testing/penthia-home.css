@@ -333,6 +333,9 @@
 
 /* Section backgrounds gain depth via layered radial glows (parallax in JS) */
 .home2 .line, .home2 .cap, .home2 .close { position: relative; }
+/* Sections that host orbs clip them — a 520px orb hanging past the right
+   edge otherwise forces phones to zoom the whole layout out (793px ICB). */
+.home2 .line, .home2 .cap, .home2 .close { overflow: hidden; }
 .home2 .depth-orb {
   position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
   background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 68%);
