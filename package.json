@@ -1,0 +1,9 @@
+{
+  "name": "penthia-site",
+  "private": true,
+  "type": "module",
+  "description": "penthiasolutions.com — static site plus the Claude proxy function",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0"
+  }
+}
