@@ -1,0 +1,230 @@
+/* ============================================================
+   Penthia — homepage v4
+   System measured from uber.com (docs/feel/uber/report.md).
+   Spec: docs/feel/feel-spec-v4.md
+
+   Copied: type scale, weight distribution, colour ROLES,
+   36px rhythm, 12-col grid, radii, button shape, easing,
+   left alignment, and the near-total absence of motion.
+
+   Not copied: their copy, illustrations, icon set, wordmark,
+   nav structure, or product naming.
+
+   Palette is Penthia's, locked. Classes are u-* namespaced —
+   style.css still owns the widgets and modal.
+   ============================================================ */
+
+:root {
+  /* ── colour roles ── */
+  --u-page:    #f0eeea;             /* was #ffffff */
+  --u-surface: rgba(8,10,15,0.04);  /* was #f3f3f3 */
+  --u-ink:     #080a0f;             /* was #000000 */
+  --u-mute:    #5a6480;             /* was #5e5e5e */
+  --u-mute-2:  #7a849f;             /* was #afafaf */
+  --u-inv:     #080a0f;             /* inverse band, was #000000 */
+  --u-on-inv:  #f0eeea;
+  --u-gold:    #c9a84c;             /* appears twice on the page, by design */
+  --u-edge:    rgba(8,10,15,0.08);
+
+  /* ── type: 8 sizes, 3 weights, 400 dominant, zero tracking ── */
+  --u-f: 'Hanken Grotesk', system-ui, 'Helvetica Neue', Helvetica, sans-serif;
+  --u-t-d:  52px; --u-l-d:  64px;
+  --u-t-h2: 36px; --u-l-h2: 44px;
+  --u-t-h3: 24px; --u-l-h3: 32px;
+  --u-t-ld: 18px; --u-l-ld: 24px;
+  --u-t-b:  16px; --u-l-b:  24px;
+  --u-t-bt: 16px; --u-l-bt: 20px;
+  --u-t-s:  14px; --u-l-s:  20px;
+  --u-t-xs: 12px; --u-l-xs: 20px;
+
+  /* ── spacing: base 4, dominant rhythm gap 36px ── */
+  --u-1: 4px;  --u-2: 8px;  --u-3: 12px; --u-4: 16px;
+  --u-5: 24px; --u-6: 36px; --u-7: 48px; --u-8: 72px; --u-9: 96px;
+  --u-shell: 1280px; --u-content: 1152px; --u-narrow: 756px;
+
+  /* ── surfaces ── */
+  --u-r: 8px; --u-r-pill: 999px; --u-r-lg: 12px;
+  --u-shadow: 0 4px 16px rgba(0,0,0,0.16);
+
+  /* ── motion: linear for colour, expo-out for image only ── */
+  --u-lin: cubic-bezier(0, 0, 1, 1);
+  --u-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--u-page);
+  color: var(--u-ink);
+  font-family: var(--u-f);
+  font-size: var(--u-t-b);
+  line-height: var(--u-l-b);
+  font-weight: 400;                 /* 400 dominates: 69 vs 46 vs 15 */
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--u-ink); color: var(--u-page); }
+
+.u-w { max-width: var(--u-shell); margin: 0 auto; padding: 0 var(--u-5); }
+.u-w--c { max-width: var(--u-content); }
+.u-w--n { max-width: var(--u-narrow); }
+
+/* Left-aligned throughout. The reference never centres a section head. */
+.u-sec { padding: var(--u-9) 0; }
+.u-sec--sur { background: var(--u-surface); }
+.u-sec--inv { background: var(--u-inv); color: var(--u-on-inv); }
+
+h1, h2, h3 { margin: 0; letter-spacing: normal; }
+.u-d  { font-size: var(--u-t-d);  line-height: var(--u-l-d);  font-weight: 700; }
+.u-h2 { font-size: var(--u-t-h2); line-height: var(--u-l-h2); font-weight: 700; }
+.u-h3 { font-size: var(--u-t-h3); line-height: var(--u-l-h3); font-weight: 500; }
+.u-ld { font-size: var(--u-t-ld); line-height: var(--u-l-ld); font-weight: 400; }
+.u-b  { font-size: var(--u-t-b);  line-height: var(--u-l-b);  font-weight: 400; }
+.u-s  { font-size: var(--u-t-s);  line-height: var(--u-l-s);  font-weight: 400; }
+.u-xs { font-size: var(--u-t-xs); line-height: var(--u-l-xs); font-weight: 400; }
+.u-mute { color: var(--u-mute); }
+
+/* ── NAV — black bar, white type, small pill ─────────── */
+
+.u-nav { background: var(--u-inv); color: var(--u-on-inv); position: sticky; top: 0; z-index: 600; }
+.u-nav__in { display: flex; align-items: center; gap: var(--u-6); max-width: var(--u-shell); margin: 0 auto; padding: var(--u-3) var(--u-5); }
+.u-nav__brand img { height: 18px; width: auto; display: block; }
+.u-nav__links { display: flex; gap: var(--u-5); }
+.u-nav__a {
+  color: var(--u-on-inv); text-decoration: none;
+  font-size: var(--u-t-s); line-height: var(--u-l-s); font-weight: 500;
+  padding: var(--u-2) var(--u-3); border-radius: var(--u-r);
+  transition: background var(--u-lin) 0.2s;
+}
+.u-nav__a:hover, .u-nav__a[aria-current] { background: rgba(240,238,234,0.12); }
+.u-nav__right { display: flex; align-items: center; gap: var(--u-3); margin-left: auto; }
+.u-nav__search { display: flex; align-items: center; gap: var(--u-2); background: rgba(240,238,234,0.12); border-radius: var(--u-r); padding: var(--u-2) var(--u-3); }
+.u-nav__search input { border: 0; background: none; outline: none; width: 104px; color: var(--u-on-inv); font: 400 var(--u-t-s)/var(--u-l-s) var(--u-f); }
+.u-nav__search input::placeholder { color: rgba(240,238,234,0.6); }
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+/* Reference: 999px pill, 14px/500, tight padding, primary is
+   BLACK not an accent. Hover changes background only. */
+
+.u-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 500 var(--u-t-s)/1 var(--u-f);
+  padding: 12px 16px; border-radius: var(--u-r-pill);
+  border: 0; text-decoration: none; cursor: pointer;
+  transition: background var(--u-lin) 0.2s, color var(--u-lin) 0.2s;
+}
+.u-btn--pri { background: var(--u-ink); color: var(--u-page); }
+.u-btn--pri:hover { background: #131620; }
+.u-btn--sec { background: var(--u-surface); color: var(--u-ink); }
+.u-btn--sec:hover { background: rgba(8,10,15,0.1); }
+.u-btn--inv { background: var(--u-page); color: var(--u-ink); }
+.u-btn--inv:hover { background: #e2c27a; }
+.u-btn--sq { border-radius: var(--u-r); padding: 14px 22px; font-size: var(--u-t-b); font-weight: 700; }
+.u-link { color: var(--u-ink); text-decoration: underline; text-underline-offset: 4px; font-size: var(--u-t-b); }
+
+/* ── HERO ────────────────────────────────────────────── */
+
+.u-hero { padding: var(--u-8) 0 var(--u-9); }
+.u-hero__g { display: grid; grid-template-columns: 1fr 1fr; gap: var(--u-8); align-items: center; }
+.u-hero__t { margin-bottom: var(--u-5); max-width: 14ch; }
+.u-hero__p { margin-bottom: var(--u-6); max-width: 46ch; color: var(--u-mute); }
+.u-hero__a { display: flex; align-items: center; gap: var(--u-5); flex-wrap: wrap; }
+.u-hero__m { border-radius: var(--u-r); overflow: hidden; background: var(--u-surface); }
+.u-hero__m img { width: 100%; height: auto; display: block; }
+
+/* ── STAT ROW ────────────────────────────────────────── */
+
+.u-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--u-6); }
+.u-stats__n { font-size: var(--u-t-h3); line-height: var(--u-l-h3); font-weight: 700; }
+.u-stats__l { color: var(--u-mute); margin-top: var(--u-1); }
+
+/* ── CARDS — filled grey panels, not outlined ────────── */
+
+.u-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--u-5); }
+.u-card {
+  background: var(--u-surface); border-radius: var(--u-r);
+  padding: var(--u-6); display: flex; flex-direction: column;
+  transition: background var(--u-lin) 0.2s;
+}
+.u-card:hover { background: rgba(8,10,15,0.07); }
+.u-card__m { border-radius: var(--u-r); overflow: hidden; margin-bottom: var(--u-5); }
+.u-card__m img { width: 100%; aspect-ratio: 16 / 10; object-fit: contain; display: block; }
+.u-card__t { margin-bottom: var(--u-3); }
+.u-card__p { color: var(--u-mute); margin-bottom: var(--u-5); }
+.u-spec { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--u-5); margin-bottom: var(--u-5); }
+.u-spec div { display: flex; justify-content: space-between; gap: var(--u-3); padding: var(--u-2) 0; border-bottom: 1px solid var(--u-edge); }
+.u-spec dt { color: var(--u-mute); font-size: var(--u-t-s); line-height: var(--u-l-s); }
+.u-spec dd { margin: 0; font-size: var(--u-t-s); line-height: var(--u-l-s); font-weight: 700; }
+.u-card__f { margin-top: auto; }
+
+/* ── ALTERNATING BLOCKS ──────────────────────────────── */
+
+.u-blk { display: grid; grid-template-columns: 1fr 1fr; gap: var(--u-8); align-items: center; padding: var(--u-8) 0; }
+.u-blk--flip .u-blk__m { order: -1; }
+.u-blk__m { border-radius: var(--u-r); overflow: hidden; }
+.u-blk__m img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; transition: background-size 0.5s var(--u-expo); }
+.u-blk__t { margin-bottom: var(--u-4); }
+.u-blk__p { color: var(--u-mute); margin-bottom: var(--u-6); max-width: 44ch; }
+
+/* ── FEATURE LIST — 12-col grid, 3 across ────────────── */
+
+.u-feat { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--u-6) var(--u-5); }
+.u-feat__i { padding-top: var(--u-5); border-top: 2px solid var(--u-edge); }
+.u-feat__t { margin-bottom: var(--u-3); font-weight: 700; font-size: var(--u-t-ld); line-height: var(--u-l-ld); }
+.u-feat__p { color: var(--u-mute); }
+
+/* ── INVERSE BAND ────────────────────────────────────── */
+
+.u-sec--inv .u-mute { color: rgba(240,238,234,0.66); }
+.u-sec--inv .u-blk__p { color: rgba(240,238,234,0.66); }
+
+/* ── PERSISTENT ACTION BAR ───────────────────────────── */
+/* Reference pins a full-width action bar to the bottom. */
+
+.u-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 500;
+  background: var(--u-ink); color: var(--u-on-inv);
+  display: flex; align-items: center; justify-content: center; gap: var(--u-5);
+  padding: var(--u-3) var(--u-5);
+}
+.u-bar__t { font-size: var(--u-t-s); line-height: var(--u-l-s); }
+body { padding-bottom: 60px; }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+
+.u-foot { padding: var(--u-8) 0; border-top: 1px solid var(--u-edge); }
+.u-foot__in { display: flex; flex-wrap: wrap; gap: var(--u-5); align-items: center; justify-content: space-between; }
+.u-foot a { color: var(--u-ink); text-decoration: none; font-size: var(--u-t-s); }
+.u-foot a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.u-foot__l { display: flex; gap: var(--u-5); }
+
+/* ── MOTION ──────────────────────────────────────────── */
+/* Deliberately absent. Six of eight measured scroll steps on the
+   reference move nothing at all — there are no scroll reveals.
+   v4 has none either. Hover changes background colour only. */
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+/* Reference: 52 -> 44 at tablet -> 36 at mobile. */
+
+@media (max-width: 1024px) {
+  :root { --u-t-d: 44px; --u-l-d: 52px; --u-9: 72px; --u-8: 48px; }
+  .u-hero__g, .u-blk { grid-template-columns: 1fr; gap: var(--u-6); }
+  .u-blk--flip .u-blk__m { order: 0; }
+  .u-feat { grid-template-columns: repeat(2, 1fr); }
+  .u-stats { grid-template-columns: repeat(3, 1fr); }
+  .u-nav__links { display: none; }
+}
+@media (max-width: 720px) {
+  :root { --u-t-d: 36px; --u-l-d: 44px; --u-t-h2: 28px; --u-l-h2: 36px; }
+  .u-grid, .u-feat { grid-template-columns: 1fr; }
+  .u-stats { grid-template-columns: repeat(2, 1fr); gap: var(--u-5); }
+  .u-spec { grid-template-columns: 1fr; }
+  .u-nav__search { display: none; }
+  .u-bar { justify-content: space-between; }
+  body { padding-bottom: 120px; }
+  #qp-reopen-chip { left: 14px !important; right: auto !important; bottom: 124px !important; }
+}
