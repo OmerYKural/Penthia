@@ -379,13 +379,8 @@ Can you tell me more about this board and answer any follow-up questions I might
       return;
     }
 
-    // Auto-pop on first visit — gets attention without requiring a click,
-    // but always paired with a visible skip option.
-    setTimeout(() => {
-      const overlay = document.getElementById('quiz-popup-overlay');
-      if (overlay) overlay.classList.add('qp-visible');
-      renderStep();
-    }, 900);
+    // Entry-point only — the chip and the in-page CTA call reopen().
+    showReopenChip();
   }
 
   window.QuizPopup = {
