@@ -13,7 +13,8 @@
 
 (function () {
   const SEEN_KEY = 'penthia_quiz_popup_seen';
-  const SUPABASE_URL = 'https://qwbtgguduzygwtrmkjul.supabase.co/functions/v1/claude-proxy';
+  // Same-origin. Model, system prompt, and limits are server-side.
+  const PROXY_URL = '/api/chat';
 
   const STEPS = [
     {
@@ -269,12 +270,10 @@ ${extraNote ? `Additional notes from visitor: ${extraNote}` : ''}`;
 
     let verdict = null;
     try {
-      const response = await fetch(SUPABASE_URL, {
+      const response = await fetch(PROXY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 300,
           messages: [{ role: 'user', content: buildVerdictPrompt() }]
         })
       });
