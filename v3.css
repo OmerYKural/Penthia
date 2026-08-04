@@ -239,3 +239,63 @@ h1, h2, h3 { font-weight: 700; letter-spacing: normal; margin: 0; }
   body { padding-bottom: 64px; }
   #qp-reopen-chip { left: 14px !important; right: auto !important; bottom: 78px !important; }
 }
+
+/* ============================================================
+   SQUIGGLE MARKS
+   Measured from vibe.us: their keyframe list carries dash,
+   dash-once, draw-border, elongate and grow — SVG stroke-dash
+   draw-ons, i.e. hand-drawn marks that draw themselves.
+
+   Three moments only. The reference's scroll journey moves
+   0-6 elements per step for most of its length, so this stays
+   quiet: one on load, one on scroll, one on hover.
+   ============================================================ */
+
+.k-mark { position: relative; display: inline-block; }
+.k-mark__svg {
+  position: absolute; left: -2%; bottom: -0.34em; width: 104%; height: 0.42em;
+  overflow: visible; pointer-events: none;
+}
+.k-mark__svg path {
+  fill: none; stroke: var(--accent); stroke-width: 7;
+  stroke-linecap: round; stroke-linejoin: round;
+  /* set from the path's own length in JS so any path length works */
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+}
+/* 1. hero mark draws on load — 1.2s expo, the reference's one slow curve */
+.k-mark--load .k-mark__svg path {
+  animation: kDash 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+}
+/* 2. scroll marks draw when their section reveals — 0.8s, their reveal duration */
+.k-rv.is-in .k-mark--scroll .k-mark__svg path {
+  animation: kDash 0.8s var(--ease) forwards;
+}
+@keyframes kDash { to { stroke-dashoffset: 0; } }
+
+/* Divider squiggle — one per page, drawn on reveal. */
+.k-squig { display: block; width: 100%; max-width: 280px; height: 22px; overflow: visible; margin: 0 auto; }
+.k-squig path {
+  fill: none; stroke: var(--accent); stroke-width: 3;
+  stroke-linecap: round; opacity: .55;
+  stroke-dasharray: var(--len, 600); stroke-dashoffset: var(--len, 600);
+}
+.k-rv.is-in .k-squig path { animation: kDash 0.8s var(--ease) 0.1s forwards; }
+
+/* 3. draw-border — the accent stroke draws around a card on hover. */
+.k-card { position: relative; }
+.k-card__border {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+.k-card__border rect {
+  fill: none; stroke: var(--accent); stroke-width: 2; rx: 16;
+  stroke-dasharray: var(--len, 2400); stroke-dashoffset: var(--len, 2400);
+  transition: stroke-dashoffset 0.5s var(--ease);
+}
+.k-card:hover .k-card__border rect { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .k-mark__svg path, .k-squig path { animation: none !important; stroke-dashoffset: 0 !important; }
+  .k-card__border rect { transition: none; }
+}

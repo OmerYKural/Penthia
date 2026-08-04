@@ -58,7 +58,7 @@
         <div class="k-hero__grid">
           <div>
             <p class="k-hero__eyebrow">The Vertex family</p>
-            <h1 class="k-t-display k-hero__title">Displays that make classrooms <span class="k-accent">come alive</span></h1>
+            <h1 class="k-t-display k-hero__title">Displays that make classrooms <span class="k-mark k-mark--load"><span class="k-accent">come alive</span><svg class="k-mark__svg" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M5 13C42 5 78 17 118 10s76-8 124 2c22 5 38 6 48 1"/></svg></span></h1>
             <p class="k-t-lead k-hero__lead">Purpose-built interactive smartboards for schools, training rooms, and businesses. 4K touch, Android-powered, Google-ready.</p>
             <div class="k-hero__acts">
               <a class="k-btn k-btn--solid" href="store.html">Explore the lineup</a>
@@ -93,7 +93,7 @@
           <p class="k-t-lead" style="margin-top:var(--g4);">Every configuration is quoted individually, so nothing is guessed.</p>
         </div>
         <div class="k-grid-2">
-          <article class="k-card k-rv">
+          <article class="k-card k-rv"><svg class="k-card__border" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"/></svg>
             <div class="k-card__media"><img src="p-elite.png" alt="Penthia Vertex Elite" loading="lazy" /></div>
             <p class="k-card__kicker">Flagship</p>
             <h3 class="k-t-card k-card__title">Vertex Elite</h3>
@@ -107,7 +107,7 @@
             <a class="k-btn k-btn--ghost" href="store.html">View details</a>
           </article>
 
-          <article class="k-card k-rv">
+          <article class="k-card k-rv"><svg class="k-card__border" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"/></svg>
             <div class="k-card__media"><img src="p-pro.png" alt="Penthia Vertex Pro" loading="lazy" /></div>
             <p class="k-card__kicker">Recommended for most schools</p>
             <h3 class="k-t-card k-card__title">Vertex Pro</h3>
@@ -121,7 +121,7 @@
             <a class="k-btn k-btn--ghost" href="store.html">View details</a>
           </article>
 
-          <article class="k-card k-rv">
+          <article class="k-card k-rv"><svg class="k-card__border" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"/></svg>
             <div class="k-card__media"><img src="p-standard.png" alt="Penthia Vertex Standard" loading="lazy" /></div>
             <p class="k-card__kicker">Essential classroom</p>
             <h3 class="k-t-card k-card__title">Vertex Standard</h3>
@@ -135,7 +135,7 @@
             <a class="k-btn k-btn--ghost" href="store.html">View details</a>
           </article>
 
-          <article class="k-card k-rv">
+          <article class="k-card k-rv"><svg class="k-card__border" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)"/></svg>
             <div class="k-card__media"><img src="p-qs3.png" alt="Penthia QS3 Series" loading="lazy" /></div>
             <p class="k-card__kicker">Display only</p>
             <h3 class="k-t-card k-card__title">QS3 Series</h3>
@@ -150,6 +150,12 @@
           </article>
         </div>
         <p class="k-t-small k-rv" style="color:var(--ink-soft);margin-top:var(--g8);text-align:center;">20-point touch on the 110&Prime; Android models. Touch points vary by model and size.</p>
+      </div>
+      <div class="k-rv" style="margin-top:var(--g10);">
+          <svg class="k-squig" viewBox="0 0 280 22" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 12c18-9 34 9 52 0s34 9 52 0 34 9 52 0 34 9 52 0 34 9 66 2"/>
+          </svg>
+        </div>
       </div>
     </section>
 
@@ -334,6 +340,31 @@
         });
       }, 300);
     });
+  })();
+  </script>
+
+  <script>
+  /* Squiggles: set --len from each path's real length so the dash math is
+     exact rather than guessed, then let CSS do the drawing. */
+  (function () {
+    var set = function (el) {
+      try {
+        var n = el.getTotalLength ? el.getTotalLength() : 0;
+        if (n) el.style.setProperty('--len', Math.ceil(n));
+      } catch (e) {}
+    };
+    var run = function () {
+      document.querySelectorAll('.k-mark__svg path, .k-squig path').forEach(set);
+      document.querySelectorAll('.k-card__border').forEach(function (svg) {
+        var card = svg.parentElement, r = svg.querySelector('rect');
+        if (!card || !r) return;
+        var b = card.getBoundingClientRect();          // measure the CARD, not the rect
+        r.style.setProperty('--len', Math.ceil((b.width + b.height) * 2) + 40);
+      });
+    };
+    if (document.readyState === 'complete') run();
+    else window.addEventListener('load', run);
+    window.addEventListener('resize', run, { passive: true });
   })();
   </script>
 </body>
