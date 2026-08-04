@@ -379,13 +379,11 @@ Can you tell me more about this board and answer any follow-up questions I might
       return;
     }
 
-    // Auto-pop on first visit — gets attention without requiring a click,
-    // but always paired with a visible skip option.
-    setTimeout(() => {
-      const overlay = document.getElementById('quiz-popup-overlay');
-      if (overlay) overlay.classList.add('qp-visible');
-      renderStep();
-    }, 900);
+    // Deliberate, not interruptive. This used to auto-pop 900ms after load,
+    // covering the hero before a visitor had read a word. The quiz is now
+    // entry-point only — the persistent chip and the in-page "Find my board"
+    // CTA both call QuizPopup.reopen(). Nothing about the quiz itself changed.
+    showReopenChip();
   }
 
   window.QuizPopup = {
