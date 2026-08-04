@@ -53,7 +53,13 @@
     <!-- HERO -->
     <section class="r-hero">
       <div class="r-hero__media">
-        <img src="vertexhomepage.png" alt="A Penthia Vertex display in a university lecture hall" fetchpriority="high" />
+        <picture>
+          <!-- The lecture-hall shot is 1.74:1; in portrait it crops down to the
+               building on the screen and loses the room entirely. Portrait gets
+               a squarer frame that still reads as a classroom. -->
+          <source media="(max-width: 860px)" srcset="penthiaimageboard.png" />
+          <img src="vertexhomepage.png" alt="A Penthia Vertex display in a university lecture hall" fetchpriority="high" />
+        </picture>
       </div>
       <div class="r-hero__inner r-wrap">
         <div class="r-hero__eyebrow"><span class="r-label r-label--gold">The Vertex family</span></div>

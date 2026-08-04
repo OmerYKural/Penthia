@@ -109,10 +109,10 @@ body { font-family: var(--font-body); background: var(--ink); }
   padding: var(--s7) 0 var(--s5);
 }
 .r-hero__media { position: absolute; inset: 0; z-index: 0; }
-.r-hero__media img {
-  width: 100%; height: 100%; object-fit: cover; object-position: 32% 38%;
-  display: block;
+.r-hero__media picture, .r-hero__media img {
+  width: 100%; height: 100%; display: block;
 }
+.r-hero__media img { object-fit: cover; object-position: 32% 38%; }
 /* Two washes: one to seat the image in the palette, one to carve a
    readable field on the left where the photograph is already dark. */
 .r-hero__media::after {
@@ -289,7 +289,12 @@ body { font-family: var(--font-body); background: var(--ink); }
   .r-nav__links, .r-nav__search { display: none; }
   .r-nav__right { margin-left: auto; }
   .r-hero { min-height: 92svh; padding-bottom: var(--s5); }
-  .r-hero__media img { object-position: 62% center; }
+  .r-hero__media img { object-position: 50% 34%; }
+  /* Two floating entry points (quiz chip + AI launcher) both want the
+     bottom-right on mobile, and the hero CTAs sit there too. Chip goes to
+     the left rail, above the fixed mobile nav; launcher keeps the right. */
+  #qp-reopen-chip { left: 14px !important; right: auto !important; bottom: 78px !important; }
+  .r-hero { padding-bottom: var(--s7); }
   .r-hero__media::after {
     background:
       linear-gradient(180deg, rgba(8,10,15,0.72) 0%, rgba(8,10,15,0.45) 38%, rgba(8,10,15,0.96) 88%, var(--ink) 100%);
