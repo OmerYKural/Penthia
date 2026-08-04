@@ -1,0 +1,241 @@
+/* ============================================================
+   Penthia — homepage v3
+   System measured from vibe.us (docs/feel/vibe/report.md).
+   Spec: docs/feel/feel-spec-v3.md
+
+   Copied: spacing scale, type scale, colour ROLES, easing,
+   durations, radii, density, section rhythm.
+   Not copied: their words, images, icons, accent colour,
+   wordmark, product names, or signature layouts.
+
+   Palette is Penthia's, locked. Every hex below already exists
+   in style.css :root.
+   ============================================================ */
+
+:root {
+  /* ── colour roles (theirs -> ours) ── */
+  --page:     #f0eeea;             /* was #ffffff */
+  --band:     rgba(8,10,15,0.03);  /* was #f5f5fa */
+  --slab:     #080a0f;             /* was rgba(24,24,24,0.8) */
+  --ink:      #080a0f;             /* was #0c0b0d */
+  --ink-soft: #5a6480;             /* was #5d5c66 */
+  --ink-dim:  #7a849f;             /* was #b6b5bf */
+  --accent:   #c9a84c;             /* was #405dff */
+  --accent-2: #e2c27a;
+  --edge:     rgba(8,10,15,0.08);  /* was rgba(12,11,13,0.08) */
+  --edge-2:   rgba(8,10,15,0.14);
+  --on-slab:  #f0eeea;
+
+  /* ── type: 8 sizes, 2 weights, zero tracking (measured) ── */
+  --f: 'Figtree', system-ui, sans-serif;
+  --t-display: 48px;  --l-display: 60px;
+  --t-h2:      40px;  --l-h2:      50px;
+  --t-h3:      32px;  --l-h3:      43.2px;
+  --t-card:    24px;  --l-card:    32.4px;
+  --t-lead:    20px;  --l-lead:    28px;
+  --t-cap:     18px;  --l-cap:     25.2px;
+  --t-body:    16px;  --l-body:    24px;
+  --t-small:   14px;  --l-small:   21px;
+
+  /* ── spacing: base 4/8 (measured frequency 8 > 16 > 4 > 40) ── */
+  --g1: 4px;  --g2: 8px;  --g3: 12px; --g4: 16px;
+  --g5: 20px; --g6: 24px; --g7: 28px; --g8: 32px;
+  --g9: 40px; --g10: 48px; --g11: 80px;
+  --sec-t: 120px; --sec-b: 80px;
+  --shell: 1240px; --shell-narrow: 980px; --shell-wide: 1360px;
+
+  /* ── surfaces ── */
+  --r-pill: 9999px; --r-card: 16px; --r-slab: 40px; --r-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+
+  /* ── motion (86 of 110 transitions use this curve) ── */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --d-fast: 0.2s; --d-base: 0.3s; --d-slow: 0.5s; --d-reveal: 0.8s;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--f);
+  font-size: var(--t-body);
+  line-height: var(--l-body);
+  font-weight: 500;
+  letter-spacing: normal;      /* measured: no tracking anywhere */
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: var(--ink); }
+
+.k-c { max-width: var(--shell); margin: 0 auto; padding: 0 var(--g6); }
+.k-c--narrow { max-width: var(--shell-narrow); }
+.k-c--wide { max-width: var(--shell-wide); }
+
+.k-sec { padding: var(--sec-t) 0 var(--sec-b); }
+.k-sec--band { background: var(--band); }
+
+/* Section headings are centred on the reference. */
+.k-sec__head { text-align: center; max-width: 760px; margin: 0 auto var(--g10); }
+
+h1, h2, h3 { font-weight: 700; letter-spacing: normal; margin: 0; }
+.k-t-display { font-size: var(--t-display); line-height: var(--l-display); }
+.k-t-h2      { font-size: var(--t-h2);      line-height: var(--l-h2); }
+.k-t-h3      { font-size: var(--t-h3);      line-height: var(--l-h3); }
+.k-t-card    { font-size: var(--t-card);    line-height: var(--l-card); }
+.k-t-lead    { font-size: var(--t-lead);    line-height: var(--l-lead); font-weight: 500; color: var(--ink-soft); }
+.k-t-cap     { font-size: var(--t-cap);     line-height: var(--l-cap);  font-weight: 500; }
+.k-t-small   { font-size: var(--t-small);   line-height: var(--l-small); }
+.k-accent    { color: var(--accent); }
+
+/* ── NAV ─────────────────────────────────────────────── */
+
+.k-nv {
+  position: sticky; top: 0; z-index: 600;
+  background: var(--page);
+  border-bottom: 1px solid var(--edge);
+}
+.k-nv__in { display: flex; align-items: center; gap: var(--g9); padding: var(--g4) var(--g6); max-width: var(--shell-wide); margin: 0 auto; }
+.k-nv__brand img { height: 20px; width: auto; display: block; }
+.k-nv__links { display: flex; gap: var(--g8); margin-left: var(--g9); }
+.k-nv__a {
+  font-size: var(--t-body); font-weight: 500; color: var(--ink);
+  text-decoration: none; transition: color var(--d-base) var(--ease);
+}
+.k-nv__a:hover, .k-nv__a[aria-current] { color: var(--accent); }
+.k-nv__right { display: flex; align-items: center; gap: var(--g3); margin-left: auto; }
+.k-nv__search {
+  display: flex; align-items: center; gap: var(--g2);
+  border: 1px solid var(--edge-2); border-radius: var(--r-pill);
+  padding: var(--g2) var(--g4);
+  transition: border-color var(--d-base) var(--ease);
+}
+.k-nv__search:focus-within { border-color: var(--accent); }
+.k-nv__search input { border: 0; background: none; outline: none; width: 110px; font: 500 var(--t-small)/var(--l-small) var(--f); color: var(--ink); }
+.k-nv__search input::placeholder { color: var(--ink-dim); }
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+/* Reference: radius 9999px, 16px/500, ghost = 2px solid accent. */
+
+.k-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--g2);
+  font: 500 var(--t-body)/1 var(--f);
+  padding: 14px 24px; border-radius: var(--r-pill);
+  border: 2px solid transparent; text-decoration: none; cursor: pointer;
+  transition: background-color var(--d-base) var(--ease), color var(--d-base) var(--ease), border-color var(--d-base) var(--ease);
+}
+.k-btn--solid { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
+.k-btn--solid:hover { background: var(--accent-2); border-color: var(--accent-2); }
+.k-btn--ghost { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.k-btn--ghost:hover { background: var(--accent); color: var(--ink); }
+.k-btn--dark { background: var(--ink); border-color: var(--ink); color: var(--page); font-weight: 700; }
+.k-btn--dark:hover { background: var(--slab); }
+.k-btn--onslab { background: var(--page); border-color: var(--page); color: var(--ink); font-weight: 700; }
+.k-btn--onslab:hover { background: var(--accent); border-color: var(--accent); }
+
+/* ── HERO ────────────────────────────────────────────── */
+
+.k-hero { padding: var(--g11) 0 var(--sec-b); }
+.k-hero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--g10); align-items: center; }
+.k-hero__eyebrow { color: var(--accent); font-weight: 700; font-size: var(--t-body); margin-bottom: var(--g4); }
+.k-hero__title { margin-bottom: var(--g5); }
+.k-hero__lead { margin-bottom: var(--g8); max-width: 46ch; }
+.k-hero__acts { display: flex; flex-wrap: wrap; gap: var(--g3); }
+.k-hero__media { border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow); background: var(--page); }
+.k-hero__media img { width: 100%; height: auto; display: block; }
+
+/* ── FACT BAND ───────────────────────────────────────── */
+/* Stands in for the reference's customer-count + logo wall.
+   Weaker on purpose: no customer is publishable. See spec. */
+
+.k-facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--g6); text-align: center; }
+.k-facts__n { font-size: var(--t-h3); line-height: var(--l-h3); font-weight: 700; }
+.k-facts__n span { color: var(--accent); }
+.k-facts__l { color: var(--ink-soft); margin-top: var(--g1); }
+
+/* ── CARD GRIDS ──────────────────────────────────────── */
+/* Reference runs 3 equal columns at 1240px. Four products
+   force 2x2 here; card width is wider than theirs as a result. */
+
+.k-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--g6); }
+.k-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--g6); }
+
+.k-card {
+  background: var(--page); border: 1px solid var(--edge);
+  border-radius: var(--r-card); padding: var(--g9);
+  transition: box-shadow var(--d-base) var(--ease), transform var(--d-base) var(--ease);
+}
+.k-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.k-card__media { border-radius: var(--r-sm); overflow: hidden; margin-bottom: var(--g6); background: var(--page); }
+.k-card__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; display: block; }
+.k-card__kicker { color: var(--accent); font-weight: 700; font-size: var(--t-small); line-height: var(--l-small); margin-bottom: var(--g2); }
+.k-card__title { margin-bottom: var(--g3); }
+.k-card__body { color: var(--ink-soft); margin-bottom: var(--g6); }
+.k-card__specs { border-top: 1px solid var(--edge); margin-bottom: var(--g6); }
+.k-card__spec { display: flex; justify-content: space-between; gap: var(--g4); padding: var(--g3) 0; border-bottom: 1px solid var(--edge); font-size: var(--t-small); line-height: var(--l-small); }
+.k-card__spec dt { color: var(--ink-soft); }
+.k-card__spec dd { margin: 0; font-weight: 700; }
+
+/* Feature cards — the reference's 3-up. */
+.k-fcard { background: var(--page); border: 1px solid var(--edge); border-radius: var(--r-card); padding: var(--g9); transition: box-shadow var(--d-base) var(--ease); }
+.k-fcard:hover { box-shadow: var(--shadow); }
+.k-fcard__t { margin-bottom: var(--g3); }
+.k-fcard__d { color: var(--ink-soft); }
+
+/* Photo cards — full-bleed image, title on a scrim. */
+.k-pcard { position: relative; border-radius: var(--r-card); overflow: hidden; min-height: 380px; display: flex; align-items: flex-end; }
+.k-pcard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-slow) var(--ease); }
+.k-pcard:hover img { transform: scale(1.03); }
+.k-pcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,15,0) 40%, rgba(8,10,15,0.82) 100%); }
+.k-pcard__b { position: relative; z-index: 2; padding: var(--g9); color: var(--on-slab); }
+.k-pcard__b p { color: rgba(240,238,234,0.72); margin: var(--g2) 0 0; }
+
+/* ── DARK SLAB ───────────────────────────────────────── */
+/* Reference breaks a large rounded dark panel out of the white. */
+
+.k-slab { background: var(--slab); color: var(--on-slab); border-radius: var(--r-slab); padding: var(--g11) var(--g9); text-align: center; }
+.k-slab .k-t-lead { color: rgba(240,238,234,0.7); }
+.k-slab__in { max-width: 720px; margin: 0 auto; }
+
+/* ── CENTRED SECTION CLOSE ───────────────────────────── */
+
+.k-close { text-align: center; margin-top: var(--g10); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+
+.k-ft { border-top: 1px solid var(--edge); padding: var(--g10) 0; }
+.k-ft__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--g6); }
+.k-ft a { color: var(--ink); text-decoration: none; font-size: var(--t-small); transition: color var(--d-base) var(--ease); }
+.k-ft a:hover { color: var(--accent); }
+.k-ft__links { display: flex; gap: var(--g6); }
+
+/* ── MOTION ──────────────────────────────────────────── */
+/* Reference: IntersectionObserver + CSS, no library. Quiet page —
+   0 to 6 elements move per scroll step for most of its length. */
+
+.k-rv { opacity: 0; transform: translateY(16px); transition: opacity var(--d-reveal) var(--ease), transform var(--d-reveal) var(--ease); }
+.k-rv.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .k-rv { opacity: 1; transform: none; transition: none; }
+  .k-pcard img { transition: none; }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+/* Reference drops largest heading 48 -> 40 at tablet and holds it. */
+
+@media (max-width: 1024px) {
+  :root { --t-display: 40px; --l-display: 50px; --t-h2: 32px; --l-h2: 43.2px; --sec-t: 80px; --sec-b: 56px; }
+  .k-hero__grid { grid-template-columns: 1fr; gap: var(--g8); }
+  .k-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .k-facts { grid-template-columns: repeat(3, 1fr); }
+  .k-nv__links { display: none; }
+}
+@media (max-width: 720px) {
+  :root { --t-h3: 24px; --l-h3: 32.4px; }
+  .k-grid-2, .k-grid-3 { grid-template-columns: 1fr; }
+  .k-facts { grid-template-columns: repeat(2, 1fr); gap: var(--g8); }
+  .k-nv__search { display: none; }
+  .k-slab { border-radius: var(--r-card); padding: var(--g10) var(--g6); }
+  .k-card, .k-fcard { padding: var(--g8) var(--g6); }
+  body { padding-bottom: 64px; }
+  #qp-reopen-chip { left: 14px !important; right: auto !important; bottom: 78px !important; }
+}
