@@ -39,7 +39,7 @@
 
   /* ── spacing: base 4, dominant rhythm gap 36px ── */
   --u-1: 4px;  --u-2: 8px;  --u-3: 12px; --u-4: 16px;
-  --u-5: 24px; --u-6: 36px; --u-7: 48px; --u-8: 72px; --u-9: 96px;
+  --u-5: 24px; --u-6: 36px; --u-7: 48px; --u-8: 96px; --u-9: 140px;
   --u-shell: 1280px; --u-content: 1152px; --u-narrow: 756px;
 
   /* ── surfaces ── */
@@ -125,6 +125,7 @@ h1, h2, h3 { margin: 0; letter-spacing: normal; }
 /* ── HERO ────────────────────────────────────────────── */
 
 .u-hero { padding: var(--u-8) 0 var(--u-9); }
+.u-hero__m { background: var(--u-surface); padding: var(--u-6); }
 .u-hero__g { display: grid; grid-template-columns: 1fr 1fr; gap: var(--u-8); align-items: center; }
 .u-hero__t { margin-bottom: var(--u-5); max-width: 14ch; }
 .u-hero__p { margin-bottom: var(--u-6); max-width: 46ch; color: var(--u-mute); }
@@ -138,28 +139,51 @@ h1, h2, h3 { margin: 0; letter-spacing: normal; }
 .u-stats__n { font-size: var(--u-t-h3); line-height: var(--u-l-h3); font-weight: 700; }
 .u-stats__l { color: var(--u-mute); margin-top: var(--u-1); }
 
-/* ── CARDS — filled grey panels, not outlined ────────── */
+/* ── CARDS — measured from the reference, not invented ─
+   Their card is LOW and WIDE: title top-left, two lines of
+   body, a small white pill, and a SMALL illustration tucked
+   bottom-right. Not a tall image-topped card. */
 
 .u-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--u-5); }
 .u-card {
+  position: relative; overflow: hidden;
   background: var(--u-surface); border-radius: var(--u-r);
-  padding: var(--u-6); display: flex; flex-direction: column;
+  padding: var(--u-6); padding-right: 44%;
+  min-height: 260px;
   transition: background var(--u-lin) 0.2s;
 }
 .u-card:hover { background: rgba(8,10,15,0.07); }
-.u-card__m { border-radius: var(--u-r); overflow: hidden; margin-bottom: var(--u-5); }
-.u-card__m img { width: 100%; aspect-ratio: 16 / 10; object-fit: contain; display: block; }
 .u-card__t { margin-bottom: var(--u-3); }
-.u-card__p { color: var(--u-mute); margin-bottom: var(--u-5); }
-.u-spec { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--u-5); margin-bottom: var(--u-5); }
-.u-spec div { display: flex; justify-content: space-between; gap: var(--u-3); padding: var(--u-2) 0; border-bottom: 1px solid var(--u-edge); }
-.u-spec dt { color: var(--u-mute); font-size: var(--u-t-s); line-height: var(--u-l-s); }
-.u-spec dd { margin: 0; font-size: var(--u-t-s); line-height: var(--u-l-s); font-weight: 700; }
+.u-card__p { color: var(--u-mute); margin-bottom: var(--u-5); font-size: var(--u-t-s); line-height: var(--u-l-s); }
+/* the small product image, bottom-right, bleeding off the corner */
+.u-card__img {
+  position: absolute; right: -4%; bottom: 0; width: 46%;
+  pointer-events: none;
+}
+.u-card__img img { width: 100%; height: auto; display: block; }
 .u-card__f { margin-top: auto; }
+
+/* Row cards — the reference's second form: visual left,
+   title and sub in the middle, arrow right. Sharp corners. */
+
+.u-rows { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--u-5); }
+.u-row {
+  display: flex; align-items: center; gap: var(--u-5);
+  background: var(--u-page); border-radius: 0;
+  padding: var(--u-5) var(--u-6); text-decoration: none; color: var(--u-ink);
+  transition: background var(--u-lin) 0.2s;
+}
+.u-row:hover { background: rgba(8,10,15,0.05); }
+.u-row__v { width: 84px; height: 84px; flex-shrink: 0; border-radius: var(--u-r); overflow: hidden; background: var(--u-surface); }
+.u-row__v img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.u-row__b { flex: 1; }
+.u-row__t { font-size: var(--u-t-h3); line-height: var(--u-l-h3); font-weight: 700; }
+.u-row__s { color: var(--u-mute); font-size: var(--u-t-s); line-height: var(--u-l-s); margin-top: 2px; }
+.u-row__a { font-size: 22px; line-height: 1; }
 
 /* ── ALTERNATING BLOCKS ──────────────────────────────── */
 
-.u-blk { display: grid; grid-template-columns: 1fr 1fr; gap: var(--u-8); align-items: center; padding: var(--u-8) 0; }
+.u-blk { display: grid; grid-template-columns: 1fr 1fr; gap: var(--u-8); align-items: center; padding: var(--u-9) 0; }
 .u-blk--flip .u-blk__m { order: -1; }
 .u-blk__m { border-radius: var(--u-r); overflow: hidden; }
 .u-blk__m img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; transition: background-size 0.5s var(--u-expo); }
@@ -215,12 +239,15 @@ body { padding-bottom: 60px; }
   .u-hero__g, .u-blk { grid-template-columns: 1fr; gap: var(--u-6); }
   .u-blk--flip .u-blk__m { order: 0; }
   .u-feat { grid-template-columns: repeat(2, 1fr); }
+  .u-rows { grid-template-columns: 1fr; }
   .u-stats { grid-template-columns: repeat(3, 1fr); }
   .u-nav__links { display: none; }
 }
 @media (max-width: 720px) {
   :root { --u-t-d: 36px; --u-l-d: 44px; --u-t-h2: 28px; --u-l-h2: 36px; }
-  .u-grid, .u-feat { grid-template-columns: 1fr; }
+  .u-grid, .u-feat, .u-rows { grid-template-columns: 1fr; }
+  .u-card { padding-right: var(--u-6); min-height: 0; }
+  .u-card__img { position: static; width: 62%; margin-top: var(--u-5); }
   .u-stats { grid-template-columns: repeat(2, 1fr); gap: var(--u-5); }
   .u-spec { grid-template-columns: 1fr; }
   .u-nav__search { display: none; }
