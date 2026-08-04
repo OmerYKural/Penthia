@@ -376,13 +376,24 @@ async function sendPenthiaMessage(overrideText, displayText) {
         messages: chatHistory.slice(-20).map(m => ({ role: m.role, content: m.content }))
       })
     });
-    const data = await response.json();
+    // Read the body once, so a non-2xx can be reported before parsing.
+    // The visitor still sees a friendly line; the real status and body go to
+    // the console so a failure is diagnosable without reading server logs.
+    const rawBody = await response.text();
+    if (!response.ok) {
+      console.error('[penthia] /api/chat failed', response.status, rawBody.slice(0, 300));
+    }
+    let data = null;
+    try { data = JSON.parse(rawBody); } catch (_) {
+      console.error('[penthia] /api/chat returned non-JSON', rawBody.slice(0, 300));
+    }
     hideTyping();
     const reply = data?.content?.[0]?.text || "I'm having trouble connecting. Please try again or contact Penthia directly.";
     appendMessage('ai', reply);
     chatHistory.push({ role: 'assistant', content: reply });
     saveSession();
   } catch(err) {
+    console.error('[penthia] /api/chat network error', err);
     hideTyping();
     appendMessage('ai', "Connection error. Please try again or visit penthiasolutions.com/contact.html to reach us directly.");
   }
