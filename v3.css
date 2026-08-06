@@ -558,6 +558,62 @@ h1, h2, h3 { font-weight: 700; letter-spacing: normal; margin: 0; }
 #contactThankyou h2 { font-family: var(--f); font-size: var(--t-h2); line-height: var(--l-h2); font-weight: 700; color: var(--ink); letter-spacing: normal; }
 #contactThankyou p { font-family: var(--f); font-size: var(--t-lead); line-height: var(--l-lead); color: var(--ink-soft); max-width: 44ch; }
 
+/* ── LEGAL DOCUMENTS ─────────────────────────────────── */
+/* Plain reading layout. No cards, no marks, no reveals — a document
+   should be readable the instant it loads, including with JS off.
+   Body stays at the system's 16px; the measure is capped in ch so the
+   line length holds as the type scale changes at each breakpoint. */
+
+.k-sec--doc { padding: var(--g11) 0 var(--sec-b); }
+
+.k-doc { max-width: 68ch; margin: 0 auto; }
+
+.k-doc__h1 {
+  font-size: var(--t-h2); line-height: var(--l-h2); font-weight: 700;
+  margin-bottom: var(--g6);
+  padding-bottom: var(--g6); border-bottom: 1px solid var(--edge);
+}
+.k-doc__h2 {
+  font-size: var(--t-card); line-height: var(--l-card); font-weight: 700;
+  margin: var(--g10) 0 var(--g4);
+}
+.k-doc__h3 {
+  font-size: var(--t-cap); line-height: var(--l-cap); font-weight: 700;
+  margin: var(--g8) 0 var(--g3);
+}
+/* No runaway gap where a subheading follows its parent immediately. */
+.k-doc__h1 + .k-doc__h2, .k-doc__h2 + .k-doc__h3 { margin-top: var(--g6); }
+
+.k-doc__p {
+  font-size: var(--t-body); line-height: var(--l-body);
+  color: var(--ink-soft); margin-bottom: var(--g5);
+}
+.k-doc__p strong { color: var(--ink); font-weight: 700; }
+
+.k-doc__list { margin: 0 0 var(--g5); padding: 0; list-style: none; }
+.k-doc__list li {
+  position: relative; padding-left: var(--g7);
+  font-size: var(--t-body); line-height: var(--l-body);
+  color: var(--ink-soft); margin-bottom: var(--g2);
+}
+.k-doc__list li strong { color: var(--ink); font-weight: 700; }
+ul.k-doc__list li::before {
+  content: ''; position: absolute; left: var(--g2); top: 9px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+ol.k-doc__list { counter-reset: k-doc-item; }
+ol.k-doc__list li { counter-increment: k-doc-item; }
+ol.k-doc__list li::before {
+  content: counter(k-doc-item) '.'; position: absolute; left: 0; top: 0;
+  color: var(--accent); font-weight: 700;
+  font-size: var(--t-small); line-height: var(--l-body);
+}
+
+@media (max-width: 720px) {
+  .k-sec--doc { padding: var(--g9) 0 var(--g10); }
+  .k-doc__h1 { font-size: var(--t-h3); line-height: var(--l-h3); }
+}
+
 /* ── PRODUCT MODAL ───────────────────────────────────── */
 /* Every id and class below is part of the modal contract in script.js.
    Only the skin is restated, so openProduct/setImage/setChips are

@@ -10,6 +10,7 @@
    ============================================================ */
 
 import { readFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -26,7 +27,10 @@ function ok(name, cond, detail) {
 function group(title) { console.log(`\n-- ${title} --`); }
 
 const PAGES = ['index.html', 'store.html', 'compare.html', 'about.html', 'contact.html'];
-const SRC = Object.fromEntries(PAGES.map((p) => [p, read(p)]));
+const LEGAL = [['privacy', 'privacy.html'], ['terms', 'terms.html'], ['warranty', 'warranty.html']];
+const LEGAL_PAGES = LEGAL.map(([, f]) => f);
+const ALL_PAGES = [...PAGES, ...LEGAL_PAGES];
+const SRC = Object.fromEntries(ALL_PAGES.map((p) => [p, read(p)]));
 
 const count = (s, re) => (s.match(re) || []).length;
 
@@ -35,26 +39,25 @@ group('URLs — none may move or be renamed');
 
 const REQUIRED_PATHS = [
   'index.html', 'about.html', 'store.html', 'compare.html', 'contact.html',
+  'privacy.html', 'terms.html', 'warranty.html',
+  'docs/legal/privacy.md', 'docs/legal/terms.md', 'docs/legal/warranty.md',
+  'tools/build-legal.mjs',
   'catalog/index.html', 'robots.txt', 'sitemap.xml',
   'googlef73d1b62d183f93f.html', 'CNAME', 'api/chat.js',
 ];
 for (const p of REQUIRED_PATHS) ok(`exists: /${p}`, existsSync(join(ROOT, p)));
 
-const CANONICALS = {
-  'index.html': 'https://penthiasolutions.com/',
-  'store.html': 'https://penthiasolutions.com/store.html',
-  'compare.html': 'https://penthiasolutions.com/compare.html',
-  'about.html': 'https://penthiasolutions.com/about.html',
-  'contact.html': 'https://penthiasolutions.com/contact.html',
-};
+const CANONICALS = Object.fromEntries(
+  ALL_PAGES.map((p) => [p, p === 'index.html' ? 'https://penthiasolutions.com/' : `https://penthiasolutions.com/${p}`])
+);
 for (const [p, href] of Object.entries(CANONICALS)) {
-  ok(`${p}: canonical unchanged`, SRC[p].includes(`<link rel="canonical" href="${href}" />`));
+  ok(`${p}: canonical is ${href}`, SRC[p].includes(`<link rel="canonical" href="${href}" />`));
 }
 
 /* ── 2. Every referenced local asset resolves ─────────── */
 group('Local assets referenced by every page exist on disk');
 
-for (const p of PAGES) {
+for (const p of ALL_PAGES) {
   const refs = new Set();
   for (const m of SRC[p].matchAll(/(?:src|href)="([^"#?][^"]*)"/g)) {
     const v = m[1];
@@ -68,25 +71,36 @@ for (const p of PAGES) {
 /* ── 3. Navigation ────────────────────────────────────── */
 group('Navigation — header, active state, mobile, footer');
 
-for (const p of PAGES) {
+for (const p of ALL_PAGES) {
   for (const id of ['nav-home', 'nav-store', 'nav-compare', 'nav-about', 'nav-contact']) {
     ok(`${p}: header ${id}`, SRC[p].includes(`id="${id}"`));
   }
   for (const id of ['mnav-home', 'mnav-store', 'mnav-compare', 'mnav-about', 'mnav-contact']) {
     ok(`${p}: mobile ${id}`, SRC[p].includes(`id="${id}"`));
   }
-  ok(`${p}: exactly one aria-current`, count(SRC[p], /aria-current="page"/g) === 1);
   ok(`${p}: footer social target`, SRC[p].includes('social-icons-target'));
-  ok(`${p}: 4 footer links`, count(SRC[p], /<nav class="k-ft__links">[\s\S]*?<\/nav>/g) === 1
-    && count(SRC[p].match(/<nav class="k-ft__links">[\s\S]*?<\/nav>/)[0], /<a /g) === 4);
   ok(`${p}: site search input`, SRC[p].includes('id="siteSearch"'));
   ok(`${p}: wordmark links home`, /k-nv__brand" href="index\.html"/.test(SRC[p]));
+
+  // Single-row footer: the eight site pages minus this one.
+  const nav = SRC[p].match(/<nav class="k-ft__links">[\s\S]*?<\/nav>/);
+  ok(`${p}: one footer nav`, !!nav);
+  ok(`${p}: 7 footer links (8 pages minus self)`, count(nav[0], /<a /g) === 7, `found ${count(nav[0], /<a /g)}`);
+  ok(`${p}: footer does not link to itself`, !nav[0].includes(`href="${p}"`));
+  for (const legal of ['privacy.html', 'terms.html', 'warranty.html']) {
+    if (legal === p) continue;
+    ok(`${p}: footer links ${legal}`, nav[0].includes(`href="${legal}"`));
+  }
 }
+// Primary nav marks the current page on the five site pages; the legal
+// documents are not in that nav, so they mark nothing.
+for (const p of PAGES) ok(`${p}: exactly one aria-current`, count(SRC[p], /aria-current="page"/g) === 1);
+for (const p of LEGAL_PAGES) ok(`${p}: no aria-current (not in primary nav)`, count(SRC[p], /aria-current="page"/g) === 0);
 
 /* ── 4. Stylesheets and scripts ───────────────────────── */
 group('Every page loads the same system');
 
-for (const p of PAGES) {
+for (const p of ALL_PAGES) {
   ok(`${p}: style.css`, SRC[p].includes('href="style.css"'));
   ok(`${p}: v3.css`, SRC[p].includes('href="v3.css"'));
   ok(`${p}: v3.js`, SRC[p].includes('src="v3.js"'));
@@ -101,7 +115,7 @@ for (const p of PAGES) {
 ok('index.html: quiz popup present', SRC['index.html'].includes('id="quiz-popup"')
   && SRC['index.html'].includes('src="penthia-quiz-popup.js"')
   && SRC['index.html'].includes('id="qp-reopen-chip"'));
-for (const p of PAGES.filter((x) => x !== 'index.html')) {
+for (const p of ALL_PAGES.filter((x) => x !== 'index.html')) {
   ok(`${p}: no quiz (homepage only)`, !SRC[p].includes('penthia-quiz-popup.js'));
 }
 
@@ -180,7 +194,7 @@ ok('compare: EDLA wording unchanged',
 /* ── 10. SEO surface ──────────────────────────────────── */
 group('SEO — titles, descriptions, robots, OG, JSON-LD');
 
-for (const p of PAGES) {
+for (const p of ALL_PAGES) {
   ok(`${p}: <title>`, /<title>[^<]+<\/title>/.test(SRC[p]));
   ok(`${p}: description`, /<meta name="description" content="[^"]+"/.test(SRC[p]));
   ok(`${p}: robots`, /<meta name="robots"/.test(SRC[p]));
@@ -191,17 +205,105 @@ const idx = SRC['index.html'];
 for (const tag of ['og:type', 'og:title', 'og:description', 'og:url', 'og:image']) {
   ok(`index.html: ${tag}`, idx.includes(`property="${tag}"`));
 }
-ok('index.html: JSON-LD Organization + FAQPage', idx.includes('"@type":"Organization"') && idx.includes('"@type":"FAQPage"'));
-ok('index.html: JSON-LD parses', (() => {
-  const m = idx.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-  try { JSON.parse(m[1]); return true; } catch { return false; }
-})());
+
+const parseLd = (src) => {
+  const m = src.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  if (!m) return null;
+  try { return JSON.parse(m[1]); } catch { return null; }
+};
+
+const ld = parseLd(idx);
+ok('index.html: JSON-LD parses', !!ld);
+const types = (ld?.['@graph'] || []).map((n) => n['@type']);
+ok('index.html: graph has Organization, WebSite, FAQPage',
+  ['Organization', 'WebSite', 'FAQPage'].every((t) => types.includes(t)), types.join(','));
+const org = (ld?.['@graph'] || []).find((n) => n['@type'] === 'Organization');
+// Every value below is published verbatim in docs/legal/*.md.
+ok('index.html: Organization legalName', org?.legalName === 'Penthia Solutions LLC');
+ok('index.html: Organization email', org?.email === 'info@penthiasolutions.com');
+ok('index.html: Organization address (Ohio, US)',
+  org?.address?.addressRegion === 'Ohio' && org?.address?.addressCountry === 'US');
+ok('index.html: sameAs preserved', Array.isArray(org?.sameAs) && org.sameAs.length === 2);
+
+for (const p of LEGAL_PAGES) {
+  const l = parseLd(SRC[p]);
+  ok(`${p}: JSON-LD parses`, !!l);
+  ok(`${p}: is a WebPage`, l?.['@type'] === 'WebPage');
+  ok(`${p}: canonical url matches JSON-LD url`, l?.url === `https://penthiasolutions.com/${p}`);
+  ok(`${p}: publisher points at the Organization`,
+    l?.publisher?.['@id'] === 'https://penthiasolutions.com/#organization');
+  ok(`${p}: isPartOf points at the WebSite node`,
+    l?.isPartOf?.['@id'] === 'https://penthiasolutions.com/#website');
+  for (const tag of ['og:type', 'og:title', 'og:description', 'og:url']) {
+    ok(`${p}: ${tag}`, SRC[p].includes(`property="${tag}"`));
+  }
+}
+
+/* ── 10b. Sitemap ─────────────────────────────────────── */
+group('Sitemap lists every public page');
+
+const sitemap = read('sitemap.xml');
+const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+ok(`sitemap has ${ALL_PAGES.length} entries`, locs.length === ALL_PAGES.length, `found ${locs.length}`);
+for (const p of ALL_PAGES) {
+  const want = p === 'index.html' ? 'https://penthiasolutions.com/' : `https://penthiasolutions.com/${p}`;
+  ok(`sitemap lists ${p}`, locs.includes(want));
+}
+ok('sitemap has no duplicate entries', new Set(locs).size === locs.length);
+ok('every sitemap loc resolves to a file on disk', locs.every((u) => {
+  const rel = u.replace('https://penthiasolutions.com/', '') || 'index.html';
+  return existsSync(join(ROOT, rel));
+}));
+ok('robots.txt points at the sitemap', read('robots.txt').includes('https://penthiasolutions.com/sitemap.xml'));
+
+/* ── 10c. Legal pages are built from their markdown ───── */
+group('Legal pages are generated, and the copy is unaltered');
+
+ok('built pages match docs/legal/*.md (build-legal --check)', (() => {
+  try { execFileSync('node', ['tools/build-legal.mjs', '--check'], { cwd: ROOT, stdio: 'pipe' }); return true; }
+  catch { return false; }
+})(), 'run: node tools/build-legal.mjs');
+
+// Independent of the generator: strip the HTML back to text and compare it
+// with the markdown. This is what proves the copy was never rewritten.
+const squash = (s) => s.replace(/\s+/g, ' ').trim();
+for (const [key, file] of LEGAL) {
+  const md = read(`docs/legal/${key}.md`);
+  const mdText = squash(md.split('\n').map((l) => (
+    /^#{1,3} /.test(l) ? l.replace(/^#{1,3} /, '')      // heading marker only
+      : l.replace(/^- /, '').replace(/^\d+\. /, '')     // list markers are presentational
+  )).join('\n').replace(/\*\*/g, ''));
+
+  const article = SRC[file].split('<article class="k-doc">')[1].split('</article>')[0];
+  const htmlText = squash(article.replace(/<[^>]+>/g, ' '))
+    .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+  ok(`${file}: renders ${key}.md verbatim (${mdText.length} chars)`, mdText === htmlText,
+    (() => {
+      for (let i = 0; i < Math.max(mdText.length, htmlText.length); i++) {
+        if (mdText[i] !== htmlText[i]) return `first difference at ${i}: md=${JSON.stringify(mdText.slice(i, i + 50))}`;
+      }
+      return 'length mismatch';
+    })());
+
+  ok(`${file}: heading counts match the source`,
+    count(SRC[file], /<h1 /g) === count(md, /^# /gm)
+    && count(SRC[file], /<h2 /g) === count(md, /^## /gm)
+    && count(SRC[file], /<h3 /g) === count(md, /^### /gm));
+  ok(`${file}: no card, no mark, no reveal`,
+    !/k-card|k-fcard|k-icard|k-mark|k-glyph|k-rv\b/.test(SRC[file]));
+  ok(`${file}: body copy renders at 16px`, read('v3.css').includes('.k-doc__p {'));
+}
 
 /* ── 11. Squiggle discipline ──────────────────────────── */
 group('Squiggle discipline — two marks per page maximum');
 
-const BUDGET = { 'index.html': 2, 'store.html': 2, 'about.html': 2, 'compare.html': 1, 'contact.html': 1 };
-for (const p of PAGES) {
+const BUDGET = {
+  'index.html': 2, 'store.html': 2, 'about.html': 2, 'compare.html': 1, 'contact.html': 1,
+  // Legal documents carry no marks at all.
+  'privacy.html': 0, 'terms.html': 0, 'warranty.html': 0,
+};
+for (const p of ALL_PAGES) {
   // A "mark" is one drawn moment: an inline k-mark, or a standalone k-glyph.
   // The per-card draw-border is one moment however many cards carry it.
   const inline = count(SRC[p], /class="k-mark /g);
@@ -213,10 +315,10 @@ for (const p of PAGES) {
 // No two pages may carry the same mark variant.
 const VARIANTS = ['k-mark--load', 'k-mark--ring', 'k-mark--brk', 'k-mark--rule'];
 for (const v of VARIANTS.slice(1)) {
-  const on = PAGES.filter((p) => SRC[p].includes(v));
+  const on = ALL_PAGES.filter((p) => SRC[p].includes(v));
   ok(`${v} used on exactly one page`, on.length === 1, on.join(', '));
 }
-ok('no leftover k-squig divider', PAGES.every((p) => !SRC[p].includes('k-squig')));
+ok('no leftover k-squig divider', ALL_PAGES.every((p) => !SRC[p].includes('k-squig')));
 
 /* ── 12. Nothing left permanently invisible ───────────── */
 group('Reveals cannot strand content');
@@ -224,9 +326,12 @@ group('Reveals cannot strand content');
 const v3js = read('v3.js');
 ok('v3.js: no-IntersectionObserver fallback reveals everything', v3js.includes("!('IntersectionObserver' in window)"));
 ok('v3.js: on-load safety net', v3js.includes(".k-rv:not(.is-in)"));
-for (const p of PAGES) {
+for (const p of ALL_PAGES) {
   ok(`${p}: no orphaned old .reveal class`, !/class="[^"]*\breveal\b/.test(SRC[p]));
 }
+// Legal documents deliberately carry no reveals: a document should be
+// readable the instant it loads, including with JS off.
+for (const p of LEGAL_PAGES) ok(`${p}: no reveal wrappers`, !SRC[p].includes('k-rv'));
 
 /* ── 13. Palette lock ─────────────────────────────────── */
 group('Palette lock — six hexes, no more');
@@ -236,7 +341,7 @@ const v3css = read('v3.css').replace(/\/\*[\s\S]*?\*\//g, ''); // strip the refe
 const applied = [...new Set([...v3css.matchAll(/#[0-9a-fA-F]{3,8}/g)].map((m) => m[0].toLowerCase()))];
 ok(`v3.css applies only locked hexes (${applied.join(' ')})`,
   applied.every((h) => LOCKED.includes(h)), applied.filter((h) => !LOCKED.includes(h)).join(', '));
-const pageHexes = [...new Set(PAGES.flatMap((p) => [...SRC[p].matchAll(/#[0-9a-fA-F]{6}\b/g)].map((m) => m[0].toLowerCase())))];
+const pageHexes = [...new Set(ALL_PAGES.flatMap((p) => [...SRC[p].matchAll(/#[0-9a-fA-F]{6}\b/g)].map((m) => m[0].toLowerCase())))];
 ok(`pages apply only locked hexes (${pageHexes.join(' ') || 'none'})`,
   pageHexes.every((h) => LOCKED.includes(h)), pageHexes.filter((h) => !LOCKED.includes(h)).join(', '));
 

@@ -2,7 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://penthiasolutions.com/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-08-06</lastmod>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/store.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/compare.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/about.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/contact.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/warranty.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/privacy.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://penthiasolutions.com/terms.html</loc>
+    <lastmod>2026-08-06</lastmod>
+    <priority>0.3</priority>
   </url>
 </urlset>
