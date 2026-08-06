@@ -1,0 +1,642 @@
+/* ============================================================
+   Penthia — homepage v3
+   System measured from vibe.us (docs/feel/vibe/report.md).
+   Spec: docs/feel/feel-spec-v3.md
+
+   Copied: spacing scale, type scale, colour ROLES, easing,
+   durations, radii, density, section rhythm.
+   Not copied: their words, images, icons, accent colour,
+   wordmark, product names, or signature layouts.
+
+   Palette is Penthia's, locked. Every hex below already exists
+   in style.css :root.
+   ============================================================ */
+
+:root {
+  /* ── colour roles (theirs -> ours) ── */
+  --page:     #f0eeea;             /* was #ffffff */
+  --band:     rgba(8,10,15,0.03);  /* was #f5f5fa */
+  --slab:     #080a0f;             /* was rgba(24,24,24,0.8) */
+  --ink:      #080a0f;             /* was #0c0b0d */
+  --ink-soft: #5a6480;             /* was #5d5c66 */
+  --ink-dim:  #7a849f;             /* was #b6b5bf */
+  --accent:   #c9a84c;             /* was #405dff */
+  --accent-2: #e2c27a;
+  --edge:     rgba(8,10,15,0.08);  /* was rgba(12,11,13,0.08) */
+  --edge-2:   rgba(8,10,15,0.14);
+  --on-slab:  #f0eeea;
+
+  /* ── type: 8 sizes, 2 weights, zero tracking (measured) ── */
+  --f: 'Figtree', system-ui, sans-serif;
+  --t-display: 48px;  --l-display: 60px;
+  --t-h2:      40px;  --l-h2:      50px;
+  --t-h3:      32px;  --l-h3:      43.2px;
+  --t-card:    24px;  --l-card:    32.4px;
+  --t-lead:    20px;  --l-lead:    28px;
+  --t-cap:     18px;  --l-cap:     25.2px;
+  --t-body:    16px;  --l-body:    24px;
+  --t-small:   14px;  --l-small:   21px;
+
+  /* ── spacing: base 4/8 (measured frequency 8 > 16 > 4 > 40) ── */
+  --g1: 4px;  --g2: 8px;  --g3: 12px; --g4: 16px;
+  --g5: 20px; --g6: 24px; --g7: 28px; --g8: 32px;
+  --g9: 40px; --g10: 48px; --g11: 80px;
+  --sec-t: 120px; --sec-b: 80px;
+  --shell: 1240px; --shell-narrow: 980px; --shell-wide: 1360px;
+
+  /* ── surfaces ── */
+  --r-pill: 9999px; --r-card: 16px; --r-slab: 40px; --r-sm: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+
+  /* ── motion (86 of 110 transitions use this curve) ── */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --d-fast: 0.2s; --d-base: 0.3s; --d-slow: 0.5s; --d-reveal: 0.8s;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--f);
+  font-size: var(--t-body);
+  line-height: var(--l-body);
+  font-weight: 500;
+  letter-spacing: normal;      /* measured: no tracking anywhere */
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: var(--ink); }
+
+/* style.css offsets .page-wrap by 68px to clear its fixed nav. This nav is
+   sticky and takes its own space, so that offset is now dead air. */
+.page-wrap { padding-top: 0; }
+
+.k-c { max-width: var(--shell); margin: 0 auto; padding: 0 var(--g6); }
+.k-c--narrow { max-width: var(--shell-narrow); }
+.k-c--wide { max-width: var(--shell-wide); }
+
+.k-sec { padding: var(--sec-t) 0 var(--sec-b); }
+.k-sec--band { background: var(--band); }
+.k-sec--tight { padding-top: 0; }
+
+/* Section headings are centred on the reference. */
+.k-sec__head { text-align: center; max-width: 760px; margin: 0 auto var(--g10); }
+
+h1, h2, h3 { font-weight: 700; letter-spacing: normal; margin: 0; }
+.k-t-display { font-size: var(--t-display); line-height: var(--l-display); }
+.k-t-h2      { font-size: var(--t-h2);      line-height: var(--l-h2); }
+.k-t-h3      { font-size: var(--t-h3);      line-height: var(--l-h3); }
+.k-t-card    { font-size: var(--t-card);    line-height: var(--l-card); }
+.k-t-lead    { font-size: var(--t-lead);    line-height: var(--l-lead); font-weight: 500; color: var(--ink-soft); }
+.k-t-cap     { font-size: var(--t-cap);     line-height: var(--l-cap);  font-weight: 500; }
+.k-t-small   { font-size: var(--t-small);   line-height: var(--l-small); }
+.k-accent    { color: var(--accent); }
+
+/* ── NAV ─────────────────────────────────────────────── */
+
+.k-nv {
+  position: sticky; top: 0; z-index: 600;
+  background: var(--page);
+  border-bottom: 1px solid var(--edge);
+}
+.k-nv__in { display: flex; align-items: center; gap: var(--g9); padding: var(--g4) var(--g6); max-width: var(--shell-wide); margin: 0 auto; }
+.k-nv__brand img { height: 20px; width: auto; display: block; }
+.k-nv__links { display: flex; gap: var(--g8); margin-left: var(--g9); }
+.k-nv__a {
+  font-size: var(--t-body); font-weight: 500; color: var(--ink);
+  text-decoration: none; transition: color var(--d-base) var(--ease);
+}
+/* `.active` is set by script.js's active-nav pass; `aria-current` is in
+   the markup so the state survives with JS off. Both must light up. */
+.k-nv__a:hover, .k-nv__a[aria-current], .k-nv__a.active { color: var(--accent); }
+.k-nv__right { display: flex; align-items: center; gap: var(--g3); margin-left: auto; }
+.k-nv__search {
+  display: flex; align-items: center; gap: var(--g2);
+  border: 1px solid var(--edge-2); border-radius: var(--r-pill);
+  padding: var(--g2) var(--g4);
+  transition: border-color var(--d-base) var(--ease);
+}
+.k-nv__search:focus-within { border-color: var(--accent); }
+.k-nv__search input { border: 0; background: none; outline: none; width: 110px; font: 500 var(--t-small)/var(--l-small) var(--f); color: var(--ink); }
+.k-nv__search input::placeholder { color: var(--ink-dim); }
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+/* Reference: radius 9999px, 16px/500, ghost = 2px solid accent. */
+
+.k-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--g2);
+  font: 500 var(--t-body)/1 var(--f);
+  padding: 14px 24px; border-radius: var(--r-pill);
+  border: 2px solid transparent; text-decoration: none; cursor: pointer;
+  transition: background-color var(--d-base) var(--ease), color var(--d-base) var(--ease), border-color var(--d-base) var(--ease);
+}
+.k-btn--solid { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
+.k-btn--solid:hover { background: var(--accent-2); border-color: var(--accent-2); }
+.k-btn--ghost { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.k-btn--ghost:hover { background: var(--accent); color: var(--ink); }
+.k-btn--dark { background: var(--ink); border-color: var(--ink); color: var(--page); font-weight: 700; }
+.k-btn--dark:hover { background: var(--slab); }
+.k-btn--onslab { background: var(--page); border-color: var(--page); color: var(--ink); font-weight: 700; }
+.k-btn--onslab:hover { background: var(--accent); border-color: var(--accent); }
+
+/* ── HERO ────────────────────────────────────────────── */
+
+.k-hero { padding: var(--g11) 0 var(--sec-b); }
+.k-hero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--g10); align-items: center; }
+.k-hero__eyebrow { color: var(--accent); font-weight: 700; font-size: var(--t-body); margin-bottom: var(--g4); }
+.k-hero__title { margin-bottom: var(--g5); }
+.k-hero__lead { margin-bottom: var(--g8); max-width: 46ch; }
+.k-hero__acts { display: flex; flex-wrap: wrap; gap: var(--g3); }
+.k-hero__media { border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow); background: var(--page); }
+.k-hero__media img { width: 100%; height: auto; display: block; }
+
+/* ── FACT BAND ───────────────────────────────────────── */
+/* Stands in for the reference's customer-count + logo wall.
+   Weaker on purpose: no customer is publishable. See spec. */
+
+.k-facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--g6); text-align: center; }
+.k-facts--4 { grid-template-columns: repeat(4, 1fr); }
+.k-facts__n { font-size: var(--t-h3); line-height: var(--l-h3); font-weight: 700; }
+.k-facts__n span { color: var(--accent); }
+.k-facts__l { color: var(--ink-soft); margin-top: var(--g1); }
+
+/* ── CARD GRIDS ──────────────────────────────────────── */
+/* Reference runs 3 equal columns at 1240px. Four products
+   force 2x2 here; card width is wider than theirs as a result. */
+
+.k-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--g6); }
+.k-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--g6); }
+
+.k-card {
+  background: var(--page); border: 1px solid var(--edge);
+  border-radius: var(--r-card); padding: var(--g9);
+  transition: box-shadow var(--d-base) var(--ease), transform var(--d-base) var(--ease);
+}
+.k-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.k-card__media { border-radius: var(--r-sm); overflow: hidden; margin-bottom: var(--g6); background: var(--page); }
+.k-card__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; display: block; }
+.k-card__kicker { color: var(--accent); font-weight: 700; font-size: var(--t-small); line-height: var(--l-small); margin-bottom: var(--g2); }
+.k-card__title { margin-bottom: var(--g3); }
+.k-card__body { color: var(--ink-soft); margin-bottom: var(--g6); }
+.k-card__specs { border-top: 1px solid var(--edge); margin-bottom: var(--g6); }
+.k-card__spec { display: flex; justify-content: space-between; gap: var(--g4); padding: var(--g3) 0; border-bottom: 1px solid var(--edge); font-size: var(--t-small); line-height: var(--l-small); }
+.k-card__spec dt { color: var(--ink-soft); }
+.k-card__spec dd { margin: 0; font-weight: 700; }
+
+/* Feature cards — the reference's 3-up. */
+.k-fcard { background: var(--page); border: 1px solid var(--edge); border-radius: var(--r-card); padding: var(--g9); transition: box-shadow var(--d-base) var(--ease); }
+.k-fcard:hover { box-shadow: var(--shadow); }
+.k-fcard__t { margin-bottom: var(--g3); }
+.k-fcard__d { color: var(--ink-soft); }
+
+/* Photo cards — full-bleed image, title on a scrim. */
+.k-pcard { position: relative; border-radius: var(--r-card); overflow: hidden; min-height: 380px; display: flex; align-items: flex-end; }
+.k-pcard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-slow) var(--ease); }
+.k-pcard:hover img { transform: scale(1.03); }
+.k-pcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,10,15,0) 40%, rgba(8,10,15,0.82) 100%); }
+.k-pcard__b { position: relative; z-index: 2; padding: var(--g9); color: var(--on-slab); }
+.k-pcard__b p { color: rgba(240,238,234,0.72); margin: var(--g2) 0 0; }
+/* Full-width photo card. The stacked caption is too tall for the vertical
+   scrim the grid cards use — it rides up onto the bright part of the
+   photograph. A horizontal scrim keeps the type on solid ground and
+   leaves the right of the image, where the subject usually is, clear. */
+.k-pcard--wide { min-height: 460px; }
+.k-pcard--wide::after {
+  background: linear-gradient(90deg, rgba(8,10,15,0.90) 0%, rgba(8,10,15,0.78) 34%, rgba(8,10,15,0.34) 66%, rgba(8,10,15,0.12) 100%);
+}
+.k-pcard--wide .k-pcard__b { padding: var(--g9); max-width: 660px; }
+.k-pcard--wide .k-t-h2 { color: var(--on-slab); }
+
+/* ── DARK SLAB ───────────────────────────────────────── */
+/* Reference breaks a large rounded dark panel out of the white. */
+
+.k-slab { background: var(--slab); color: var(--on-slab); border-radius: var(--r-slab); padding: var(--g11) var(--g9); text-align: center; }
+.k-slab .k-t-lead { color: rgba(240,238,234,0.7); }
+.k-slab__in { max-width: 720px; margin: 0 auto; }
+
+/* ── CENTRED SECTION CLOSE ───────────────────────────── */
+
+.k-close { text-align: center; margin-top: var(--g10); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+
+/* style.css styles the bare `footer` element dark. That element selector
+   still reaches this footer, so the background has to be reclaimed here
+   or the ink-coloured links land on an ink-coloured band. */
+.k-ft { background: none; border-top: 1px solid var(--edge); padding: var(--g10) 0; }
+.k-ft .social-icon { border: 1px solid var(--edge-2); border-radius: var(--r-pill); color: var(--ink-soft); }
+.k-ft .social-icon:hover { border-color: var(--accent); color: var(--accent); background: none; }
+.k-ft__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--g6); }
+.k-ft a { color: var(--ink); text-decoration: none; font-size: var(--t-small); transition: color var(--d-base) var(--ease); }
+.k-ft a:hover { color: var(--accent); }
+.k-ft__links { display: flex; gap: var(--g6); }
+
+/* ── MOTION ──────────────────────────────────────────── */
+/* Reference: IntersectionObserver + CSS, no library. Quiet page —
+   0 to 6 elements move per scroll step for most of its length. */
+
+.k-rv { opacity: 0; transform: translateY(16px); transition: opacity var(--d-reveal) var(--ease), transform var(--d-reveal) var(--ease); }
+.k-rv.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .k-rv { opacity: 1; transform: none; transition: none; }
+  .k-pcard img { transition: none; }
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+/* Reference drops largest heading 48 -> 40 at tablet and holds it. */
+
+@media (max-width: 1024px) {
+  :root { --t-display: 40px; --l-display: 50px; --t-h2: 32px; --l-h2: 43.2px; --sec-t: 80px; --sec-b: 56px; }
+  .k-hero__grid { grid-template-columns: 1fr; gap: var(--g8); }
+  .k-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .k-facts { grid-template-columns: repeat(3, 1fr); }
+  .k-nv__links { display: none; }
+}
+@media (max-width: 720px) {
+  /* 48px display type cannot fit an unbreakable word on a 390px screen,
+     and the header's two buttons plus the wordmark overflow it. Both
+     pushed the page sideways; both are held to the measured scale here. */
+  :root { --t-h3: 24px; --l-h3: 32.4px; --t-display: 32px; --l-display: 43.2px; }
+  .k-nv__in { gap: var(--g4); padding: var(--g3) var(--g5); }
+  .k-nv__brand img { height: 16px; }
+  .k-nv__right .k-btn--ghost { display: none; }
+  .k-nv__right .k-btn { padding: 10px 16px; font-size: var(--t-small); }
+  .k-grid-2, .k-grid-3 { grid-template-columns: 1fr; }
+  .k-facts { grid-template-columns: repeat(2, 1fr); gap: var(--g8); }
+  .k-nv__search { display: none; }
+  .k-slab { border-radius: var(--r-card); padding: var(--g10) var(--g6); }
+  .k-card, .k-fcard { padding: var(--g8) var(--g6); }
+  body { padding-bottom: 64px; }
+  #qp-reopen-chip { left: 14px !important; right: auto !important; bottom: 78px !important; }
+}
+
+/* ============================================================
+   SQUIGGLE MARKS
+   Measured from vibe.us: their keyframe list carries dash,
+   dash-once, draw-border, elongate and grow — SVG stroke-dash
+   draw-ons, i.e. hand-drawn marks that draw themselves.
+
+   Three moments only. The reference's scroll journey moves
+   0-6 elements per step for most of its length, so this stays
+   quiet: one on load, one on scroll, one on hover.
+   ============================================================ */
+
+.k-mark { position: relative; display: inline-block; }
+.k-mark__svg {
+  position: absolute; left: -2%; bottom: -0.34em; width: 104%; height: 0.42em;
+  overflow: visible; pointer-events: none;
+}
+.k-mark__svg path {
+  fill: none; stroke: var(--accent); stroke-width: 7;
+  stroke-linecap: round; stroke-linejoin: round;
+  /* set from the path's own length in JS so any path length works */
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+}
+/* 1. hero mark draws on load — 1.2s expo, the reference's one slow curve */
+.k-mark--load .k-mark__svg path {
+  animation: kDash 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+}
+/* 2. scroll marks draw when their section reveals — 0.8s, their reveal duration */
+.k-rv.is-in .k-mark--scroll .k-mark__svg path {
+  animation: kDash 0.8s var(--ease) forwards;
+}
+@keyframes kDash { to { stroke-dashoffset: 0; } }
+
+/* Mark geometry variants. Each page gets its own so no mark ever
+   repeats in the same position twice across the site. */
+
+/* ring — draws an ellipse around a word (store hero) */
+.k-mark--ring .k-mark__svg { left: -7%; top: -28%; bottom: auto; width: 114%; height: 156%; }
+.k-mark--ring .k-mark__svg path { stroke-width: 4; }
+
+/* bracket — draws a frame around a word (about hero) */
+.k-mark--brk .k-mark__svg { left: -6%; top: -22%; bottom: auto; width: 112%; height: 144%; }
+.k-mark--brk .k-mark__svg path { stroke-width: 4; }
+
+/* rule — a flat sweep under a table column header (compare) */
+.k-mark--rule .k-mark__svg { left: 0; bottom: -0.42em; width: 100%; height: 0.34em; }
+.k-mark--rule .k-mark__svg path { stroke-width: 5; }
+
+/* Standalone glyphs — arrow, check, ring — drawn on reveal. */
+.k-glyph { display: block; overflow: visible; }
+.k-glyph path {
+  fill: none; stroke: var(--accent); stroke-width: 2.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--len, 400); stroke-dashoffset: var(--len, 400);
+}
+.k-rv.is-in .k-glyph path { animation: kDash 0.8s var(--ease) 0.15s forwards; }
+/* A two-stroke glyph draws its tail first, then its head. */
+.k-rv.is-in .k-glyph path:nth-of-type(2) { animation-delay: 0.62s; }
+
+/* The contact confirmation ring is the rarest mark on the site: it only
+   exists after a successful submit. v3.js watches #contactThankyou for
+   the reveal and adds .is-in — see the note there for why the reveal
+   alone is not a dependable trigger. */
+#contactThankyou.is-in .k-glyph path {
+  animation: kDash 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+/* 3. draw-border — the accent stroke draws around a card on hover. */
+.k-card { position: relative; }
+.k-card__border {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+.k-card__border rect {
+  fill: none; stroke: var(--accent); stroke-width: 2; rx: 16;
+  stroke-dasharray: var(--len, 2400); stroke-dashoffset: var(--len, 2400);
+  transition: stroke-dashoffset 0.5s var(--ease);
+}
+.k-card:hover .k-card__border rect { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .k-mark__svg path, .k-glyph path { animation: none !important; stroke-dashoffset: 0 !important; }
+  .k-card__border rect { transition: none; }
+}
+
+/* ============================================================
+   INNER PAGES
+   Same tokens, same rhythm, same easing as the homepage. Nothing
+   below invents a value; everything is composed from :root above.
+   ============================================================ */
+
+/* ── PAGE HEAD ───────────────────────────────────────── */
+/* Inner pages open with a centred head rather than a split hero —
+   the reference uses the split only on its own front page. */
+
+.k-phead { padding: var(--g11) 0 var(--g10); text-align: center; }
+.k-phead__in { max-width: 760px; margin: 0 auto; }
+.k-phead__eyebrow { color: var(--accent); font-weight: 700; font-size: var(--t-body); margin-bottom: var(--g4); }
+.k-phead__lead { margin-top: var(--g5); }
+.k-phead__acts { display: flex; flex-wrap: wrap; gap: var(--g3); justify-content: center; margin-top: var(--g8); }
+
+/* Split head — used where a page genuinely has a lead image. */
+.k-shead { display: grid; grid-template-columns: 1fr 1fr; gap: var(--g10); align-items: center; padding: var(--g11) 0 var(--sec-b); }
+.k-shead__media { position: relative; border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow); }
+.k-shead__media img { width: 100%; height: auto; display: block; }
+.k-shead__badge {
+  position: absolute; left: var(--g6); bottom: var(--g6);
+  background: var(--page); border: 1px solid var(--edge);
+  border-radius: var(--r-sm); padding: var(--g3) var(--g5); box-shadow: var(--shadow);
+}
+.k-shead__badge dt { color: var(--accent); font-size: var(--t-small); line-height: var(--l-small); font-weight: 700; }
+.k-shead__badge dd { margin: 0; font-size: var(--t-small); line-height: var(--l-small); color: var(--ink); font-weight: 700; }
+
+/* ── SEARCH / FILTER FIELD ───────────────────────────── */
+
+.k-field {
+  display: flex; align-items: center; gap: var(--g2);
+  border: 1px solid var(--edge-2); border-radius: var(--r-pill);
+  padding: var(--g3) var(--g5); max-width: 380px; margin: var(--g8) auto 0;
+  background: var(--page);
+  transition: border-color var(--d-base) var(--ease);
+}
+.k-field:focus-within { border-color: var(--accent); }
+.k-field svg { flex-shrink: 0; color: var(--ink-dim); }
+.k-field input {
+  border: 0; background: none; outline: none; width: 100%;
+  font: 500 var(--t-body)/var(--l-body) var(--f); color: var(--ink);
+}
+.k-field input::placeholder { color: var(--ink-dim); }
+
+/* ── PRODUCT CARDS (store) ───────────────────────────── */
+/* `prod-card` is kept purely as the hook filterProducts() queries.
+   Its style.css skin is dark, so it is neutralised here rather than
+   left to fight the v3 card. Nothing about the JS contract changes. */
+
+.k-grid-2 .prod-card,
+.k-grid-3 .prod-card {
+  background: var(--page); border: 1px solid var(--edge);
+  border-radius: var(--r-card); padding: var(--g8);
+  overflow: visible; box-shadow: none; cursor: pointer; position: relative;
+  display: flex; flex-direction: column; gap: 0;
+  transition: box-shadow var(--d-base) var(--ease), transform var(--d-base) var(--ease), border-color var(--d-base) var(--ease);
+}
+.k-grid-2 .prod-card::after,
+.k-grid-3 .prod-card::after { display: none; }
+.k-grid-2 .prod-card:hover,
+.k-grid-3 .prod-card:hover {
+  transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--edge-2);
+}
+
+/* Paper-coloured, not tinted: the product cut-outs are composited onto
+   the page colour, so any other backdrop shows as a box around them. */
+.k-prod__media { border-radius: var(--r-sm); overflow: hidden; background: var(--page); margin-bottom: var(--g6); position: relative; }
+.k-prod__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; padding: var(--g6); display: block; transition: transform var(--d-slow) var(--ease); }
+.prod-card:hover .k-prod__media img { transform: scale(1.03); }
+.k-prod__badge {
+  position: absolute; top: var(--g3); left: var(--g3);
+  background: var(--accent); color: var(--ink);
+  font-size: var(--t-small); line-height: 1; font-weight: 700;
+  padding: var(--g2) var(--g3); border-radius: var(--r-pill);
+}
+.k-prod__name { margin-bottom: var(--g3); }
+.k-prod__desc { color: var(--ink-soft); margin-bottom: var(--g6); flex: 1; }
+.k-prod__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--g4); padding-top: var(--g5); border-top: 1px solid var(--edge); }
+.k-prod__price { color: var(--accent); font-weight: 700; font-size: var(--t-small); line-height: var(--l-small); }
+.k-prod__arrow {
+  width: 36px; height: 36px; border-radius: var(--r-pill);
+  border: 2px solid var(--accent); color: var(--accent);
+  display: grid; place-items: center; flex-shrink: 0;
+  transition: background-color var(--d-base) var(--ease), color var(--d-base) var(--ease);
+}
+.prod-card:hover .k-prod__arrow { background: var(--accent); color: var(--ink); }
+
+/* ── COMPARISON TABLE ────────────────────────────────── */
+
+.k-tbl-wrap { overflow-x: auto; border: 1px solid var(--edge); border-radius: var(--r-card); background: var(--page); }
+.k-tbl { width: 100%; border-collapse: collapse; min-width: 940px; }
+.k-tbl thead th {
+  padding: var(--g6); text-align: left; vertical-align: bottom;
+  border-bottom: 1px solid var(--edge-2); background: var(--band);
+  font-size: var(--t-card); line-height: var(--l-card); font-weight: 700; color: var(--ink);
+}
+.k-tbl thead th:first-child { width: 200px; font-size: var(--t-small); line-height: var(--l-small); color: var(--ink-soft); font-weight: 500; }
+.k-tbl td { padding: var(--g5) var(--g6); font-size: var(--t-small); line-height: var(--l-small); color: var(--ink-soft); border-bottom: 1px solid var(--edge); vertical-align: top; }
+.k-tbl td:first-child { color: var(--ink); font-weight: 700; }
+.k-tbl tbody tr { transition: background-color var(--d-base) var(--ease); }
+.k-tbl tbody tr:hover td { background: var(--band); }
+.k-tbl tbody tr:last-child td { border-bottom: 0; }
+.k-tbl__note { display: block; font-size: var(--t-small); line-height: var(--l-small); font-weight: 500; color: var(--accent); margin-top: var(--g2); }
+
+/* ── CALL-OUT ROW ────────────────────────────────────── */
+
+.k-callout {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: var(--g8); margin-top: var(--g10);
+  border: 1px solid var(--edge); border-radius: var(--r-card); padding: var(--g9);
+}
+.k-callout__acts { display: flex; flex-wrap: wrap; gap: var(--g3); }
+
+/* ── INFO CARDS, PILLS, NOTES (about) ────────────────── */
+
+.k-icard { background: var(--page); border: 1px solid var(--edge); border-radius: var(--r-card); padding: var(--g8); transition: box-shadow var(--d-base) var(--ease); }
+.k-icard:hover { box-shadow: var(--shadow); }
+.k-icard__t { margin-bottom: var(--g3); }
+.k-icard p { color: var(--ink-soft); font-size: var(--t-body); line-height: var(--l-body); }
+.k-icard ul { list-style: none; margin-top: var(--g4); display: flex; flex-direction: column; gap: var(--g2); }
+.k-icard li { position: relative; padding-left: var(--g5); color: var(--ink-soft); font-size: var(--t-small); line-height: var(--l-small); }
+.k-icard li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+.k-pills { display: flex; flex-wrap: wrap; gap: var(--g2); justify-content: center; margin-top: var(--g6); }
+.k-pill {
+  border: 1px solid var(--edge-2); border-radius: var(--r-pill);
+  padding: var(--g2) var(--g4); font-size: var(--t-small); line-height: var(--l-small);
+  color: var(--ink-soft); font-weight: 500;
+  transition: border-color var(--d-base) var(--ease), color var(--d-base) var(--ease);
+}
+.k-pill:hover { border-color: var(--accent); color: var(--ink); }
+
+.k-note {
+  margin-top: var(--g6); padding: var(--g5) var(--g6);
+  border-left: 2px solid var(--accent); background: var(--band);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: var(--t-small); line-height: var(--l-small); color: var(--ink-soft);
+  text-align: left;
+}
+
+/* ── FAQ ─────────────────────────────────────────────── */
+/* toggleFaq() toggles `open` on the parent element. Keep that word;
+   everything around it is namespaced. */
+
+.k-faq { display: flex; flex-direction: column; gap: var(--g3); max-width: 860px; margin: 0 auto; }
+.k-faq__i { border: 1px solid var(--edge); border-radius: var(--r-card); overflow: hidden; transition: border-color var(--d-base) var(--ease); }
+.k-faq__i:hover { border-color: var(--edge-2); }
+.k-faq__i.open { border-color: var(--accent); }
+.k-faq__q { display: flex; align-items: center; justify-content: space-between; gap: var(--g6); padding: var(--g6) var(--g8); cursor: pointer; }
+.k-faq__q h3 { font-size: var(--t-cap); line-height: var(--l-cap); font-weight: 700; color: var(--ink); }
+.k-faq__ico {
+  width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%;
+  border: 2px solid var(--accent); color: var(--accent);
+  display: grid; place-items: center; font-size: var(--t-lead); line-height: 1;
+  transition: transform var(--d-base) var(--ease), background-color var(--d-base) var(--ease), color var(--d-base) var(--ease);
+}
+.k-faq__i.open .k-faq__ico { transform: rotate(45deg); background: var(--accent); color: var(--ink); }
+.k-faq__a { display: none; padding: 0 var(--g8) var(--g8); }
+.k-faq__i.open .k-faq__a { display: block; }
+.k-faq__a p { color: var(--ink-soft); font-size: var(--t-body); line-height: var(--l-body); max-width: 68ch; }
+
+/* ── CONTACT ─────────────────────────────────────────── */
+
+.k-contact { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: var(--g10); align-items: start; }
+.k-cinfo { display: flex; flex-direction: column; gap: var(--g8); }
+.k-cinfo__i { display: flex; gap: var(--g5); }
+.k-cinfo__ico {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: var(--r-pill);
+  border: 1px solid var(--edge-2); color: var(--accent);
+  display: grid; place-items: center;
+}
+.k-cinfo__l { font-weight: 700; margin-bottom: var(--g1); }
+.k-cinfo__v { color: var(--ink-soft); font-size: var(--t-small); line-height: var(--l-small); }
+
+.k-form { background: var(--page); border: 1px solid var(--edge); border-radius: var(--r-card); padding: var(--g9); }
+.k-fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--g5); }
+.k-f { display: flex; flex-direction: column; gap: var(--g2); }
+.k-f--full { grid-column: 1 / -1; }
+.k-f label { font-size: var(--t-small); line-height: var(--l-small); font-weight: 700; color: var(--ink); }
+.k-f input, .k-f textarea {
+  background: var(--page); border: 1px solid var(--edge-2); border-radius: var(--r-sm);
+  padding: var(--g3) var(--g4); width: 100%; outline: none;
+  font: 500 var(--t-body)/var(--l-body) var(--f); color: var(--ink);
+  transition: border-color var(--d-base) var(--ease);
+}
+.k-f input:focus, .k-f textarea:focus { border-color: var(--accent); }
+.k-f input::placeholder, .k-f textarea::placeholder { color: var(--ink-dim); }
+.k-f textarea { min-height: 150px; resize: vertical; }
+.k-f__note { font-size: var(--t-small); line-height: var(--l-small); color: var(--ink-dim); }
+
+/* The confirmation panel. `#contactThankyou` and its inline
+   display:flex are set by script.js — the ID stays, the skin changes. */
+#contactThankyou { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--g11) var(--g8); gap: var(--g6); }
+.thankyou-icon {
+  position: relative; width: 96px; height: 96px; border-radius: 50%;
+  display: grid; place-items: center; background: none; border: 0; color: var(--accent);
+}
+.thankyou-icon svg.k-tick { width: 40px; height: 40px; }
+.thankyou-icon .k-glyph { position: absolute; inset: 0; width: 100%; height: 100%; }
+#contactThankyou h2 { font-family: var(--f); font-size: var(--t-h2); line-height: var(--l-h2); font-weight: 700; color: var(--ink); letter-spacing: normal; }
+#contactThankyou p { font-family: var(--f); font-size: var(--t-lead); line-height: var(--l-lead); color: var(--ink-soft); max-width: 44ch; }
+
+/* ── PRODUCT MODAL ───────────────────────────────────── */
+/* Every id and class below is part of the modal contract in script.js.
+   Only the skin is restated, so openProduct/setImage/setChips are
+   untouched. Dark panel -> the page's own light surfaces. */
+
+.modal { background: rgba(8,10,15,0.62); }
+.modal-panel { background: var(--page); border: 1px solid var(--edge); border-radius: var(--r-card); box-shadow: 0 40px 90px rgba(8,10,15,0.28); }
+.modal-close { background: var(--page); padding: var(--g4) var(--g5) 0; }
+.close-btn { background: var(--page); border: 1px solid var(--edge-2); border-radius: var(--r-pill); color: var(--ink); transition: border-color var(--d-base) var(--ease), color var(--d-base) var(--ease); }
+.close-btn:hover { border-color: var(--accent); color: var(--accent); }
+.modal-gallery, .modal-details { border-right: 1px solid var(--edge); }
+.gallery-main-wrap { background: var(--band); border: 1px solid var(--edge); border-radius: var(--r-sm); }
+.gal-arrow { background: var(--page); border: 1px solid var(--edge-2); border-radius: var(--r-pill); color: var(--ink); }
+.gal-arrow:hover { border-color: var(--accent); color: var(--accent); }
+.gallery-thumb { background: var(--band); border: 1px solid var(--edge); border-radius: var(--r-sm); }
+.gallery-thumb.active { border-color: var(--accent); }
+.modal-badge {
+  background: rgba(201,168,76,0.14); border: 1px solid rgba(201,168,76,0.34); color: var(--ink);
+  border-radius: var(--r-pill); font: 700 var(--t-small)/var(--l-small) var(--f);
+  letter-spacing: normal; text-transform: none; padding: var(--g1) var(--g4); margin-bottom: var(--g4);
+}
+.modal-title { font-family: var(--f); font-size: var(--t-h3); line-height: var(--l-h3); font-weight: 700; color: var(--ink); letter-spacing: normal; margin-bottom: var(--g2); }
+.modal-rating { color: var(--accent); }
+.modal-desc, .modal-bullets li { font-family: var(--f); font-size: var(--t-body); line-height: var(--l-body); color: var(--ink-soft); }
+.modal-bullets li::before { color: var(--accent); }
+.variant-label { font: 700 var(--t-small)/var(--l-small) var(--f); letter-spacing: normal; text-transform: none; color: var(--ink); }
+.chip { background: var(--band); border: 1px solid var(--edge); border-radius: var(--r-pill); color: var(--ink-soft); font: 500 var(--t-small)/var(--l-small) var(--f); padding: var(--g1) var(--g3); }
+.buybox-price { font-family: var(--f); font-size: var(--t-card); line-height: var(--l-card); font-weight: 700; color: var(--ink); }
+.buybox-sub, .buybox-note { font-family: var(--f); font-size: var(--t-small); line-height: var(--l-small); color: var(--ink-soft); }
+.buybox-note { background: var(--band); border: 1px solid var(--edge); border-radius: var(--r-sm); }
+.buybox-btn-primary, .buybox-btn-ghost {
+  font: 700 var(--t-body)/1 var(--f); letter-spacing: normal; text-transform: none;
+  border-radius: var(--r-pill); padding: 14px 24px; border: 2px solid transparent;
+  transition: background-color var(--d-base) var(--ease), color var(--d-base) var(--ease), border-color var(--d-base) var(--ease);
+}
+.buybox-btn-primary { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.buybox-btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); transform: none; }
+.buybox-btn-ghost { background: transparent; border-color: var(--accent); color: var(--accent); }
+.buybox-btn-ghost:hover { background: var(--accent); color: var(--ink); }
+
+/* ── MOBILE NAV ──────────────────────────────────────── */
+/* style.css controls when it shows; only the skin is restated. */
+
+.mobile-nav { background: rgba(240,238,234,0.97); border-top: 1px solid var(--edge); }
+.mobile-nav-btn { font-family: var(--f); color: var(--ink-soft); letter-spacing: normal; text-transform: none; font-size: var(--t-small); font-weight: 500; }
+.mobile-nav-btn::before { background: var(--accent); }
+.mobile-nav-btn.active { color: var(--accent); }
+
+/* ── INNER-PAGE RESPONSIVE ───────────────────────────── */
+
+@media (max-width: 1024px) {
+  .k-shead { grid-template-columns: 1fr; gap: var(--g8); }
+  .k-contact { grid-template-columns: 1fr; gap: var(--g9); }
+  .k-phead { padding: var(--g10) 0 var(--g9); }
+}
+@media (max-width: 720px) {
+  .k-fgrid { grid-template-columns: 1fr; }
+  .k-form, .k-icard, .k-callout { padding: var(--g8) var(--g6); }
+  .k-grid-2 .prod-card, .k-grid-3 .prod-card { padding: var(--g6); }
+  .k-faq__q { padding: var(--g5) var(--g6); }
+  .k-faq__a { padding: 0 var(--g6) var(--g6); }
+  .k-callout { flex-direction: column; align-items: flex-start; }
+
+  /* The wide card's horizontal scrim assumes a wide crop with the subject
+     off to one side. At this width `cover` crops to a narrow centre slice
+     and the caption lands straight on the subject, so it goes back to the
+     vertical scrim the grid photo cards already use.
+
+     That alone is not enough: this caption stacks to roughly 370px, which
+     is taller than the card was, leaving nowhere for a gradient to fade.
+     So the card grows to give the photograph clear air above the text,
+     and the scrim turns over at the line where the caption starts. */
+  .k-pcard--wide { min-height: 560px; }
+  .k-pcard--wide::after {
+    background: linear-gradient(180deg,
+      rgba(8,10,15,0.10) 0%,
+      rgba(8,10,15,0.28) 24%,
+      rgba(8,10,15,0.86) 44%,
+      rgba(8,10,15,0.95) 100%);
+  }
+  .k-pcard--wide .k-pcard__b { padding: var(--g8) var(--g6); }
+}
