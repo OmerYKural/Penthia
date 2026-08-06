@@ -620,4 +620,23 @@ h1, h2, h3 { font-weight: 700; letter-spacing: normal; margin: 0; }
   .k-faq__q { padding: var(--g5) var(--g6); }
   .k-faq__a { padding: 0 var(--g6) var(--g6); }
   .k-callout { flex-direction: column; align-items: flex-start; }
+
+  /* The wide card's horizontal scrim assumes a wide crop with the subject
+     off to one side. At this width `cover` crops to a narrow centre slice
+     and the caption lands straight on the subject, so it goes back to the
+     vertical scrim the grid photo cards already use.
+
+     That alone is not enough: this caption stacks to roughly 370px, which
+     is taller than the card was, leaving nowhere for a gradient to fade.
+     So the card grows to give the photograph clear air above the text,
+     and the scrim turns over at the line where the caption starts. */
+  .k-pcard--wide { min-height: 560px; }
+  .k-pcard--wide::after {
+    background: linear-gradient(180deg,
+      rgba(8,10,15,0.10) 0%,
+      rgba(8,10,15,0.28) 24%,
+      rgba(8,10,15,0.86) 44%,
+      rgba(8,10,15,0.95) 100%);
+  }
+  .k-pcard--wide .k-pcard__b { padding: var(--g8) var(--g6); }
 }
