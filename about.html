@@ -6,312 +6,302 @@
   <title>About | Penthia Solutions</title>
   <meta name="description" content="Learn about Penthia Solutions — purpose-built interactive smartboards for schools, classrooms, training spaces, and businesses." />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#f0eeea" />
   <link rel="canonical" href="https://penthiasolutions.com/about.html" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="v3.css" />
 </head>
 <body>
 
-  <header class="nav">
-    <div class="nav-brand">
-      <a href="index.html" style="display:flex;align-items:center;gap:12px;">
-        <img class="nav-brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <img class="nav-brand-wordmark" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
+  <header class="k-nv">
+    <div class="k-nv__in">
+      <a class="k-nv__brand" href="index.html" aria-label="Penthia Solutions — home">
+        <img src="penthia-wordmark-ink.png" alt="Penthia Solutions" />
       </a>
-    </div>
-    <nav class="nav-links">
-      <a class="nav-link" id="nav-home" href="index.html">Home</a>
-      <a class="nav-link active" id="nav-about" href="about.html">About</a>
-      <a class="nav-link" id="nav-store" href="store.html">Store</a>
-      <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
-      <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
-    </nav>
-    <div class="nav-right">
-      <div class="nav-search-wrap">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
+      <nav class="k-nv__links" aria-label="Primary">
+        <a class="k-nv__a" id="nav-home" href="index.html">Home</a>
+        <a class="k-nv__a" id="nav-store" href="store.html">Products</a>
+        <a class="k-nv__a" id="nav-compare" href="compare.html">Compare</a>
+        <a class="k-nv__a" id="nav-about" href="about.html" aria-current="page">About</a>
+        <a class="k-nv__a" id="nav-contact" href="contact.html">Contact</a>
+      </nav>
+      <div class="k-nv__right">
+        <label class="k-nv__search" aria-label="Search products">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="siteSearch" placeholder="Search" autocomplete="off" />
+        </label>
+        <a class="k-btn k-btn--ghost" href="store.html">Products</a>
+        <a class="k-btn k-btn--solid" href="contact.html">Request a quote</a>
       </div>
-      <a class="nav-cta" href="store.html">Shop Now →</a>
     </div>
   </header>
 
   <div class="page-wrap">
 
-    <div class="container">
-      <div class="about-hero">
-        <div class="reveal">
-          <div class="section-label">About Penthia</div>
-          <h1 class="about-hero-title">Designed for<br><span class="accent">modern</span><br>classrooms.</h1>
-          <p class="about-hero-text" style="margin-bottom:28px;">Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, businesses, and collaboration environments. The lineup is built to deliver a premium classroom experience with strong value compared to traditional premium smartboard brands.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a class="btn-primary" href="store.html">Browse Products →</a>
-            <a class="btn-ghost" href="contact.html">Get in Touch</a>
+    <!-- HEAD -->
+    <section>
+      <div class="k-c">
+        <div class="k-shead">
+          <div>
+            <p class="k-phead__eyebrow">About Penthia</p>
+            <!-- MARK 1 of 2 — a drawn frame around the word the page turns on.
+                 Draws on load. Different mark, different word, different page. -->
+            <h1 class="k-t-display">Designed for <span class="k-mark k-mark--brk k-mark--load"><span class="k-accent">modern</span><svg class="k-mark__svg" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M46 4C20 7 8 17 8 30s12 23 38 26"/><path d="M154 4c26 3 38 13 38 26s-12 23-38 26"/></svg></span> classrooms.</h1>
+            <p class="k-t-lead" style="margin-top:var(--g5);">Penthia Solutions provides interactive smartboards and professional display systems for schools, classrooms, training spaces, businesses, and collaboration environments. The lineup is built to deliver a premium classroom experience with strong value compared to traditional premium smartboard brands.</p>
+            <div class="k-hero__acts" style="margin-top:var(--g8);">
+              <a class="k-btn k-btn--solid" href="store.html">Browse products</a>
+              <a class="k-btn k-btn--ghost" href="contact.html">Get in touch</a>
+            </div>
+          </div>
+          <div class="k-shead__media">
+            <img src="penthiaimageboard.png" loading="lazy" decoding="async" alt="Penthia interactive display in a classroom" />
+            <dl class="k-shead__badge">
+              <dt>Educator-first design</dt>
+              <dd>Built for real classrooms</dd>
+            </dl>
           </div>
         </div>
-        <div class="about-hero-img reveal reveal-delay-2">
-          <img src="penthiaimageboard.png" loading="lazy" decoding="async" alt="Penthia interactive display in a classroom" />
-          <div class="about-hero-img-badge">
-            <div class="about-badge-label">Educator-First Design</div>
-            <div class="about-badge-value">Built for real classrooms</div>
-          </div>
-        </div>
       </div>
+    </section>
 
-      <div class="about-stats reveal">
-        <div class="about-stat">
-          <div class="about-stat-num">4K</div>
-          <div class="about-stat-label">UHD Display</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-num">50</div>
-          <div class="about-stat-label">Touch Points</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-num">4</div>
-          <div class="about-stat-label">Product Lines</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-num">110"</div>
-          <div class="about-stat-label">Maximum Size</div>
+    <!-- FACTS -->
+    <section class="k-sec k-sec--band">
+      <div class="k-c">
+        <div class="k-facts k-facts--4 k-rv">
+          <div><div class="k-facts__n">4K</div><div class="k-facts__l k-t-small">UHD display</div></div>
+          <div><div class="k-facts__n">50</div><div class="k-facts__l k-t-small">Touch points</div></div>
+          <div><div class="k-facts__n">4</div><div class="k-facts__l k-t-small">Product lines</div></div>
+          <div><div class="k-facts__n">110<span>&Prime;</span></div><div class="k-facts__l k-t-small">Maximum size</div></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- FEATURE BANNER -->
-    <div class="container" style="margin-bottom:80px;">
-      <div class="store-banner reveal">
-        <img src="penthiaboard,studentinsciencelabinfrontofpenthiaboard.png" loading="lazy" decoding="async" alt="Student with Penthia board in science lab" style="height:380px;object-fit:cover;object-position:center;" />
-        <div class="store-banner-overlay"></div>
-        <div class="store-banner-content">
-          <div class="section-label">Student-Centered Learning</div>
-          <h3>Designed to inspire<br><span class="accent">every student.</span></h3>
-          <p>Displays built for the way students and teams collaborate — responsive touch, vivid 4K, annotation, and screen sharing for real classrooms.</p>
-        </div>
+    <!-- IN THE ROOM -->
+    <section class="k-sec">
+      <div class="k-c">
+        <figure class="k-pcard k-pcard--wide k-rv">
+          <img src="penthiaboard,studentinsciencelabinfrontofpenthiaboard.png" loading="lazy" decoding="async" alt="Student with Penthia board in science lab" />
+          <figcaption class="k-pcard__b">
+            <p class="k-t-small" style="color:var(--accent);font-weight:700;margin-bottom:var(--g2);">Student-centered learning</p>
+            <h2 class="k-t-h2" style="max-width:18ch;">Designed to inspire every student.</h2>
+            <p class="k-t-lead" style="color:rgba(240,238,234,0.72);max-width:60ch;margin-top:var(--g4);">Displays built for the way students and teams collaborate — responsive touch, vivid 4K, annotation, and screen sharing for real classrooms.</p>
+          </figcaption>
+        </figure>
       </div>
-    </div>
+    </section>
 
     <!-- CORE FEATURES -->
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="reveal" style="margin-bottom:40px;">
-          <div class="section-label">Core Features</div>
-          <h2 class="section-title">Why choose <span class="accent">Penthia.</span></h2>
+    <section class="k-sec k-sec--band">
+      <div class="k-c">
+        <div class="k-sec__head k-rv">
+          <p class="k-phead__eyebrow">Core features</p>
+          <h2 class="k-t-h2">Why choose Penthia</h2>
         </div>
-        <div class="about-features">
-          <div class="feature-card reveal reveal-delay-1">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-            <div class="feature-title">4K Visual Clarity</div>
-            <p class="feature-desc">Ultra-high resolution keeps diagrams, media, and lesson content sharp and easy to follow from anywhere in the room.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-2">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg></div>
-            <div class="feature-title">Touch + Stylus Input</div>
-            <p class="feature-desc">Precise touchscreen and stylus support. 50-point multi-touch with 6ms response time for natural classroom writing.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 2v4M16 2v4"/></svg></div>
-            <div class="feature-title">Android + Windows Flex</div>
-            <p class="feature-desc">Vertex Elite runs Android 15, Vertex Pro runs Android 14. Optional Windows OPS for full desktop flexibility.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-2">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73L13 2.27a2 2 0 00-2 0L4 6.27A2 2 0 003 8v8a2 2 0 001 1.73l7 4.04a2 2 0 002 0l7-4.04A2 2 0 0021 16z"/></svg></div>
-            <div class="feature-title">Deployment Support</div>
-            <p class="feature-desc">Penthia helps evaluate configurations, installation needs, classroom workflows, and purchasing paths before deployment.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-1">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-            <div class="feature-title">Built to Last</div>
-            <p class="feature-desc">7H tempered anti-glare glass. 50,000-hour panel lifespan. Durable hardware engineered for daily classroom demands.</p>
-          </div>
-          <div class="feature-card reveal reveal-delay-2">
-            <div class="feature-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-            <div class="feature-title">Educator-First Design</div>
-            <p class="feature-desc">Every decision in the lineup is shaped around what teachers and institutions actually need in real classrooms.</p>
-          </div>
+        <div class="k-grid-3">
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">4K visual clarity</h3><p class="k-fcard__d">Ultra-high resolution keeps diagrams, media, and lesson content sharp and easy to follow from anywhere in the room.</p></div>
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">Touch + stylus input</h3><p class="k-fcard__d">Precise touchscreen and stylus support. 50-point multi-touch with 6ms response time for natural classroom writing.</p></div>
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">Android + Windows flex</h3><p class="k-fcard__d">Vertex Elite runs Android 15, Vertex Pro runs Android 14. Optional Windows OPS for full desktop flexibility.</p></div>
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">Deployment support</h3><p class="k-fcard__d">Penthia helps evaluate configurations, installation needs, classroom workflows, and purchasing paths before deployment.</p></div>
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">Built to last</h3><p class="k-fcard__d">7H tempered anti-glare glass. 50,000-hour panel lifespan. Durable hardware engineered for daily classroom demands.</p></div>
+          <div class="k-fcard k-rv"><h3 class="k-t-card k-fcard__t">Educator-first design</h3><p class="k-fcard__d">Every decision in the lineup is shaped around what teachers and institutions actually need in real classrooms.</p></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- GOOGLE SECTION -->
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="reveal" style="margin-bottom:32px;">
-          <div class="section-label">Google-Ready Workflows</div>
-          <h2 class="section-title">Built for schools using <span class="accent">Google tools.</span></h2>
-          <p class="section-body">Vertex Pro and Vertex Elite support Google apps, Google account login, and Google Play Store access on supported configurations. Penthia can help confirm compatibility with the tools your school uses most.</p>
-          <div class="app-pill-grid">
-            <span class="app-pill">Google Classroom</span>
-            <span class="app-pill">Google Drive</span>
-            <span class="app-pill">Google Docs</span>
-            <span class="app-pill">Google Sheets</span>
-            <span class="app-pill">Google Slides</span>
-            <span class="app-pill">Chrome</span>
-            <span class="app-pill">Gmail</span>
-            <span class="app-pill">Google Meet</span>
-            <span class="app-pill">Zoom</span>
-            <span class="app-pill">Microsoft Teams</span>
-            <span class="app-pill">Kahoot</span>
-            <span class="app-pill">Canvas</span>
-            <span class="app-pill">Schoology</span>
-            <span class="app-pill">Nearpod</span>
+    <!-- GOOGLE -->
+    <section class="k-sec">
+      <div class="k-c">
+        <div class="k-sec__head k-rv" style="margin-bottom:var(--g8);">
+          <p class="k-phead__eyebrow">Google-ready workflows</p>
+          <h2 class="k-t-h2">Built for schools using Google tools</h2>
+          <p class="k-t-lead" style="margin-top:var(--g4);">Vertex Pro and Vertex Elite support Google apps, Google account login, and Google Play Store access on supported configurations. Penthia can help confirm compatibility with the tools your school uses most.</p>
+        </div>
+        <div class="k-c--narrow" style="margin:0 auto;">
+          <div class="k-pills k-rv">
+            <span class="k-pill">Google Classroom</span>
+            <span class="k-pill">Google Drive</span>
+            <span class="k-pill">Google Docs</span>
+            <span class="k-pill">Google Sheets</span>
+            <span class="k-pill">Google Slides</span>
+            <span class="k-pill">Chrome</span>
+            <span class="k-pill">Gmail</span>
+            <span class="k-pill">Google Meet</span>
+            <span class="k-pill">Zoom</span>
+            <span class="k-pill">Microsoft Teams</span>
+            <span class="k-pill">Kahoot</span>
+            <span class="k-pill">Canvas</span>
+            <span class="k-pill">Schoology</span>
+            <span class="k-pill">Nearpod</span>
           </div>
-          <div class="section-note">Compatibility should be confirmed for each school's required apps and workflow. Select configurations support Google services and Play Store access.</div>
+          <p class="k-note k-rv">Compatibility should be confirmed for each school's required apps and workflow. Select configurations support Google services and Play Store access.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- INFO GRID -->
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="info-grid reveal">
-          <div class="info-card">
-            <h3>Touch Performance</h3>
+    <!-- DETAIL GRID -->
+    <section class="k-sec k-sec--band">
+      <div class="k-c">
+        <!-- No heading here on purpose: this grid has never had one, and
+             writing one would mean writing copy that is not already published.
+             Flagged rather than invented. -->
+        <div class="k-grid-3">
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Touch performance</h3>
             <p>Vertex Elite delivers the fastest experience. Vertex Pro balances performance and value. Vertex Standard handles reliable everyday interaction.</p>
             <ul><li>Smooth writing and annotation</li><li>Low-latency IR touch (6ms)</li><li>50-point multi-touch on Elite, Pro, Standard</li><li>Annotate over apps, browsers, presentations</li></ul>
           </div>
-          <div class="info-card">
-            <h3>Brightness</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Brightness</h3>
             <p>350-nit panels designed for indoor classroom environments. Higher brightness configurable on select sizes.</p>
             <ul><li>350 nits standard</li><li>400–450 nits configurable on 65", 75", 86" at added cost</li><li>98" and 110" use standard backlight design</li></ul>
           </div>
-          <div class="info-card">
-            <h3>Windows OPS</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Windows OPS</h3>
             <p>Optional Windows OPS module gives schools full desktop flexibility for Windows 11, Microsoft Office, Teams, and quick Android/Windows switching.</p>
           </div>
-          <div class="info-card">
-            <h3>Security & Access</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Security &amp; access</h3>
             <p>Supported configurations include Android password support, startup password protection, and PIN/password controls for classroom device access.</p>
           </div>
-          <div class="info-card">
-            <h3>Network & MDM</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Network &amp; MDM</h3>
             <p>Supports WPA2/WPA3 Enterprise, 802.1X authentication, proxy and static IP configuration, and iMagic MDM for centralized device management.</p>
           </div>
-          <div class="info-card">
-            <h3>Professional Support</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Professional support</h3>
             <p>Penthia supports schools and businesses with product selection, configuration guidance, deployment planning, and ongoing support.</p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- WARRANTY -->
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="reveal" style="margin-bottom:32px;">
-          <div class="section-label">Coverage You Can Count On</div>
-          <h2 class="section-title">3-Year Limited <span class="accent">Hardware Warranty.</span></h2>
-          <p class="section-body">Penthia Solutions provides a three-year limited hardware warranty on eligible interactive display panels purchased directly through Penthia Solutions.</p>
+    <section class="k-sec">
+      <div class="k-c">
+        <div class="k-sec__head k-rv">
+          <p class="k-phead__eyebrow">Coverage you can count on</p>
+          <!-- MARK 2 of 2 — the check draws beside the coverage heading, on
+               scroll. It marks the one promise on this page, and nothing else. -->
+          <div style="display:flex;align-items:center;justify-content:center;gap:var(--g4);flex-wrap:wrap;">
+            <svg class="k-glyph" width="38" height="38" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M8 33 25 51 57 12"/></svg>
+            <h2 class="k-t-h2">3-year limited hardware warranty</h2>
+          </div>
+          <p class="k-t-lead" style="margin-top:var(--g4);">Penthia Solutions provides a three-year limited hardware warranty on eligible interactive display panels purchased directly through Penthia Solutions.</p>
         </div>
-        <div class="info-grid reveal">
-          <div class="info-card">
-            <h3>Warranty Term</h3>
+        <div class="k-grid-3">
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Warranty term</h3>
             <p>Coverage begins on the confirmed delivery date. If installation is provided directly or coordinated by Penthia Solutions, the warranty begins on the installation completion date instead.</p>
           </div>
-          <div class="info-card">
-            <h3>What's Covered</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">What's covered</h3>
             <p>Defects in materials or workmanship and unexpected hardware failure under normal classroom use.</p>
             <ul><li>Display panel and touch system</li><li>Internal electronics and Android board</li><li>Speakers and power supply</li><li>Built-in camera/microphone modules, if included</li><li>OPS Windows computer, if purchased through Penthia</li></ul>
           </div>
-          <div class="info-card">
-            <h3>Shipping & Delivery Issues</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Shipping &amp; delivery issues</h3>
             <p>Products arriving damaged, defective, or non-functional must be reported promptly with photos, videos, packaging images, and delivery documentation. Claims may be covered if reported within the required window and properly documented.</p>
           </div>
-          <div class="info-card">
-            <h3>What's Not Covered</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">What's not covered</h3>
             <p>Accidental damage, misuse, abuse, vandalism, impact damage, cracked glass from external force, liquid or fire damage, power surge damage, improper installation, unauthorized repair or modification, cosmetic wear, lost accessories, consumable items, network configuration issues, software account issues, or damage caused by students, staff, contractors, installers, movers, or other third parties.</p>
           </div>
-          <div class="info-card">
-            <h3>Examples Not Covered</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Examples not covered</h3>
             <p>A student throwing an object at the board, damage during school-handled installation, dropping the board, moving it incorrectly, striking the glass, or damage from improper mounting.</p>
           </div>
-          <div class="info-card">
-            <h3>Warranty Remedy</h3>
+          <div class="k-icard k-rv">
+            <h3 class="k-t-card k-icard__t">Warranty remedy</h3>
             <p>For a covered issue, Penthia may provide troubleshooting, replacement parts, repair coordination, or product replacement at its discretion. Photos, videos, serial numbers, remote diagnosis, and manufacturer technical review may be required before approval.</p>
           </div>
         </div>
-        <div class="section-note" style="margin-top:24px;max-width:none;">This limited warranty applies only to products purchased directly through Penthia Solutions and is subject to the final written warranty terms provided with your quote or invoice.</div>
+        <p class="k-note k-rv" style="text-align:center;max-width:860px;margin-left:auto;margin-right:auto;">This limited warranty applies only to products purchased directly through Penthia Solutions and is subject to the final written warranty terms provided with your quote or invoice.</p>
       </div>
-    </div>
+    </section>
 
     <!-- FAQ -->
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="reveal" style="margin-bottom:32px;">
-          <div class="section-label">Common Questions</div>
-          <h2 class="section-title">Questions about <span class="accent">Penthia boards.</span></h2>
+    <section class="k-sec k-sec--band">
+      <div class="k-c">
+        <div class="k-sec__head k-rv">
+          <p class="k-phead__eyebrow">Common questions</p>
+          <h2 class="k-t-h2">Questions about Penthia boards</h2>
         </div>
-        <div class="faq-list reveal">
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="k-faq k-rv">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>Are Penthia smartboards just televisions with touch overlays?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>No. Penthia Vertex boards are purpose-built interactive classroom smartboards. Depending on the model and configuration, they include Android-based operation, 4K touch, 7H anti-glare glass, annotation tools, whiteboard features, screen sharing, Google app support on Vertex Pro and Elite, optional Windows OPS, and optional camera/microphone. They are not consumer TVs.</p></div>
+            <div class="k-faq__a"><p>No. Penthia Vertex boards are purpose-built interactive classroom smartboards. Depending on the model and configuration, they include Android-based operation, 4K touch, 7H anti-glare glass, annotation tools, whiteboard features, screen sharing, Google app support on Vertex Pro and Elite, optional Windows OPS, and optional camera/microphone. They are not consumer TVs.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>Do Penthia Pro and Elite models support Google apps?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>Yes. Google apps are supported on Penthia Vertex Pro and Vertex Elite on supported configurations. Vertex Pro runs Android 14, Vertex Elite runs Android 15. Schools can use Google Classroom, Drive, Docs, Slides, Chrome, Gmail, and more. Confirm app availability for your specific configuration at deployment.</p></div>
+            <div class="k-faq__a"><p>Yes. Google apps are supported on Penthia Vertex Pro and Vertex Elite on supported configurations. Vertex Pro runs Android 14, Vertex Elite runs Android 15. Schools can use Google Classroom, Drive, Docs, Slides, Chrome, Gmail, and more. Confirm app availability for your specific configuration at deployment.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>Are Penthia boards Google EDLA certified?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>The hardware platform is manufactured by a company that produces EDLA-certified models and is capable of EDLA certification. However, EDLA certification is not currently issued under the Penthia brand name. In practice, Google Workspace services — Chrome, Drive, Docs, Sheets, Slides, Meet, Classroom — work through Google accounts on supported configurations. For schools that require official EDLA certification as a procurement requirement, Penthia is evaluating the certification process for future Penthia-branded models.</p></div>
+            <div class="k-faq__a"><p>The hardware platform is manufactured by a company that produces EDLA-certified models and is capable of EDLA certification. However, EDLA certification is not currently issued under the Penthia brand name. In practice, Google Workspace services — Chrome, Drive, Docs, Sheets, Slides, Meet, Classroom — work through Google accounts on supported configurations. For schools that require official EDLA certification as a procurement requirement, Penthia is evaluating the certification process for future Penthia-branded models.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>Do Penthia boards require Windows OPS to be useful?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>No. Windows OPS is optional for schools that need full Windows desktop functionality. Vertex Pro and Elite include Android-based operation, Google app support, annotation, whiteboard, screen sharing, and 4K touch without any Windows module. Windows OPS adds desktop software like Windows 11, Office, or other Windows-only apps.</p></div>
+            <div class="k-faq__a"><p>No. Windows OPS is optional for schools that need full Windows desktop functionality. Vertex Pro and Elite include Android-based operation, Google app support, annotation, whiteboard, screen sharing, and 4K touch without any Windows module. Windows OPS adds desktop software like Windows 11, Office, or other Windows-only apps.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>What Android versions do the Vertex boards use?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>Vertex Elite runs Android 15 on the RK3588 platform. Vertex Pro runs Android 14 on the 311D2 (A311D2) platform. Vertex Standard runs Android 14 on the T985 platform. QS3 has no built-in Android — it's designed for use with external Windows, Mac, Linux, or OPS devices.</p></div>
+            <div class="k-faq__a"><p>Vertex Elite runs Android 15 on the RK3588 platform. Vertex Pro runs Android 14 on the 311D2 (A311D2) platform. Vertex Standard runs Android 14 on the T985 platform. QS3 has no built-in Android — it's designed for use with external Windows, Mac, Linux, or OPS devices.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>Do Penthia boards include camera or microphone options?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>Yes. Vertex Pro and Elite support an optional 48MP AI camera and 8-microphone array configuration. The AI camera adds speaker tracking, voice tracking, and gesture controls. This supports Zoom, Google Meet, and Microsoft Teams for hybrid learning and video conferencing. Confirm camera configuration at the time of purchase.</p></div>
+            <div class="k-faq__a"><p>Yes. Vertex Pro and Elite support an optional 48MP AI camera and 8-microphone array configuration. The AI camera adds speaker tracking, voice tracking, and gesture controls. This supports Zoom, Google Meet, and Microsoft Teams for hybrid learning and video conferencing. Confirm camera configuration at the time of purchase.</p></div>
           </div>
-          <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+          <div class="k-faq__i">
+            <div class="k-faq__q" onclick="toggleFaq(this)">
               <h3>What does the Penthia warranty cover?</h3>
-              <span class="faq-icon">+</span>
+              <span class="k-faq__ico" aria-hidden="true">+</span>
             </div>
-            <div class="faq-answer"><p>Penthia Solutions provides a 3-year limited hardware warranty covering defects in materials, workmanship, and unexpected hardware failure under normal classroom use — including the display panel, touch system, internal electronics, Android board, speakers, power supply, and optional camera/microphone or OPS Windows computer if purchased through Penthia. It does not cover accidental damage, misuse, liquid or fire damage, improper installation, or damage caused by students, staff, or third parties. See full warranty terms for details.</p></div>
+            <div class="k-faq__a"><p>Penthia Solutions provides a 3-year limited hardware warranty covering defects in materials, workmanship, and unexpected hardware failure under normal classroom use — including the display panel, touch system, internal electronics, Android board, speakers, power supply, and optional camera/microphone or OPS Windows computer if purchased through Penthia. It does not cover accidental damage, misuse, liquid or fire damage, improper installation, or damage caused by students, staff, or third parties. See full warranty terms for details.</p></div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <footer>
-      <div class="container footer-inner">
-        <span class="footer-brand">Penthia Solutions</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+    <footer class="k-ft">
+      <div class="k-c k-ft__in">
+        <span style="font-weight:700;">Penthia Solutions</span>
+        <span class="k-t-small" style="color:var(--ink-soft);">&copy; 2026 Penthia Solutions. All rights reserved.</span>
         <div class="footer-social social-icons-target"></div>
-        <nav class="footer-links">
-          <a class="footer-link" href="index.html">Home</a>
-          <a class="footer-link" href="store.html">Store</a>
-          <a class="footer-link" href="compare.html">Compare</a>
-          <a class="footer-link" href="contact.html">Contact</a>
+        <nav class="k-ft__links">
+          <a href="index.html">Home</a>
+          <a href="store.html">Store</a>
+          <a href="compare.html">Compare</a>
+          <a href="contact.html">Contact</a>
         </nav>
       </div>
     </footer>
   </div>
 
+  <!-- MOBILE NAV -->
   <nav class="mobile-nav" aria-label="Mobile navigation">
     <div class="mobile-nav-inner">
       <a class="mobile-nav-btn" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
@@ -339,5 +329,6 @@
   <script src="script.js"></script>
   <script src="penthia-assistant.js"></script>
   <script src="penthia-ai-intro.js"></script>
+  <script src="v3.js"></script>
 </body>
 </html>

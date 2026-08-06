@@ -6,132 +6,164 @@
   <title>Store | Penthia Solutions</title>
   <meta name="description" content="Browse the complete Penthia Vertex product lineup — Vertex Elite, Vertex Pro, Vertex Standard, and QS3 Series." />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#f0eeea" />
   <link rel="canonical" href="https://penthiasolutions.com/store.html" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="v3.css" />
 </head>
 <body>
 
-  <header class="nav">
-    <div class="nav-brand">
-      <a href="index.html" style="display:flex;align-items:center;gap:12px;">
-        <img class="nav-brand-logo" src="favicon.png" alt="Penthia" decoding="async" />
-        <img class="nav-brand-wordmark" src="penthia-wordmark.png" alt="Penthia" decoding="async" />
+  <header class="k-nv">
+    <div class="k-nv__in">
+      <a class="k-nv__brand" href="index.html" aria-label="Penthia Solutions — home">
+        <img src="penthia-wordmark-ink.png" alt="Penthia Solutions" />
       </a>
-    </div>
-    <nav class="nav-links">
-      <a class="nav-link" id="nav-home" href="index.html">Home</a>
-      <a class="nav-link" id="nav-about" href="about.html">About</a>
-      <a class="nav-link active" id="nav-store" href="store.html">Store</a>
-      <a class="nav-link" id="nav-compare" href="compare.html">Compare</a>
-      <a class="nav-link" id="nav-contact" href="contact.html">Contact</a>
-    </nav>
-    <div class="nav-right">
-      <div class="nav-search-wrap">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input id="siteSearch" type="text" placeholder="Search products…" aria-label="Search" />
+      <nav class="k-nv__links" aria-label="Primary">
+        <a class="k-nv__a" id="nav-home" href="index.html">Home</a>
+        <a class="k-nv__a" id="nav-store" href="store.html" aria-current="page">Products</a>
+        <a class="k-nv__a" id="nav-compare" href="compare.html">Compare</a>
+        <a class="k-nv__a" id="nav-about" href="about.html">About</a>
+        <a class="k-nv__a" id="nav-contact" href="contact.html">Contact</a>
+      </nav>
+      <div class="k-nv__right">
+        <label class="k-nv__search" aria-label="Search products">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="siteSearch" placeholder="Search" autocomplete="off" />
+        </label>
+        <a class="k-btn k-btn--ghost" href="compare.html">Compare</a>
+        <a class="k-btn k-btn--solid" href="contact.html">Request a quote</a>
       </div>
-      <a class="nav-cta" href="contact.html">Request Quote →</a>
     </div>
   </header>
 
   <div class="page-wrap">
 
-    <div class="store-header reveal">
-      <div class="container">
-        <div class="section-label" style="justify-content:center;">Product Lineup</div>
-        <h1 class="section-title" style="text-align:center;font-size:clamp(2.4rem,5vw,4rem);">The Vertex <span class="accent">family.</span></h1>
-        <p style="text-align:center;color:var(--muted-2);max-width:480px;margin:0 auto;font-size:0.97rem;line-height:1.7;">Click any model to view full specifications, configurations, and purchasing options.</p>
-        <div class="search-bar">
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="productSearch" type="text" placeholder="Search models…" aria-label="Filter products" />
+    <!-- PAGE HEAD -->
+    <section class="k-phead">
+      <div class="k-c">
+        <div class="k-phead__in">
+          <p class="k-phead__eyebrow">Product lineup</p>
+          <!-- MARK 1 of 2 — the ring names the family. Draws on load. -->
+          <h1 class="k-t-display">The Vertex <span class="k-mark k-mark--ring k-mark--load"><span class="k-accent">family</span><svg class="k-mark__svg" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M100 5C48 5 9 17 9 30s39 25 91 25 91-12 91-25S152 5 100 5c-42 0-73 6-88 16"/></svg></span></h1>
+          <p class="k-t-lead k-phead__lead">Click any model to view full specifications, configurations, and purchasing options.</p>
+          <label class="k-field" aria-label="Filter models">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="productSearch" type="text" placeholder="Search models…" aria-label="Filter products" />
+          </label>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="section" style="padding-top:0;">
-      <div class="container">
-        <div class="product-grid reveal" id="productGrid">
+    <!-- LINEUP -->
+    <section class="k-sec k-sec--tight">
+      <div class="k-c">
+        <!-- MARK 2 of 2 — the arrow points at what the line above asks you
+             to click. Draws on scroll, once, at the moment the grid arrives. -->
+        <div class="k-rv" style="display:flex;justify-content:center;margin-bottom:var(--g6);">
+          <svg class="k-glyph" width="74" height="58" viewBox="0 0 120 90" fill="none" aria-hidden="true">
+            <path d="M12 8c38 3 62 27 66 64"/>
+            <path d="M58 56 76 74 94 52"/>
+          </svg>
+        </div>
 
-          <article class="prod-card" data-search="vertex elite flagship rk3588 android 15 google play 16gb 256gb 4k 50 touch anti glare 350 nits 65 75 86 98 110 windows ops 48mp camera microphone usb c" onclick="openProduct('pro-max')">
-            <div class="prod-media">
-              <img src="elite.png" alt="Penthia Vertex Elite" loading="lazy" decoding="async" />
-              <span class="prod-badge">Elite</span>
+        <div class="k-grid-2" id="productGrid">
+
+          <article class="k-rv prod-card" data-search="vertex elite flagship rk3588 android 15 google play 16gb 256gb 4k 50 touch anti glare 350 nits 65 75 86 98 110 windows ops 48mp camera microphone usb c" onclick="openProduct('pro-max')">
+            <div class="k-prod__media">
+              <img src="p-elite.png" alt="Penthia Vertex Elite" loading="lazy" decoding="async" />
+              <span class="k-prod__badge">Elite</span>
             </div>
-            <div class="prod-body">
-              <div class="prod-name">Penthia Vertex Elite</div>
-              <p class="prod-desc">Flagship model on RK3588 with Android 15, 16GB RAM, 256GB storage, 4K UHD, 50-point touch, Google Play on supported configs, and optional Windows OPS.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-              </div>
+            <h2 class="k-t-card k-prod__name">Penthia Vertex Elite</h2>
+            <p class="k-prod__desc">Flagship model on RK3588 with Android 15, 16GB RAM, 256GB storage, 4K UHD, 50-point touch, Google Play on supported configs, and optional Windows OPS.</p>
+            <div class="k-prod__foot">
+              <span class="k-prod__price">Request Pricing</span>
+              <span class="k-prod__arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
             </div>
           </article>
 
-          <article class="prod-card" data-search="vertex pro 311d2 a311d2 android 14 google play 8gb 128gb 16gb 256gb 4k 50 touch anti glare windows ops 48mp camera microphone usb c" onclick="openProduct('pro')">
-            <div class="prod-media">
-              <img src="pro2.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" />
-              <span class="prod-badge">Pro</span>
+          <article class="k-rv prod-card" data-search="vertex pro 311d2 a311d2 android 14 google play 8gb 128gb 16gb 256gb 4k 50 touch anti glare windows ops 48mp camera microphone usb c" onclick="openProduct('pro')">
+            <div class="k-prod__media">
+              <img src="p-pro.png" alt="Penthia Vertex Pro" loading="lazy" decoding="async" />
+              <span class="k-prod__badge">Pro</span>
             </div>
-            <div class="prod-body">
-              <div class="prod-name">Penthia Vertex Pro</div>
-              <p class="prod-desc">Recommended for most schools. 311D2 Android 14 platform, 8GB RAM, Google Play on supported configs, optional 16GB/256GB upgrade and Windows OPS.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-              </div>
+            <h2 class="k-t-card k-prod__name">Penthia Vertex Pro</h2>
+            <p class="k-prod__desc">Recommended for most schools. 311D2 Android 14 platform, 8GB RAM, Google Play on supported configs, optional 16GB/256GB upgrade and Windows OPS.</p>
+            <div class="k-prod__foot">
+              <span class="k-prod__price">Request Pricing</span>
+              <span class="k-prod__arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
             </div>
           </article>
 
-          <article class="prod-card" data-search="vertex standard t985 android 14 8gb 128gb 4k 50 touch anti glare usb c classroom budget essential" onclick="openProduct('iboard')">
-            <div class="prod-media">
-              <img src="vertexstandard1.png" alt="Penthia Vertex Standard" loading="lazy" decoding="async" />
-              <span class="prod-badge">Standard</span>
+          <article class="k-rv prod-card" data-search="vertex standard t985 android 14 8gb 128gb 4k 50 touch anti glare usb c classroom budget essential" onclick="openProduct('iboard')">
+            <div class="k-prod__media">
+              <img src="p-standard.png" alt="Penthia Vertex Standard" loading="lazy" decoding="async" />
+              <span class="k-prod__badge">Standard</span>
             </div>
-            <div class="prod-body">
-              <div class="prod-name">Penthia Vertex Standard</div>
-              <p class="prod-desc">Cost-effective interactive classroom display. T985 Android 14 platform, 8GB RAM, 128GB storage, 4K UHD, 50-point touch, anti-glare glass, USB-C.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-              </div>
+            <h2 class="k-t-card k-prod__name">Penthia Vertex Standard</h2>
+            <p class="k-prod__desc">Cost-effective interactive classroom display. T985 Android 14 platform, 8GB RAM, 128GB storage, 4K UHD, 50-point touch, anti-glare glass, USB-C.</p>
+            <div class="k-prod__foot">
+              <span class="k-prod__price">Request Pricing</span>
+              <span class="k-prod__arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
             </div>
           </article>
 
-          <article class="prod-card" data-search="qs3 series professional display no android external windows mac linux ops 4k 20 touch anti glare 15w speakers usb c hdmi" onclick="openProduct('qs3')">
-            <div class="prod-media">
-              <img src="qs31.png" alt="Penthia QS3 Series" loading="lazy" decoding="async" />
-              <span class="prod-badge">QS3</span>
+          <article class="k-rv prod-card" data-search="qs3 series professional display no android external windows mac linux ops 4k 20 touch anti glare 15w speakers usb c hdmi" onclick="openProduct('qs3')">
+            <div class="k-prod__media">
+              <img src="p-qs3.png" alt="Penthia QS3 Series" loading="lazy" decoding="async" />
+              <span class="k-prod__badge">QS3</span>
             </div>
-            <div class="prod-body">
-              <div class="prod-name">Penthia QS3 Series</div>
-              <p class="prod-desc">Professional 4K non-Android display for customers using external computers. Connect Windows, Mac, Linux, or OPS devices for touch and annotation workflows.</p>
-              <div class="prod-footer">
-                <span class="prod-price">Request Pricing</span>
-                <span class="prod-arrow"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-              </div>
+            <h2 class="k-t-card k-prod__name">Penthia QS3 Series</h2>
+            <p class="k-prod__desc">Professional 4K non-Android display for customers using external computers. Connect Windows, Mac, Linux, or OPS devices for touch and annotation workflows.</p>
+            <div class="k-prod__foot">
+              <span class="k-prod__price">Request Pricing</span>
+              <span class="k-prod__arrow"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
             </div>
           </article>
 
         </div>
+      </div>
+    </section>
 
-        <div class="store-banner reveal" style="margin-top:56px;">
+    <!-- IN USE -->
+    <section class="k-sec k-sec--band">
+      <div class="k-c">
+        <figure class="k-pcard k-pcard--wide k-rv">
           <img src="penthiaimage2.png" loading="lazy" decoding="async" alt="Penthia display in use" />
-          <div class="store-banner-overlay"></div>
-          <div class="store-banner-content">
-            <div class="section-label">See It In Action</div>
-            <h3>Designed for<br><span class="accent">every classroom.</span></h3>
-            <p>From Google-ready Android to optional Windows OPS and external-computer display setups, the Penthia lineup covers every modern classroom workflow.</p>
-            <a class="btn-primary" href="contact.html">Get in Touch →</a>
+          <figcaption class="k-pcard__b">
+            <p class="k-t-small" style="color:var(--accent);font-weight:700;margin-bottom:var(--g2);">See it in action</p>
+            <h2 class="k-t-h2" style="max-width:16ch;">Designed for every classroom.</h2>
+            <p class="k-t-lead" style="color:rgba(240,238,234,0.72);max-width:56ch;margin-top:var(--g4);">From Google-ready Android to optional Windows OPS and external-computer display setups, the Penthia lineup covers every modern classroom workflow.</p>
+            <div style="margin-top:var(--g8);">
+              <a class="k-btn k-btn--onslab" href="contact.html">Get in touch</a>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- CLOSE -->
+    <section class="k-sec">
+      <div class="k-c">
+        <div class="k-callout k-rv" style="margin-top:0;">
+          <div>
+            <h2 class="k-t-card">Every configuration is quoted individually.</h2>
+            <p class="k-t-lead" style="margin-top:var(--g3);">Pricing is quote-based on your exact size and configuration.</p>
+          </div>
+          <div class="k-callout__acts">
+            <a class="k-btn k-btn--ghost" href="compare.html">Compare models</a>
+            <a class="k-btn k-btn--dark" href="contact.html">Request a quote</a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- MODAL -->
+    <!-- PRODUCT MODAL -->
     <div class="modal" id="modal" onclick="handleModalClick(event)">
       <div class="modal-panel">
         <div class="modal-close"><button class="close-btn" onclick="closeModal()">✕</button></div>
@@ -169,21 +201,22 @@
       </div>
     </div>
 
-    <footer>
-      <div class="container footer-inner">
-        <span class="footer-brand">Penthia Solutions</span>
-        <span class="footer-copy">© 2026 Penthia Solutions. All rights reserved.</span>
+    <footer class="k-ft">
+      <div class="k-c k-ft__in">
+        <span style="font-weight:700;">Penthia Solutions</span>
+        <span class="k-t-small" style="color:var(--ink-soft);">&copy; 2026 Penthia Solutions. All rights reserved.</span>
         <div class="footer-social social-icons-target"></div>
-        <nav class="footer-links">
-          <a class="footer-link" href="index.html">Home</a>
-          <a class="footer-link" href="about.html">About</a>
-          <a class="footer-link" href="compare.html">Compare</a>
-          <a class="footer-link" href="contact.html">Contact</a>
+        <nav class="k-ft__links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="compare.html">Compare</a>
+          <a href="contact.html">Contact</a>
         </nav>
       </div>
     </footer>
   </div>
 
+  <!-- MOBILE NAV -->
   <nav class="mobile-nav" aria-label="Mobile navigation">
     <div class="mobile-nav-inner">
       <a class="mobile-nav-btn" id="mnav-home" href="index.html"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
@@ -212,5 +245,6 @@
   <script src="penthia-product-images.js"></script>
   <script src="penthia-assistant.js"></script>
   <script src="penthia-ai-intro.js"></script>
+  <script src="v3.js"></script>
 </body>
 </html>
