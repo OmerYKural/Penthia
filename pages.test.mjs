@@ -320,6 +320,63 @@ for (const v of VARIANTS.slice(1)) {
 }
 ok('no leftover k-squig divider', ALL_PAGES.every((p) => !SRC[p].includes('k-squig')));
 
+/* ── 11b. The client cannot outgrow the server's limits ── */
+group('Assistant payload fits inside the proxy limits');
+
+/* The highlight-to-ask prompt once ran to ~11,000 characters against a
+   4,000 cap, so every highlight failed with a 400. Nothing caught it
+   because the client budget and the server cap live in different files
+   and were never compared. They are compared here. */
+
+const chatJs = read('api/chat.js');
+const assistantJs = read('penthia-assistant.js');
+
+const serverCap = Number(/const MAX_CHARS_PER_MESSAGE = (\d+)/.exec(chatJs)?.[1]);
+const serverTotal = Number(/const MAX_CHARS_TOTAL = (\d+)/.exec(chatJs)?.[1]);
+const serverMsgs = Number(/const MAX_MESSAGES = (\d+)/.exec(chatJs)?.[1]);
+const clientCap = Number(/const MAX_MESSAGE_CHARS = (\d+)/.exec(assistantJs)?.[1]);
+
+ok('server publishes MAX_CHARS_PER_MESSAGE', Number.isFinite(serverCap), String(serverCap));
+ok('client publishes MAX_MESSAGE_CHARS', Number.isFinite(clientCap), String(clientCap));
+ok(`client cap (${clientCap}) does not exceed server cap (${serverCap})`, clientCap <= serverCap);
+
+// Every limitContext budget inside buildHighlightPrompt, summed, plus the
+// fixed template text, must fit the cap.
+const fn = assistantJs.split('function buildHighlightPrompt')[1]?.split('\n}')[0] || '';
+const budgets = [...fn.matchAll(/limitContext\([^,]+,\s*(\d+)\)/g)].map((m) => Number(m[1]));
+ok('buildHighlightPrompt budgets every field it interpolates', budgets.length >= 4, `found ${budgets.length}`);
+const template = (/`([\s\S]*?)`/.exec(fn)?.[1] || '').replace(/\$\{[^}]*\}/g, '').length;
+const worst = budgets.filter((b) => b < serverCap).reduce((a, b) => a + b, 0) + template + 200; // +200 for the URL
+ok(`worst-case highlight prompt (${worst}) fits the server cap (${serverCap})`, worst <= serverCap, `over by ${worst - serverCap}`);
+ok('buildHighlightPrompt clamps its own output as a last resort',
+  /return limitContext\(prompt,\s*MAX_MESSAGE_CHARS/.test(fn));
+
+// The scraped site map is what blew the budget. The product knowledge is
+// in the server-side system prompt, so it must not come back.
+ok('no scraped site map in the highlight prompt', !assistantJs.includes('getWebsiteTextMap'));
+
+// The client sends at most 20 turns, and the server accepts 24, so the
+// turn count can never trip the server's message-count limit.
+const clientTurns = Number(/chatHistory\.slice\(-(\d+)\)/.exec(assistantJs)?.[1]);
+ok('client sends a bounded number of turns', Number.isFinite(clientTurns), String(clientTurns));
+ok(`client turns (${clientTurns}) stay within server MAX_MESSAGES (${serverMsgs})`, clientTurns <= serverMsgs);
+
+/* A failed request must not become part of the conversation. Both call
+   sites fall back to text we wrote ourselves; storing it would replay our
+   own error line to the model as if the assistant had said it, and
+   sessionStorage would keep doing that for the rest of the visit. So
+   every chatHistory.push of an assistant turn must be guarded by a check
+   that the model actually answered. */
+const assistantPushes = [...assistantJs.matchAll(/chatHistory\.push\(\{\s*role:\s*'assistant'[\s\S]{0,60}?\)\;/g)];
+ok('assistant turns are pushed in exactly 2 places (chat, quiz)', assistantPushes.length === 2, `found ${assistantPushes.length}`);
+for (const m of assistantPushes) {
+  const before = assistantJs.slice(Math.max(0, m.index - 400), m.index);
+  ok(`assistant push at ${m.index} is guarded by a real-reply check`,
+    /if \((reply|modelReply)\) \{/.test(before), before.slice(-90).replace(/\n/g, ' '));
+}
+ok('both call sites log the real HTTP status for diagnosis',
+  count(assistantJs, /console\.error\('\[penthia\] \/api\/chat/g) >= 3);
+
 /* ── 12. Nothing left permanently invisible ───────────── */
 group('Reveals cannot strand content');
 

@@ -388,10 +388,17 @@ async function sendPenthiaMessage(overrideText, displayText) {
       console.error('[penthia] /api/chat returned non-JSON', rawBody.slice(0, 300));
     }
     hideTyping();
-    const reply = data?.content?.[0]?.text || "I'm having trouble connecting. Please try again or contact Penthia directly.";
-    appendMessage('ai', reply);
-    chatHistory.push({ role: 'assistant', content: reply });
-    saveSession();
+    const reply = data?.content?.[0]?.text;
+    if (reply) {
+      appendMessage('ai', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+      saveSession();
+    } else {
+      // Show the failure, but keep it out of the history. Storing it would
+      // send our own error text back to the model as if the assistant had
+      // said it, and sessionStorage would replay that for the whole visit.
+      appendMessage('ai', "I'm having trouble connecting. Please try again or contact Penthia directly.");
+    }
   } catch(err) {
     console.error('[penthia] /api/chat network error', err);
     hideTyping();
@@ -539,9 +546,13 @@ Customer answers:
         messages: [{ role: 'user', content: prompt }]
       })
     });
-    const data = await response.json();
+    if (!response.ok) {
+      console.error('[penthia] /api/chat quiz failed', response.status, (await response.text()).slice(0, 300));
+    }
+    const data = response.ok ? await response.json() : null;
     hideTyping();
-    let reply = data?.content?.[0]?.text || "Based on your needs, I'd recommend the Vertex Pro as a great starting point. Contact us to discuss your configuration!";
+    const modelReply = data?.content?.[0]?.text;
+    let reply = modelReply || "Based on your needs, I'd recommend the Vertex Pro as a great starting point. Contact us to discuss your configuration!";
 
     // Parse recommendation card. The link is generated locally so it never points to a missing page.
     const recMatch = reply.match(/\[RECOMMEND:\s*([^|\]]+)\|\s*([^|\]]+?)(?:\|\s*[^\]]+)?\s*\]/);
@@ -553,8 +564,13 @@ Customer answers:
       appendMessage('ai', reply);
       renderRecommendationCard('Vertex Pro', 'A strong starting point for most classrooms and school deployments.');
     }
-    chatHistory.push({ role: 'assistant', content: reply });
-    saveSession();
+    // Only a real answer becomes history. The local fallback is ours, not
+    // the model's, and replaying it as the model's own turn would poison
+    // the rest of the conversation for the whole visit.
+    if (modelReply) {
+      chatHistory.push({ role: 'assistant', content: reply });
+      saveSession();
+    }
   } catch(_) {
     hideTyping();
     const fallback = "Based on your answers, the **Vertex Pro** is likely the best match for most needs. Contact us to confirm the right configuration!";
@@ -714,37 +730,32 @@ function getSelectionSectionContext() {
   }
 }
 
-async function getWebsiteTextMap() {
-  const pages = [
-    { name: 'Home', url: 'index.html' },
-    { name: 'Store', url: 'store.html' },
-    { name: 'Compare', url: 'compare.html' },
-    { name: 'About', url: 'about.html' },
-    { name: 'Contact', url: 'contact.html' }
-  ];
+/* The server caps a single message at MAX_CHARS_PER_MESSAGE (4000) and
+   rejects anything longer with a 400. Every prompt built here has to fit
+   inside that with room to spare, so the budget is explicit and enforced
+   rather than assumed. */
+const MAX_MESSAGE_CHARS = 4000;
 
-  const parts = [];
-  for (const page of pages) {
-    try {
-      const response = await fetch(page.url, { cache: 'no-store' });
-      if (!response.ok) continue;
-      const html = await response.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      doc.querySelectorAll('script, style, nav, footer, svg, .modal, #quiz-popup-overlay, .mobile-nav').forEach(elNode => elNode.remove());
-      const text = limitContext(doc.body ? doc.body.textContent : '', 1800);
-      if (text) parts.push(`${page.name} page (${page.url}): ${text}`);
-    } catch(_) {}
-  }
+/* This used to also ship a scraped copy of five pages — about 8000
+   characters — which put the highlight prompt at roughly 11,000 and made
+   every highlight-to-ask fail the server's length check. It was also
+   redundant: the product knowledge already lives in the system prompt,
+   server-side, where it is cached rather than re-sent every question.
+   What the model actually needs here is the local context, which is
+   below. */
 
-  return parts.join('\n\n');
-}
-
-async function buildHighlightPrompt(selectedText) {
+function buildHighlightPrompt(selectedText) {
   const sectionContext = getSelectionSectionContext();
-  const siteMap = await getWebsiteTextMap();
-  const currentPageText = limitContext(document.body ? document.body.innerText : '', 2600);
+  const highlighted = limitContext(selectedText, 600);
+  const heading = limitContext(sectionContext.heading, 200) || 'Not detected';
+  const section = limitContext(sectionContext.sectionText, 900) || 'Not detected';
+  const currentPageText = limitContext(document.body ? document.body.innerText : '', 1200);
 
-  return `A website visitor highlighted text on the Penthia Solutions website and asked for an explanation. Use the provided website context directly. Do not say you cannot access the website.\n\nHighlighted text:\n"${selectedText}"\n\nCurrent page:\nTitle: ${document.title}\nURL: ${window.location.href}\nNearest section heading: ${sectionContext.heading || 'Not detected'}\nNearest section text:\n${sectionContext.sectionText || 'Not detected'}\n\nVisible current page text excerpt:\n${currentPageText}\n\nWebsite text map from available pages:\n${siteMap}\n\nQuestion to answer:\nExplain what the highlighted text means in context and how it relates to Penthia's products.`;
+  const prompt = `A website visitor highlighted text on the Penthia Solutions website and asked for an explanation. Use the provided website context directly. Do not say you cannot access the website.\n\nHighlighted text:\n"${highlighted}"\n\nCurrent page:\nTitle: ${limitContext(document.title, 120)}\nURL: ${window.location.href}\nNearest section heading: ${heading}\nNearest section text:\n${section}\n\nVisible current page text excerpt:\n${currentPageText}\n\nQuestion to answer:\nExplain what the highlighted text means in context and how it relates to Penthia's products.`;
+
+  // Last line of defence: a long URL or an unusual page can still push a
+  // budgeted prompt over. Trim rather than let the server reject it.
+  return limitContext(prompt, MAX_MESSAGE_CHARS - 200);
 }
 
 async function askFromHighlight() {
