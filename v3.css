@@ -696,3 +696,75 @@ ol.k-doc__list li::before {
   }
   .k-pcard--wide .k-pcard__b { padding: var(--g8) var(--g6); }
 }
+
+/* ============================================================
+   MOBILE FIT
+
+   Measured on a 390px viewport before any of this existed:
+   document.documentElement.scrollWidth was 494 against a
+   clientWidth of 390, and window.innerWidth reported 494. Two
+   boxes were responsible, both of them a single unwrappable row:
+
+     nav.k-ft__links      470px — seven footer links, nowrap
+     div.mobile-nav-inner 494px — five tabs whose 14px labels
+                                  set their own min width
+
+   The consequence was not a stray scrollbar. A layout viewport
+   that widens to 494px while the screen shows 390 is a page
+   rendered at 127% with no way to zoom out, and every fixed
+   element resolving `right` and `bottom` against the wider box —
+   which is why the AI launcher and the bottom nav sat off the
+   right edge and below the fold, and why a thumb drifting
+   sideways slid the whole page and had to be dragged back.
+
+   So these rules are about width, not about hiding overflow.
+   Each one makes something fit at 360px, the narrowest phone
+   worth supporting.
+   ============================================================ */
+
+/* Seven links never fitted one row; they only looked like they did
+   on a desktop. Wrapping is the fix at every width. */
+.k-ft__links { flex-wrap: wrap; }
+
+/* A table wide enough to need sideways scrolling should keep that
+   gesture to itself rather than handing the leftover to the page. */
+.k-tbl-wrap { overscroll-behavior-x: contain; }
+
+@media (max-width: 760px) {
+  .k-ft__in { justify-content: center; text-align: center; }
+  .k-ft__links { justify-content: center; row-gap: var(--g3); column-gap: var(--g5); }
+
+  /* `flex: 1` alone does not divide 390px five ways: the default
+     `min-width: auto` floors each tab at its label's width, so five
+     14px words came to 495px. `min-width: 0` lets them share, and
+     the smaller label is what makes the share comfortable rather
+     than merely possible. */
+  .mobile-nav-inner { width: 100%; }
+  .mobile-nav-btn {
+    flex: 1 1 0; min-width: 0; padding: 0 2px;
+    font-size: 11px; line-height: 1.25; letter-spacing: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .mobile-nav-btn svg { width: 19px; height: 19px; }
+}
+
+/* ── THE AI'S FOOTPRINT ON A PHONE ────────────────────
+   On a desktop the "Penthia AI is here!" card is a 280px note in
+   a corner. On a phone the mobile rules stretched it to
+   `left: 12px; right: 12px`, which measured 470x135 — 19% of the
+   screen, unasked for, sitting on top of the content. The launcher
+   already carries a gold AI badge, so the card was buying
+   discovery that was not needed at the price of a fifth of the
+   page. It does not appear on phones now; penthia-ai-intro.js
+   returns early there and this is the backstop if that script
+   ever changes. */
+@media (max-width: 760px) {
+  #ai-intro-banner, #ai-intro-banner.show { display: none; }
+}
+
+/* The quiz modal centres a card in a fixed overlay that does not scroll.
+   The card measures 528px, so it clears a 667px screen today — but a
+   centred card in a non-scrolling overlay has no recovery if it ever grows
+   past the viewport: the top and bottom simply become unreachable. One
+   line makes that impossible instead of merely unlikely. */
+#quiz-popup-overlay.qp-visible { overflow-y: auto; }

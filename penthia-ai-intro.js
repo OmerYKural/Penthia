@@ -12,7 +12,16 @@
   const SEEN_KEY = 'penthia_ai_intro_seen';
   const isHome = /(^\/$|\/index\.html$)/.test(window.location.pathname) || window.location.pathname === '';
 
+  /* On a phone this card measured 470x135 — a fifth of the screen, over the
+     content, uninvited. The launcher button is already there with a gold AI
+     badge on it, so the card was paying a fifth of the page for discovery
+     that was already free. Phones get the launcher and nothing else. */
+  const NARROW = 760;
+  const isNarrow = () => window.matchMedia(`(max-width: ${NARROW}px)`).matches;
+
   function show() {
+    if (isNarrow()) return;
+
     let seen = false;
     try { seen = sessionStorage.getItem(SEEN_KEY) === '1'; } catch (_) {}
     if (seen) return;

@@ -209,12 +209,22 @@ function injectWidget() {
         right: 16px;
         width: 50px; height: 50px;
       }
+      /* left and right together already size this box. The
+         width: calc(100vw - 24px) that used to sit here was both
+         redundant and wrong — 100vw is the viewport including any
+         overflow the page has, not the space between these two
+         offsets, so on a page that overflowed sideways the panel came
+         out wider than the screen it was pinned to. Two offsets, no
+         width. (No backticks in this file: the whole stylesheet is a
+         template literal, and one would end it.) */
       #p-widget {
-        width: calc(100vw - 24px);
         right: 12px;
         left: 12px;
         bottom: calc(62px + env(safe-area-inset-bottom, 0px) + 72px);
-        max-height: min(70vh, 560px);
+        /* 70vh plus the offsets below it came to 82% of an iPhone.
+           dvh rather than vh so iOS's collapsing toolbar resizes the
+           panel instead of pushing its input bar off the bottom. */
+        max-height: min(58dvh, 520px);
       }
     }
     @media (max-width: 480px) {

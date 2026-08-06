@@ -38,7 +38,16 @@ body {
   font-family: var(--font-body);
   background: var(--ink);
   color: var(--white);
-  overflow-x: hidden;
+  /* `clip`, not `hidden`. A root-level `overflow-x: hidden` propagates to
+     the viewport, and a viewport that scrolls in a direction it will not
+     draw a bar for still widens its layout box to the widest thing on the
+     page. That is measurable: with a 494px footer row on a 390px phone the
+     layout viewport became 494px and the browser showed a 390px window of
+     it, which reads as a permanently zoomed-in page that slides sideways
+     under a thumb. `clip` clips without becoming a scroll container, so the
+     sticky header keeps working and nothing pans. See the mobile block at
+     the end of v3.css for the content fixes this only backstops. */
+  overflow-x: clip;
   line-height: 1.7;
   letter-spacing: 0.005em;
   -webkit-font-smoothing: antialiased;
